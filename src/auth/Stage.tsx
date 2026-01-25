@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -70,7 +70,7 @@ const Stage = () => {
         </svg>
 
         {/* Interactive Points */}
-        {stages.map((stage, index) => {
+        {stages.map((stage) => {
           const isSelected = selectedStage.id === stage.id;
 
           // Manual positioning mapping roughly to the SVG curve logic

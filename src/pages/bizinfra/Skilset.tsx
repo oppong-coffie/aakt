@@ -1,5 +1,3 @@
-import React from "react";
-
 const cards = [
   { id: "Skillset", label: "Skillset", gradient: "from-blue-600 to-blue-200" },
   { id: "Network", label: "Network", gradient: "from-green-500 to-green-200" },
