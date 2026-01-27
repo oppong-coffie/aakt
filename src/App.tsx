@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { MemoryRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import Register1 from "./auth/Register2";
@@ -11,17 +11,20 @@ import Skills from "./auth/Skills";
 import Step from "./auth/Step";
 import Confident from "./auth/Confident";
 import Feeling from "./auth/Feeling";
-import Skilset from "./pages/bizinfra/Skilset";
 import Main from "./pages/bizinfra/Main";
 import Dashboard from "./pages/Dashboard";
-import Homepage from "./pages/Homepage";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import PortfolioPage from "./pages/portfolio/PortfolioPage";
+import MainHomepage from "./pages/home/MainHomepage";
+import Homepage from "./pages/home/Homepage";
 import PortfolioMain from "./pages/portfolio/Main";
+import Finish from "./pages/home/Finish";
+import Firstpage from "./pages/bizinfra/Firstpage";
+import Skilset from "./pages/bizinfra/Skilset";
+import Network from "./pages/bizinfra/Network";
+import Capital from "./pages/bizinfra/Capital";
+import Intel from "./pages/bizinfra/Intel";
 const App = () => {
   return (
-    <BrowserRouter>
+    <MemoryRouter>
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Register />} />
@@ -39,19 +42,28 @@ const App = () => {
 
         {/* Protected/Dashboard Routes */}
         <Route path="/dashboard" element={<Dashboard />}>
-          <Route index element={<Homepage />} />
-          <Route path="about" element={<About />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="bizinfra" element={<Main />} />
-          <Route path="bizinfra/skilset" element={<Skilset />} />
+          <Route path="home" element={<MainHomepage />}>
+            <Route index element={<Homepage />} />
+            <Route path="finish" element={<Finish />} />
+          </Route>
+
+          <Route path="bizinfra" element={<Main />}>
+            <Route index element={<Firstpage />} />
+            <Route path="skillset" element={<Skilset />} />
+            <Route path="network" element={<Network />} />
+            <Route path="capital" element={<Capital />} />
+            <Route path="intel" element={<Intel />} />
+          </Route>
           <Route path="portfolio" element={<PortfolioMain />} />
-          <Route path="portfolio/:category" element={<PortfolioPage />} />
+          <Route path="finish" element={<Finish />} />
+          {/* <Route path="bizinfra/skilset" element={<Skilset />} /> */}
+          {/* <Route path="portfolio/:category" element={<PortfolioPage />} /> */}
         </Route>
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </BrowserRouter>
+    </MemoryRouter>
   );
 };
 

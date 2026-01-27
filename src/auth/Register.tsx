@@ -66,7 +66,6 @@ const MetaIcon = () => (
   </svg>
 );
 
-
 const Register = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -84,8 +83,8 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center bg-gray-50 h-screen">
-      <div className="bg-white rounded-2xl shadow-sm w-[400px] p-5 text-center mx-auto">
+    <div className="flex items-center justify-center bg-gray-50 h-screen p-4 sm:p-0">
+      <div className="bg-white rounded-2xl shadow-sm w-full max-w-[400px] p-5 text-center mx-auto">
         {/* Logo Box */}
         <div className="mx-auto mb-3 w-fit">
           <div className="bg-blue-600 text-white px-1 py-1 rounded-md font-bold tracking-wider">
@@ -100,7 +99,7 @@ const Register = () => {
         <p className="text-gray-500 text-sm mb-6">
           Have an account?{" "}
           <Link
-            to="/"
+            to="/login"
             className="text-blue-600 hover:text-blue-700 font-medium"
           >
             sign in
@@ -140,15 +139,21 @@ const Register = () => {
             type="button"
             className="flex items-center gap-20 pl-4 w-full p-1.5 mt-1.5 border border-gray-200 rounded-lg bg-white text-gray-800 font-medium text-sm hover:bg-gray-50 gap-2.5 cursor-pointer transition-colors"
           >
-            <div className=""> <GoogleIcon /> </div> 
-             <h1> Continue with Google</h1>
+            <div className="">
+              {" "}
+              <GoogleIcon />{" "}
+            </div>
+            <h1> Continue with Google</h1>
           </button>
 
           <button
             type="button"
             className="flex items-center gap-20 w-full pl-4 p-1.5 mt-1.5 border border-gray-200 rounded-lg bg-white text-gray-800 font-medium text-sm hover:bg-gray-50 gap-2.5 cursor-pointer transition-colors"
           >
-            <div className=""> <MicrosoftIcon /> </div> 
+            <div className="">
+              {" "}
+              <MicrosoftIcon />{" "}
+            </div>
             <h1> Continue with Microsoft</h1>
           </button>
 
@@ -156,7 +161,10 @@ const Register = () => {
             type="button"
             className="flex items-center gap-20 w-full p-1.5 pl-4 mt-1.5 border border-gray-200 rounded-lg bg-white text-gray-800 font-medium text-sm hover:bg-gray-50 gap-2.5 cursor-pointer transition-colors"
           >
-            <div className=""> <GithubIcon /> </div> 
+            <div className="">
+              {" "}
+              <GithubIcon />{" "}
+            </div>
             <h1> Continue with Github</h1>
           </button>
 
@@ -164,7 +172,10 @@ const Register = () => {
             type="button"
             className=" flex items-center gap-20 w-full p-1.5 pl-4 mt-1.5 border border-gray-200 rounded-lg bg-white text-gray-800 font-medium text-sm hover:bg-gray-50 gap-2.5 cursor-pointer transition-colors"
           >
-            <div className="left-0"> <MetaIcon /> </div> 
+            <div className="left-0">
+              {" "}
+              <MetaIcon />{" "}
+            </div>
             <h1> Continue with Meta</h1>
           </button>
 
