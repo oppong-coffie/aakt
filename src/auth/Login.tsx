@@ -77,7 +77,7 @@ const Login = () => {
     e.preventDefault();
     if (!isFormValid) return;
     console.log("Logging in with:", email, password);
-    navigate("/dashboard");
+    navigate("/dashboard/home");
   };
 
   return (

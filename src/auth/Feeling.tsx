@@ -44,11 +44,11 @@ const Feeling = () => {
 
   const handleContinue = () => {
     console.log("Feeling Values:", values);
-    navigate("/dashboard");
+    navigate("/dashboard/home");
   };
 
   const handleSkip = () => {
-    navigate("/dashboard");
+    navigate("/dashboard/home");
   };
 
   // Dynamic Opacity/Density mapping based on slider values (0-100)
