@@ -123,7 +123,7 @@ const Dashboard = () => {
           {/* BizInfra Item with Hover Menu */}
           <div className="group relative">
             <Link
-              to="/dashboard/bizinfra/skillset"
+              to="/dashboard/bizinfra"
               onClick={() => setIsSidebarOpen(false)}
               className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-100 text-gray-600 transition-colors"
             >

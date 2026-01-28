@@ -22,6 +22,16 @@ import Skilset from "./pages/bizinfra/Skilset";
 import Network from "./pages/bizinfra/Network";
 import Capital from "./pages/bizinfra/Capital";
 import Intel from "./pages/bizinfra/Intel";
+import Reach from "./pages/bizinfra/Reach";
+import SkillsetDetail from "./pages/bizinfra/SkillsetDetail";
+import Phases from "./pages/bizinfra/Phases";
+import Project from "./pages/bizinfra/Project";
+import Process from "./pages/bizinfra/Process";
+import Block from "./pages/bizinfra/Block";
+import Saas from "./pages/portfolio/Saas";
+import FinanceRisk from "./pages/portfolio/questions/FinanceRisk";
+import FinanceTable from "./pages/portfolio/questions/FinanceTable";
+import CultureGoals from "./pages/portfolio/questions/CultureGoals";
 const App = () => {
   return (
     <MemoryRouter>
@@ -50,11 +60,30 @@ const App = () => {
           <Route path="bizinfra" element={<Main />}>
             <Route index element={<Firstpage />} />
             <Route path="skillset" element={<Skilset />} />
+            <Route path="skillset/:id" element={<SkillsetDetail />} />
+            <Route path="skillset/:id/phases" element={<Phases />} />
+            <Route path="skillset/:id/project" element={<Project />} />
+            <Route path="skillset/:id/process" element={<Process />} />
+            <Route path="skillset/:id/block" element={<Block />} />
             <Route path="network" element={<Network />} />
             <Route path="capital" element={<Capital />} />
             <Route path="intel" element={<Intel />} />
+            <Route path="reach" element={<Reach />} />
           </Route>
           <Route path="portfolio" element={<PortfolioMain />} />
+          <Route path="portfolio/saas" element={<Saas />} />
+          <Route
+            path="portfolio/questions/finance-risk"
+            element={<FinanceRisk />}
+          />
+          <Route
+            path="portfolio/questions/finance-table"
+            element={<FinanceTable />}
+          />
+          <Route
+            path="portfolio/questions/culture-goals"
+            element={<CultureGoals />}
+          />
           <Route path="finish" element={<Finish />} />
           {/* <Route path="bizinfra/skilset" element={<Skilset />} /> */}
           {/* <Route path="portfolio/:category" element={<PortfolioPage />} /> */}

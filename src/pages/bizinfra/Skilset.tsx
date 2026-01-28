@@ -35,6 +35,23 @@ const LeftArrow = () => (
     <path d="M19 12H5" />
   </svg>
 );
+const PlusIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    className="lucide lucide-plus-icon lucide-plus"
+  >
+    <path d="M5 12h14" />
+    <path d="M12 5v14" />
+  </svg>
+);
 
 const SearchModal = ({
   isOpen,
@@ -137,6 +154,117 @@ const SearchModal = ({
     </AnimatePresence>
   );
 };
+const AddSkillModal = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Adding skill:", { title, description });
+    onClose();
+    setTitle("");
+    setDescription("");
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/20 backdrop-blur-xs z-100"
+          />
+          <div className="fixed inset-0 flex items-center justify-center p-4 z-101 pointer-events-none">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden flex flex-col pointer-events-auto"
+            >
+              {/* Modal Header */}
+              <div className="p-6 pb-2 flex items-center justify-between">
+                <h3 className="text-lg font-bold text-gray-900">
+                  Add New Skills
+                </h3>
+                <button
+                  onClick={onClose}
+                  className="w-10 h-10 flex items-center justify-center bg-gray-100 text-gray-500 rounded-full hover:bg-gray-200 transition-colors"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+
+              <form onSubmit={handleSubmit} className="p-6 pt-2 space-y-4">
+                <div>
+                  <input
+                    type="text"
+                    required
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg focus:border-blue-400 outline-none transition-all text-sm text-gray-800 placeholder-gray-300 font-medium"
+                    placeholder="Skill Name"
+                  />
+                </div>
+
+                <div>
+                  <textarea
+                    required
+                    rows={4}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg focus:border-blue-400 outline-none transition-all text-sm text-gray-800 placeholder-gray-300 font-medium resize-none"
+                    placeholder="Description"
+                  />
+                </div>
+
+                {/* Image Placeholder Area */}
+                <div className="w-full aspect-2/1 bg-gray-50/50 border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-gray-100/50 transition-colors">
+                  <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 font-bold">
+                    <PlusIcon />
+                  </div>
+                  <span className="text-[10px] font-bold text-gray-400">
+                    Add Product Image
+                  </span>
+                </div>
+
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    className="w-full py-2.5 bg-blue-200 text-white rounded-lg text-sm font-bold shadow-xs hover:bg-blue-300 transition-colors"
+                  >
+                    Add New Connection
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+};
+
 const skillsetCards = [
   {
     title: "Python",
@@ -174,23 +302,30 @@ const navItems = [
 
 const Skilset = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isPlusOpen, setIsPlusOpen] = useState(false);
 
   return (
-    <div className="flex flex-col h-full bg-[#f0f0eb] p-8 relative overflow-hidden">
+    <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Search Bar - Trigger */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-8">
         <Link to="/dashboard/bizinfra">
-          <div className="bg-amber-50 ">
+          <div className="p-2 hover:bg-white/50 rounded-lg transition-colors">
             <LeftArrow />
           </div>
         </Link>
 
-        <div
-          onClick={() => setIsSearchOpen(true)}
-          className=" cursor-pointer flex justify-end mr-60"
-        >
-          <div className="bg-amber-50">
+        <div className="flex items-center gap-2">
+          <div
+            onClick={() => setIsSearchOpen(true)}
+            className="p-2 bg-white rounded-xl shadow-sm border border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors"
+          >
             <SearchIcon />
+          </div>
+          <div
+            onClick={() => setIsPlusOpen(true)}
+            className="p-2 bg-blue-600 text-white rounded-xl shadow-sm cursor-pointer hover:bg-blue-700 transition-colors"
+          >
+            <PlusIcon />
           </div>
         </div>
       </div>
@@ -199,21 +334,28 @@ const Skilset = () => {
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
       />
+
+      <AddSkillModal isOpen={isPlusOpen} onClose={() => setIsPlusOpen(false)} />
+
       {/* Top Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 lg:mb-20 max-w-7xl mx-auto w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 lg:mb-20 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
         {skillsetCards.map((card, index) => (
-          <div key={index} className="flex flex-col">
+          <Link
+            key={index}
+            to={`/dashboard/bizinfra/skillset/${card.title.toLowerCase().replace(/\s+/g, "-")}`}
+            className="flex flex-col group cursor-pointer"
+          >
             {/* White Placeholder Box */}
-            <div className="w-full aspect-square bg-white rounded-2xl shadow-sm border border-gray-100 mb-4"></div>
+            <div className="w-full aspect-square bg-white rounded-2xl shadow-sm border border-gray-100 mb-4 group-hover:shadow-md transition-shadow"></div>
 
             {/* Content */}
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
               {card.title}
             </h3>
-            <p className="text-sm text-gray-500 leading-relaxed line-clamp-3">
+            <p className="text-xs sm:text-sm text-gray-500 leading-relaxed line-clamp-3">
               {card.description}
             </p>
-          </div>
+          </Link>
         ))}
       </div>
 

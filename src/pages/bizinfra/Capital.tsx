@@ -1,114 +1,59 @@
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-type ViewMode = "list" | "card";
+const SearchIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="text-blue-600"
+  >
+    <circle cx="11" cy="11" r="8"></circle>
+    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+  </svg>
+);
 
-interface CapitalSource {
-  id: string;
-  source: string;
-  type: string;
-  match: string;
-  amount: string;
-  status: "Warm" | "Committed" | "Pitched" | "Live";
-}
+const PlusIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="3"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <line x1="12" y1="5" x2="12" y2="19"></line>
+    <line x1="5" y1="12" x2="19" y2="12"></line>
+  </svg>
+);
 
-interface Campaign {
-  id: string;
-  title: string;
-  type: string;
-  amount: string;
-  status: string;
-}
-
-const capitalSources: CapitalSource[] = [
-  {
-    id: "1",
-    source: "eBay",
-    type: "Grant",
-    match: "90%",
-    amount: "$767.50",
-    status: "Warm",
-  },
-  {
-    id: "2",
-    source: "Sony",
-    type: "Fund",
-    match: "90%",
-    amount: "$779.58",
-    status: "Committed",
-  },
-  {
-    id: "3",
-    source: "Mitsubishi",
-    type: "Fund",
-    match: "90%",
-    amount: "$219.78",
-    status: "Warm",
-  },
-  {
-    id: "4",
-    source: "MasterCard",
-    type: "Grant",
-    match: "90%",
-    amount: "$782.01",
-    status: "Committed",
-  },
-  {
-    id: "5",
-    source: "McDonald's",
-    type: "Fund",
-    match: "90%",
-    amount: "$589.99",
-    status: "Committed",
-  },
-  {
-    id: "6",
-    source: "L'Oréal",
-    type: "VC",
-    match: "90%",
-    amount: "$710.68",
-    status: "Pitched",
-  },
-  {
-    id: "7",
-    source: "Bank of America",
-    type: "Fund",
-    match: "90%",
-    amount: "$450.54",
-    status: "Committed",
-  },
-];
-
-const campaigns: Campaign[] = [
-  {
-    id: "1",
-    title: "Campaign 1",
-    type: "Fund",
-    amount: "$90,000",
-    status: "Live",
-  },
-  {
-    id: "2",
-    title: "Campaign 2",
-    type: "Fund",
-    amount: "$90,000",
-    status: "Live",
-  },
-  {
-    id: "3",
-    title: "Campaign 2",
-    type: "Fund",
-    amount: "$90,000",
-    status: "Live",
-  },
-  {
-    id: "4",
-    title: "Campaign 2",
-    type: "Fund",
-    amount: "$90,000",
-    status: "Live",
-  },
-];
+const ListViewIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <line x1="8" y1="6" x2="21" y2="6"></line>
+    <line x1="8" y1="12" x2="21" y2="12"></line>
+    <line x1="8" y1="18" x2="21" y2="18"></line>
+    <line x1="3" y1="6" x2="3.01" y2="6"></line>
+    <line x1="3" y1="12" x2="3.01" y2="12"></line>
+    <line x1="3" y1="18" x2="3.01" y2="18"></line>
+  </svg>
+);
 
 const navItems = [
   {
@@ -143,242 +88,394 @@ const navItems = [
   },
 ];
 
-const Capital = () => {
-  const [view, setView] = useState<ViewMode>("card");
+const capitalSources = [
+  {
+    source: "eBay",
+    amount: "$767.50",
+    status: "Warm",
+    statusColor: "text-yellow-600",
+  },
+  {
+    source: "Sony",
+    amount: "$779.58",
+    status: "Committed",
+    statusColor: "text-green-600",
+  },
+  {
+    source: "Mitsubishi",
+    amount: "$219.78",
+    status: "Warm",
+    statusColor: "text-yellow-600",
+  },
+  {
+    source: "MasterCard",
+    amount: "$782.01",
+    status: "Committed",
+    statusColor: "text-green-600",
+  },
+  {
+    source: "McDonald's",
+    amount: "$589.99",
+    status: "Committed",
+    statusColor: "text-green-600",
+  },
+  {
+    source: "L'Oréal",
+    amount: "$710.68",
+    status: "Pitched",
+    statusColor: "text-blue-500",
+  },
+  {
+    source: "Bank of America",
+    amount: "$450.54",
+    status: "Committed",
+    statusColor: "text-green-600",
+  },
+];
 
-  const renderViewSwitcher = () => {
-    return (
-      <div className="relative group">
-        <button className="h-8 px-3 bg-white rounded-xl flex items-center gap-2 shadow-sm border border-gray-100 text-gray-700 font-medium text-xs hover:bg-gray-50 transition-colors">
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+const Capital = () => {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isCreateCampaignModalOpen, setIsCreateCampaignModalOpen] =
+    useState(false);
+
+  // Add Source Modal
+  const AddCapitalModal = () => (
+    <AnimatePresence>
+      {isAddModalOpen && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+            onClick={() => setIsAddModalOpen(false)}
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 30 }}
+            className="bg-white w-full max-w-xl rounded-[2rem] shadow-2xl relative z-index-100 p-8 max-h-[90vh] overflow-y-auto no-scrollbar"
           >
-            <path d="M3 12h18M3 6h18M3 18h18"></path>
-            <circle cx="6" cy="6" r="1.5"></circle>
-            <circle cx="6" cy="12" r="1.5"></circle>
-            <circle cx="6" cy="18" r="1.5"></circle>
-          </svg>
-          {view === "card" ? "Card view" : "List view"}
-        </button>
-        <div className="absolute top-full right-0 mt-1 w-32 bg-white rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 p-1">
-          <button
-            onClick={() => setView("card")}
-            className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs transition-colors ${view === "card" ? "bg-blue-50 text-blue-600" : "text-gray-600 hover:bg-gray-50"}`}
-          >
-            Card view
-          </button>
-          <button
-            onClick={() => setView("list")}
-            className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs transition-colors ${view === "list" ? "bg-blue-50 text-blue-600" : "text-gray-600 hover:bg-gray-50"}`}
-          >
-            List view
-          </button>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-gray-900">
+                Add New Capital Source
+              </h2>
+              <button
+                onClick={() => setIsAddModalOpen(false)}
+                className="w-10 h-10 flex items-center justify-center bg-gray-100/80 rounded-full text-gray-500 hover:bg-gray-200 transition-colors"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="space-y-6">
+              <input
+                type="text"
+                placeholder="Name"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm"
+              />
+
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-gray-400 uppercase tracking-tighter">
+                  Geography
+                </label>
+                <div className="grid grid-cols-3 gap-3">
+                  <select className="px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm text-gray-500 appearance-none">
+                    <option>Continent</option>
+                  </select>
+                  <select className="px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm text-gray-500 appearance-none">
+                    <option>Country</option>
+                  </select>
+                  <select className="px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm text-gray-500 appearance-none">
+                    <option>City</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="w-full aspect-video border-2 border-dashed border-gray-200 rounded-3xl flex flex-col items-center justify-center gap-3 bg-gray-50/30 group hover:border-blue-300 transition-colors cursor-pointer">
+                <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                  <PlusIcon />
+                </div>
+                <span className="text-xs font-bold text-gray-400 group-hover:text-blue-600">
+                  Campaign Image
+                </span>
+              </div>
+
+              <input
+                type="text"
+                placeholder="Type of capital source"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm"
+              />
+              <input
+                type="text"
+                placeholder="Check size"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm"
+              />
+              <input
+                type="text"
+                placeholder="Instrument type"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm"
+              />
+
+              <textarea
+                placeholder="Thesis & Goals"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm h-24 resize-none focus:outline-none"
+              ></textarea>
+              <textarea
+                placeholder="Notes"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm h-24 resize-none focus:outline-none"
+              ></textarea>
+
+              <div className="space-y-4">
+                <span className="text-xs font-bold text-gray-400 uppercase tracking-tighter">
+                  Reminder
+                </span>
+                <button className="flex items-center gap-2 text-blue-600 font-bold text-sm hover:underline">
+                  <PlusIcon /> Add Reminder
+                </button>
+              </div>
+
+              <button className="w-full py-4 bg-blue-600/30 text-blue-700 font-bold rounded-2xl hover:bg-blue-600 hover:text-white transition-all mt-4 shadow-sm">
+                Add Capital Source
+              </button>
+            </div>
+          </motion.div>
         </div>
-      </div>
-    );
-  };
+      )}
+    </AnimatePresence>
+  );
+
+  // Create Campaign Modal
+  const CreateCampaignModal = () => (
+    <AnimatePresence>
+      {isCreateCampaignModalOpen && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+            onClick={() => setIsCreateCampaignModalOpen(false)}
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 30 }}
+            className="bg-white w-full max-w-lg rounded-[2rem] shadow-2xl relative z-index-100 p-8 max-h-[90vh] overflow-y-auto no-scrollbar"
+          >
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-gray-900">
+                Create Campaign
+              </h2>
+              <button
+                onClick={() => setIsCreateCampaignModalOpen(false)}
+                className="w-10 h-10 flex items-center justify-center bg-gray-100/80 rounded-full text-gray-500 hover:bg-gray-200 transition-colors"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <input
+                type="text"
+                placeholder="Campaign Name"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm"
+              />
+              <textarea
+                placeholder="Description"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm h-32 resize-none focus:outline-none"
+              ></textarea>
+              <input
+                type="text"
+                placeholder="Campaign Type"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm focus:outline-none"
+              />
+
+              <div className="relative group">
+                <select className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm text-gray-500 appearance-none outline-hidden cursor-pointer">
+                  <option>Select Audience</option>
+                  <option>Investors</option>
+                  <option>Partners</option>
+                  <option>Customers</option>
+                </select>
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </div>
+              </div>
+
+              <input
+                type="text"
+                placeholder="Content"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm focus:outline-none"
+              />
+
+              <div className="w-full aspect-video border-2 border-dashed border-gray-200 rounded-3xl flex flex-col items-center justify-center gap-3 bg-gray-50/30 group hover:border-blue-300 transition-colors cursor-pointer">
+                <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+                  <PlusIcon />
+                </div>
+                <span className="text-xs font-bold text-gray-400 group-hover:text-blue-600">
+                  Campaign Image
+                </span>
+              </div>
+
+              <button className="w-full py-4 bg-blue-600/30 text-blue-700 font-bold rounded-2xl hover:bg-blue-600 hover:text-white transition-all mt-4 shadow-sm">
+                Add Campaign
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
 
   return (
-    <div className="flex flex-col h-full bg-[#f0f0eb] p-8 relative overflow-auto">
-      {/* Top Header Actions */}
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h2 className="text-xl font-bold text-gray-900">Capital Sources</h2>
+    <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
+      {/* Header Area */}
+      <div className="flex justify-between items-center mb-10">
+        <div className="flex items-center gap-4">
+          <div className="flex flex-col bg-white p-3 rounded-2xl shadow-sm border border-gray-100">
+            <span className="text-[10px] font-bold text-gray-400 leading-none mb-1">
+              Bizinfra
+            </span>
+            <h2 className="text-sm font-bold text-gray-900 leading-none">
+              Capital
+            </h2>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <button className="w-8 h-8 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 text-blue-600 hover:bg-gray-50 transition-colors">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
+
+        <div className="flex items-center gap-3">
+          <button className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100">
+            <SearchIcon />
           </button>
-          <button className="w-8 h-8 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 text-blue-600 hover:bg-gray-50 transition-colors">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
+          <button
+            onClick={() => setIsAddModalOpen(true)}
+            className="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-md hover:bg-blue-700 transition-colors"
+          >
+            <PlusIcon />
           </button>
-          {renderViewSwitcher()}
+          <button className="px-4 py-2 bg-white rounded-xl flex items-center gap-2 shadow-sm border border-gray-100 text-xs font-bold text-gray-700">
+            <ListViewIcon /> List view
+          </button>
         </div>
       </div>
 
-      {/* Capital Sources Section */}
-      <div className="mb-12">
-        {view === "card" ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {capitalSources.map((item) => (
+      <div className="flex-1 space-y-12 overflow-y-auto no-scrollbar pb-20">
+        <section>
+          <h3 className="text-xl font-bold text-gray-900 mb-6">
+            Capital Sources
+          </h3>
+          <div className="bg-white/50 rounded-[2.5rem] p-4 border border-gray-200/50">
+            <div className="grid grid-cols-3 px-8 py-4 text-[10px] font-extrabold text-gray-400 uppercase tracking-widest border-b border-gray-100/50">
+              <span>Source</span>
+              <span>Amount</span>
+              <span>Status</span>
+            </div>
+            <div className="space-y-1 mt-2">
+              {capitalSources.map((item, i) => (
+                <div
+                  key={i}
+                  className="grid grid-cols-3 px-8 py-4 hover:bg-white rounded-2xl transition-colors cursor-pointer group"
+                >
+                  <span className="text-sm font-bold text-gray-600 group-hover:text-gray-900">
+                    {item.source}
+                  </span>
+                  <span className="text-sm font-bold text-gray-600">
+                    {item.amount}
+                  </span>
+                  <span className={`text-sm font-bold ${item.statusColor}`}>
+                    {item.status}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-xl font-bold text-gray-900">
+              Fundraising Campaigns
+            </h3>
+            <button
+              onClick={() => setIsCreateCampaignModalOpen(true)}
+              className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 text-blue-600 hover:bg-gray-50 transition-colors"
+            >
+              <PlusIcon />
+            </button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1, 2].map((i) => (
               <div
-                key={item.id}
-                className="bg-white/50 border border-gray-200/50 rounded-2xl p-5 flex flex-col gap-3 shadow-xs hover:shadow-sm transition-all"
+                key={i}
+                className="bg-white p-6 rounded-[2.5rem] shadow-sm border border-gray-100 flex flex-col gap-6"
               >
-                <div className="w-12 h-12 bg-white rounded-lg p-2 border border-gray-100 shadow-xs mb-1">
-                  <span className="text-xs font-bold text-blue-600">ebay</span>
+                <div className="w-full aspect-square bg-gray-100 rounded-[2rem]"></div>
+                <div className="space-y-4">
+                  <h4 className="text-lg font-bold text-gray-900">
+                    Campaign {i}
+                  </h4>
+                  <div className="grid grid-cols-1 gap-2">
+                    <div className="flex justify-between text-[11px] font-bold">
+                      <span className="text-gray-400 uppercase">Type:</span>
+                      <span className="text-gray-900">Fund</span>
+                    </div>
+                    <div className="flex justify-between text-[11px] font-bold">
+                      <span className="text-gray-400 uppercase">Amount:</span>
+                      <span className="text-gray-900">$90,000</span>
+                    </div>
+                    <div className="flex justify-between text-[11px] font-bold">
+                      <span className="text-gray-400 uppercase">Status:</span>
+                      <span className="text-green-600">Live</span>
+                    </div>
+                  </div>
+                  <button className="w-full py-3 bg-blue-600 text-white rounded-2xl font-bold text-sm hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20">
+                    Explore
+                  </button>
                 </div>
-                <h4 className="font-bold text-gray-900 text-sm">
-                  {item.source}
-                </h4>
-                <div className="space-y-1">
-                  <p className="text-[10px] text-gray-500">
-                    Type:{" "}
-                    <span className="text-gray-700 font-medium">
-                      {item.type}
-                    </span>
-                  </p>
-                  <p className="text-[10px] text-gray-500">
-                    Match:{" "}
-                    <span className="text-gray-700 font-medium">
-                      {item.match}
-                    </span>
-                  </p>
-                  <p className="text-[10px] text-gray-500">
-                    Amount:{" "}
-                    <span className="text-gray-700 font-medium">
-                      {item.amount}
-                    </span>
-                  </p>
-                  <p className="text-[10px] text-gray-500">
-                    Status:{" "}
-                    <span
-                      className={`font-semibold ${item.status === "Warm" ? "text-yellow-600" : "text-green-600"}`}
-                    >
-                      {item.status}
-                    </span>
-                  </p>
-                </div>
-                <button className="mt-2 text-blue-600 text-xs font-semibold hover:underline text-left">
-                  View
-                </button>
               </div>
             ))}
           </div>
-        ) : (
-          <div className="bg-transparent overflow-x-auto">
-            <table className="w-full text-left border-separate border-spacing-y-4 min-w-[600px]">
-              <thead>
-                <tr className="text-gray-500 text-[10px] uppercase tracking-wider font-bold">
-                  <th className="px-4 pb-2">Source</th>
-                  <th className="px-4 pb-2">Type</th>
-                  <th className="px-4 pb-2">Match</th>
-                  <th className="px-4 pb-2">Amount</th>
-                  <th className="px-4 pb-2">Status</th>
-                </tr>
-              </thead>
-              <tbody className="space-y-4">
-                {capitalSources.map((item) => (
-                  <tr
-                    key={item.id}
-                    className="group transition-all hover:-translate-y-0.5"
-                  >
-                    <td className="px-4 py-3 bg-transparent text-gray-700 text-xs font-medium">
-                      {item.source}
-                    </td>
-                    <td className="px-4 py-3 bg-transparent text-gray-700 text-xs">
-                      {item.type}
-                    </td>
-                    <td className="px-4 py-3 bg-transparent text-gray-700 text-xs">
-                      {item.match}
-                    </td>
-                    <td className="px-4 py-3 bg-transparent text-gray-700 text-xs">
-                      {item.amount}
-                    </td>
-                    <td className="px-4 py-3 bg-transparent">
-                      <span
-                        className={`text-xs font-bold ${item.status === "Warm" ? "text-yellow-600" : item.status === "Pitched" ? "text-green-500" : "text-green-600"}`}
-                      >
-                        {item.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+        </section>
       </div>
 
-      {/* Fundraising Campaign Section */}
-      <div className="mb-20">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold text-gray-900">
-            Fundraising Campaign
-          </h2>
-          <button className="w-8 h-8 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 text-blue-600 hover:bg-gray-50 transition-colors">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
-          </button>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {campaigns.map((item) => (
-            <div key={item.id} className="flex flex-col">
-              <div className="w-full aspect-video bg-white rounded-2xl shadow-xs border border-gray-100 mb-4"></div>
-              <h4 className="font-bold text-gray-900 text-sm mb-2">
-                {item.title}
-              </h4>
-              <div className="space-y-1 mb-4">
-                <p className="text-[10px] text-gray-500">
-                  Type:{" "}
-                  <span className="text-gray-700 font-medium">{item.type}</span>
-                </p>
-                <p className="text-[10px] text-gray-500">
-                  Amount:{" "}
-                  <span className="text-gray-700 font-medium">
-                    {item.amount}
-                  </span>
-                </p>
-                <p className="text-[10px] text-gray-500">
-                  Status:{" "}
-                  <span className="text-green-600 font-semibold">
-                    {item.status}
-                  </span>
-                </p>
-              </div>
-              <button className="w-fit px-4 py-1.5 bg-blue-600 text-white rounded-lg text-[10px] font-bold shadow-xs hover:bg-blue-700 transition-colors">
-                Explore
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
+      <AddCapitalModal />
+      <CreateCampaignModal />
 
-      {/* Bottom Navigation */}
-      <div className="mt-auto flex justify-center pb-6 sm:pb-10">
-        <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar max-w-full px-4">
+      <div className="mt-auto flex justify-center pb-6 pt-10">
+        <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar max-w-full px-4 text-center">
           {navItems.map((item) => {
             const isSelected = item.id === "Capital";
             return (
@@ -389,8 +486,8 @@ const Capital = () => {
               >
                 <div
                   className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
-                    ${isSelected ? "bg-blue-600/10 border-2 border-blue-600 ring-4 ring-blue-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm group-hover:border-gray-200"}
-                  `}
+                  ${isSelected ? "bg-yellow-600/10 border-2 border-yellow-600 ring-4 ring-yellow-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
+                `}
                 >
                   <div
                     className={`w-3/5 h-3/5 rounded-lg bg-linear-to-br ${item.gradient} rotate-12`}
