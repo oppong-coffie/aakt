@@ -171,7 +171,7 @@ const Question10 = () => {
             padding: "2rem",
           }}
         >
-          {pairs.map((pair, index) => (
+          {pairs.map((pair) => (
             <div
               key={pair.id}
               style={{

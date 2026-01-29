@@ -472,6 +472,7 @@ const Question14Government = () => {
             gap: "1rem",
           }}
         >
+            <button onClick={handleCancel}>Cancel</button>
           <button
             onClick={handleContinue}
             style={{
