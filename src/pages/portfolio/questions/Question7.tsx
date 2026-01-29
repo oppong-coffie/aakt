@@ -1,73 +1,53 @@
 import { useState } from "react";
-import { Info } from "lucide-react";
+import { Info, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-interface Shareholder {
+interface CapitalSource {
   id: string;
-  name: string;
-  role: string;
-  provide: string;
-  want: string;
+  source: string;
+  value: string;
+  type: string;
 }
 
-const Question6 = () => {
+const Question7 = () => {
   const navigate = useNavigate();
-  const [shareholders, setShareholders] = useState<Shareholder[]>([
-    {
-      id: "1",
-      name: "eBay",
-      role: "Guest",
-      provide: "$762.50",
-      want: "Pending",
-    },
-    { id: "2", name: "Sony", role: "Fund", provide: "$775.58", want: "Live" },
-    {
-      id: "3",
-      name: "Mitsubishi",
-      role: "Fund",
-      provide: "$123.78",
-      want: "Pending",
-    },
+  const [capitalSources, setCapitalSources] = useState<CapitalSource[]>([
+    { id: "1", source: "eBay", value: "Grant", type: "$762.50" },
+    { id: "2", source: "Sony", value: "Fund", type: "$775.58" },
+    { id: "3", source: "Mitsubishi", value: "Fund", type: "$123.78" },
   ]);
 
+  const [fundraising, setFundraising] = useState<string>("Yes");
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+
   const addRow = () => {
-    const newShareholder: Shareholder = {
+    const newSource: CapitalSource = {
       id: Date.now().toString(),
-      name: "",
-      role: "",
-      provide: "",
-      want: "",
+      source: "",
+      value: "",
+      type: "",
     };
-    setShareholders([...shareholders, newShareholder]);
+    setCapitalSources([...capitalSources, newSource]);
   };
 
-  const updateShareholder = (
+  const updateCapitalSource = (
     id: string,
-    field: keyof Shareholder,
+    field: keyof CapitalSource,
     value: string,
   ) => {
-    setShareholders(
-      shareholders.map((sh) => (sh.id === id ? { ...sh, [field]: value } : sh)),
+    setCapitalSources(
+      capitalSources.map((cs) =>
+        cs.id === id ? { ...cs, [field]: value } : cs,
+      ),
     );
   };
 
   const handleCancel = () => {
-    // Handle cancel action
     console.log("Cancelled");
   };
 
   const handleSaveAndContinue = () => {
-    // Handle save and continue
-    navigate("/dashboard/portfolio/question7");
-  };
-
-  const getStatusClass = (status: string) => {
-    if (status.toLowerCase() === "live") {
-      return "text-green-600";
-    } else if (status.toLowerCase() === "pending") {
-      return "text-orange-500";
-    }
-    return "";
+    navigate("/dashboard/portfolio/question8");
   };
 
   return (
@@ -106,7 +86,7 @@ const Question6 = () => {
                 margin: 0,
               }}
             >
-              Network
+              Capital
             </h3>
             <span
               style={{
@@ -166,7 +146,7 @@ const Question6 = () => {
               margin: 0,
             }}
           >
-            List some of the relevant shareholders.
+            Provide your capital structure
           </h2>
         </div>
 
@@ -200,7 +180,7 @@ const Question6 = () => {
                     fontSize: "13px",
                   }}
                 >
-                  Name
+                  Source
                 </th>
                 <th
                   style={{
@@ -211,7 +191,7 @@ const Question6 = () => {
                     fontSize: "13px",
                   }}
                 >
-                  Role
+                  Value
                 </th>
                 <th
                   style={{
@@ -222,25 +202,14 @@ const Question6 = () => {
                     fontSize: "13px",
                   }}
                 >
-                  What they provide
-                </th>
-                <th
-                  style={{
-                    padding: "12px 16px",
-                    textAlign: "left",
-                    fontWeight: "600",
-                    color: "#666",
-                    fontSize: "13px",
-                  }}
-                >
-                  What they want
+                  Type
                 </th>
               </tr>
             </thead>
             <tbody>
-              {shareholders.map((shareholder) => (
+              {capitalSources.map((source) => (
                 <tr
-                  key={shareholder.id}
+                  key={source.id}
                   style={{
                     borderBottom: "1px solid #f0f0f0",
                   }}
@@ -248,15 +217,11 @@ const Question6 = () => {
                   <td style={{ padding: "12px 16px" }}>
                     <input
                       type="text"
-                      value={shareholder.name}
+                      value={source.source}
                       onChange={(e) =>
-                        updateShareholder(
-                          shareholder.id,
-                          "name",
-                          e.target.value,
-                        )
+                        updateCapitalSource(source.id, "source", e.target.value)
                       }
-                      placeholder="Name"
+                      placeholder="Source"
                       style={{
                         width: "100%",
                         border: "none",
@@ -270,15 +235,11 @@ const Question6 = () => {
                   <td style={{ padding: "12px 16px" }}>
                     <input
                       type="text"
-                      value={shareholder.role}
+                      value={source.value}
                       onChange={(e) =>
-                        updateShareholder(
-                          shareholder.id,
-                          "role",
-                          e.target.value,
-                        )
+                        updateCapitalSource(source.id, "value", e.target.value)
                       }
-                      placeholder="Role"
+                      placeholder="Value"
                       style={{
                         width: "100%",
                         border: "none",
@@ -292,43 +253,17 @@ const Question6 = () => {
                   <td style={{ padding: "12px 16px" }}>
                     <input
                       type="text"
-                      value={shareholder.provide}
+                      value={source.type}
                       onChange={(e) =>
-                        updateShareholder(
-                          shareholder.id,
-                          "provide",
-                          e.target.value,
-                        )
+                        updateCapitalSource(source.id, "type", e.target.value)
                       }
-                      placeholder="Amount"
+                      placeholder="Type"
                       style={{
                         width: "100%",
                         border: "none",
                         outline: "none",
                         fontSize: "14px",
                         color: "#999",
-                        backgroundColor: "transparent",
-                      }}
-                    />
-                  </td>
-                  <td style={{ padding: "12px 16px" }}>
-                    <input
-                      type="text"
-                      value={shareholder.want}
-                      onChange={(e) =>
-                        updateShareholder(
-                          shareholder.id,
-                          "want",
-                          e.target.value,
-                        )
-                      }
-                      placeholder="Status"
-                      className={getStatusClass(shareholder.want)}
-                      style={{
-                        width: "100%",
-                        border: "none",
-                        outline: "none",
-                        fontSize: "14px",
                         backgroundColor: "transparent",
                       }}
                     />
@@ -358,6 +293,121 @@ const Question6 = () => {
         >
           <span style={{ fontSize: "18px" }}>+</span> Add row
         </button>
+
+        {/* Fundraising Question */}
+        <div style={{ marginBottom: "2rem" }}>
+          <h3
+            style={{
+              fontSize: "15px",
+              fontWeight: "500",
+              color: "#333",
+              marginBottom: "1rem",
+            }}
+          >
+            Are you fundraising?
+          </h3>
+
+          <div style={{ position: "relative", maxWidth: "400px" }}>
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              style={{
+                width: "100%",
+                padding: "12px 16px",
+                backgroundColor: dropdownOpen ? "#e8e5ff" : "white",
+                border: "1px solid #e0e0e0",
+                borderRadius: "8px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                cursor: "pointer",
+                fontSize: "14px",
+                color: "#333",
+                transition: "background-color 0.2s",
+              }}
+            >
+              <span>{fundraising}</span>
+              <ChevronDown
+                size={18}
+                style={{
+                  transform: dropdownOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  transition: "transform 0.2s",
+                }}
+              />
+            </button>
+
+            {dropdownOpen && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "100%",
+                  left: 0,
+                  right: 0,
+                  marginTop: "4px",
+                  backgroundColor: "white",
+                  border: "1px solid #e0e0e0",
+                  borderRadius: "8px",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                  overflow: "hidden",
+                  zIndex: 10,
+                }}
+              >
+                <div
+                  onClick={() => {
+                    setFundraising("Yes");
+                    setDropdownOpen(false);
+                  }}
+                  style={{
+                    padding: "12px 16px",
+                    cursor: "pointer",
+                    backgroundColor:
+                      fundraising === "Yes" ? "#e8e5ff" : "white",
+                    fontSize: "14px",
+                    color: "#333",
+                    transition: "background-color 0.2s",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (fundraising !== "Yes") {
+                      e.currentTarget.style.backgroundColor = "#f5f5f5";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (fundraising !== "Yes") {
+                      e.currentTarget.style.backgroundColor = "white";
+                    }
+                  }}
+                >
+                  Yes
+                </div>
+                <div
+                  onClick={() => {
+                    setFundraising("No");
+                    setDropdownOpen(false);
+                  }}
+                  style={{
+                    padding: "12px 16px",
+                    cursor: "pointer",
+                    backgroundColor: fundraising === "No" ? "#e8e5ff" : "white",
+                    fontSize: "14px",
+                    color: "#333",
+                    transition: "background-color 0.2s",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (fundraising !== "No") {
+                      e.currentTarget.style.backgroundColor = "#f5f5f5";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (fundraising !== "No") {
+                      e.currentTarget.style.backgroundColor = "white";
+                    }
+                  }}
+                >
+                  No
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
 
         {/* Action Buttons */}
         <div
@@ -425,4 +475,4 @@ const Question6 = () => {
   );
 };
 
-export default Question6;
+export default Question7;

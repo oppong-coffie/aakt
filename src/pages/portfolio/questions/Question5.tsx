@@ -152,8 +152,8 @@ const Question5 = () => {
           </button>
 
           <button
-            onClick={() => console.log("Save & Continue", items)}
-            className="px-6 py-2.5 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
+            onClick={() => navigate("/dashboard/portfolio/question6")}
+            className="cursor-pointer px-6 py-2.5 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
           >
             Save & Continue
           </button>

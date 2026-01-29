@@ -36,6 +36,16 @@ import Question3 from "./pages/portfolio/questions/Question3";
 import Question4 from "./pages/portfolio/questions/Question4";
 import Question5 from "./pages/portfolio/questions/Question5";
 import Question6 from "./pages/portfolio/questions/Question6";
+import Question7 from "./pages/portfolio/questions/Question7";
+import Question8 from "./pages/portfolio/questions/Question8";
+import Question9 from "./pages/portfolio/questions/Question9";
+import Question10 from "./pages/portfolio/questions/Question10";
+import Question11 from "./pages/portfolio/questions/Question11";    
+import Question12 from "./pages/portfolio/questions/Question12"; 
+import Question13 from "./pages/portfolio/questions/Question13";
+import Question14Business from "./pages/portfolio/questions/Question14-Business";
+import Question14Consumer from "./pages/portfolio/questions/Question14-Consumer";
+import Question14Government from "./pages/portfolio/questions/Question14-Government";
 
 const App = () => {
   return (
@@ -85,6 +95,17 @@ const App = () => {
             <Route path="question4" element={<Question4 />} />
             <Route path="question5" element={<Question5 />} />
             <Route path="question6" element={<Question6 />} />
+            <Route path="question7" element={<Question7 />} />
+            <Route path="question8" element={<Question8 />} />
+            <Route path="question9" element={<Question9 />} />
+            <Route path="question10" element={<Question10 />} />
+            <Route path="question11" element={<Question11 />} />
+            <Route path="question12" element={<Question12 />} />
+            <Route path="question13" element={<Question13 />} />
+            <Route path="question14-business" element={<Question14Business />} />
+            <Route path="question14-consumer" element={<Question14Consumer />} />
+            <Route path="question14-government" element={<Question14Government />} />
+
           </Route>
 
           <Route path="finish" element={<Finish />} />
