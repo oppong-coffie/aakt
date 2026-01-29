@@ -117,6 +117,7 @@ const SearchModal = ({
       )}
     </AnimatePresence>
   );
+  
 };
 
 const MainHomepage = () => {
@@ -131,12 +132,12 @@ const MainHomepage = () => {
         {/* Search Bar - Trigger */}
         <div
           onClick={() => setIsSearchOpen(true)}
-          className="relative flex-1 max-w-xs sm:max-w-md cursor-pointer group"
+          className="relative flex-1 max-w-xs cursor-pointer"
         >
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <div className="absolute inset-y-0 left-0 pl-3 pr-3 flex items-center pointer-events-none">
             <SearchIcon />
           </div>
-          <div className="block w-full pl-9 pr-3 py-2 border border-gray-200 rounded-full bg-white text-gray-400 text-xs sm:text-sm transition-all hover:border-gray-300 truncate">
+          <div className="block w-full pl-9 pr-3 py-2 border border-gray-300 rounded-xl text-gray-400 text-xs sm:text-sm transition-all hover:border-gray-300 truncate">
             Search anything...
           </div>
         </div>

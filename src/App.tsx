@@ -29,9 +29,14 @@ import Project from "./pages/bizinfra/Project";
 import Process from "./pages/bizinfra/Process";
 import Block from "./pages/bizinfra/Block";
 import Saas from "./pages/portfolio/Saas";
-import FinanceRisk from "./pages/portfolio/questions/FinanceRisk";
-import FinanceTable from "./pages/portfolio/questions/FinanceTable";
-import CultureGoals from "./pages/portfolio/questions/CultureGoals";
+import Question1 from "./pages/portfolio/questions/Question1";
+import PortfolioFirstpage from "./pages/portfolio/Firstpage";
+import Question2 from "./pages/portfolio/questions/Question2";
+import Question3 from "./pages/portfolio/questions/Question3";
+import Question4 from "./pages/portfolio/questions/Question4";
+import Question5 from "./pages/portfolio/questions/Question5";
+import Question6 from "./pages/portfolio/questions/Question6";
+
 const App = () => {
   return (
     <MemoryRouter>
@@ -70,23 +75,19 @@ const App = () => {
             <Route path="intel" element={<Intel />} />
             <Route path="reach" element={<Reach />} />
           </Route>
-          <Route path="portfolio" element={<PortfolioMain />} />
-          <Route path="portfolio/saas" element={<Saas />} />
-          <Route
-            path="portfolio/questions/finance-risk"
-            element={<FinanceRisk />}
-          />
-          <Route
-            path="portfolio/questions/finance-table"
-            element={<FinanceTable />}
-          />
-          <Route
-            path="portfolio/questions/culture-goals"
-            element={<CultureGoals />}
-          />
+
+          <Route path="portfolio" element={<PortfolioMain />}>
+            <Route index element={<PortfolioFirstpage />} />
+            <Route path="saas" element={<Saas />} />
+            <Route path="question1" element={<Question1 />} />
+            <Route path="question2" element={<Question2 />} />
+            <Route path="question3" element={<Question3 />} />
+            <Route path="question4" element={<Question4 />} />
+            <Route path="question5" element={<Question5 />} />
+            <Route path="question6" element={<Question6 />} />
+          </Route>
+
           <Route path="finish" element={<Finish />} />
-          {/* <Route path="bizinfra/skilset" element={<Skilset />} /> */}
-          {/* <Route path="portfolio/:category" element={<PortfolioPage />} /> */}
         </Route>
 
         {/* Fallback */}

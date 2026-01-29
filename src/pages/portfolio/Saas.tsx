@@ -68,12 +68,12 @@ const Saas = () => {
   ];
 
   return (
-    <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
+    <div className="bg-[#f0f0eb]">
       {/* Header Area */}
-      <div className="flex justify-between items-center mb-10">
+      
         <div className="flex items-center gap-4">
           <Link
-            to="/panel/portfolio"
+            to="/dashboard/portfolio"
             className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm border border-gray-100 text-blue-600 hover:bg-gray-50 transition-colors"
           >
             <LeftArrowIcon />
@@ -88,7 +88,7 @@ const Saas = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-3 relative">
+        <div className="flex justify-end items-center gap-3 relative">
           <button className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 hover:bg-gray-50 transition-colors">
             <SearchIcon />
           </button>
@@ -131,9 +131,9 @@ const Saas = () => {
             )}
           </AnimatePresence>
         </div>
-      </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center -mt-20">
+{/* Cards */}
+      <div className="flex h-[calc(100vh-100px)] items-center justify-center">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full">
           {cards.map((card, i) => (
             <motion.div

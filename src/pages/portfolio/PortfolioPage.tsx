@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 // Icons
 const BackIcon = () => (
@@ -67,6 +69,16 @@ const PortfolioPage = () => {
     ? category.charAt(0).toUpperCase() + category.slice(1)
     : "Portfolio";
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const dropdownItems = [
+    { label: "Add Department" },
+    { label: "Add Operation" },
+    { label: "Project" },
+    { label: "Process" },
+    { label: "Block" },
+  ];
+
   const cards = [
     { title: "Department 1" },
     { title: "Department 2" },
@@ -88,13 +100,47 @@ const PortfolioPage = () => {
           <h1 className="text-2xl font-bold text-black">{title}</h1>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 relative">
           <button className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-xs hover:bg-gray-50 transition-colors">
             <SearchIcon />
           </button>
-          <button className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-xs hover:bg-gray-50 transition-colors">
+          <button
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-xs hover:bg-gray-50 transition-colors relative z-50"
+          >
             <PlusIcon />
           </button>
+
+          <AnimatePresence>
+            {isDropdownOpen && (
+              <>
+                <div
+                  className="fixed inset-0 z-40"
+                  onClick={() => setIsDropdownOpen(false)}
+                />
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                  className="absolute right-0 top-12 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 py-3 overflow-hidden"
+                >
+                  {dropdownItems.map((item, i) => (
+                    <button
+                      key={i}
+                      className="w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 transition-colors text-left group"
+                    >
+                      <span className="text-gray-400 group-hover:text-blue-600">
+                        <PlusIcon />
+                      </span>
+                      <span className="text-xs font-bold text-gray-700 tracking-tight">
+                        {item.label}
+                      </span>
+                    </button>
+                  ))}
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
         </div>
       </header>
 

@@ -67,7 +67,7 @@ const Dashboard = () => {
   const location = useLocation();
 
   return (
-    <div className="flex h-screen bg-[#f0f0eb] font-sans text-gray-800 relative">
+    <div className="flex h-screen bg-[#f0f0eb] font-sans text-gray-800">
       {/* Mobile Toggle Button */}
       <button
         onClick={() => setIsSidebarOpen(true)}
@@ -87,7 +87,7 @@ const Dashboard = () => {
       {/* Sidebar */}
       <aside
         className={`
-        fixed inset-y-0 left-0 w-72 bg-[#f0f0eb] flex flex-col p-8 border-r border-gray-200/50 z-70 transition-transform duration-300 transform
+        fixed inset-y-0 left-0 w-72 bg-[#f0f0eb] flex flex-col px-4 pb-8 pt-2 border-r border-gray-200/50 z-70 transition-transform duration-300 transform
         lg:translate-x-0 lg:static lg:h-full lg:z-50
         ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
       `}
@@ -216,9 +216,9 @@ const Dashboard = () => {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <main className="w-full">
         {/* Scrollable Content */}
-        <div className="flex-1 overflow-auto px-4 sm:px-8 pb-8 pt-20 lg:pt-8">
+        <div className="px-4">
           <Outlet />
         </div>
       </main>

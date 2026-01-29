@@ -124,7 +124,9 @@ const Login = () => {
             <div className="flex-1 h-px bg-gray-200"></div>
           </div>
 
-          <button
+          <Link to="/dashboard/home">
+          
+            <button
             type="button"
             className="flex items-center w-full p-1.5 mt-1.5 border border-gray-200 rounded-lg bg-white text-gray-800 font-medium text-sm hover:bg-gray-50 gap-2.5 cursor-pointer transition-colors"
           >
@@ -134,7 +136,9 @@ const Login = () => {
             </div>
             <h1> Continue with Google</h1>
           </button>
+          </Link>
 
+          <Link to="/dashboard/home">
           <button
             type="button"
             className="flex items-center w-full p-1.5 mt-1.5 border border-gray-200 rounded-lg bg-white text-gray-800 font-medium text-sm hover:bg-gray-50 gap-2.5 cursor-pointer transition-colors"
@@ -145,7 +149,9 @@ const Login = () => {
             </div>
             <h1> Continue with Microsoft</h1>
           </button>
+          </Link>
 
+          <Link to="/dashboard/home">
           <button
             type="button"
             className="flex items-center w-full p-1.5 mt-1.5 border border-gray-200 rounded-lg bg-white text-gray-800 font-medium text-sm hover:bg-gray-50 gap-2.5 cursor-pointer transition-colors"
@@ -156,7 +162,9 @@ const Login = () => {
             </div>
             <h1> Continue with Github</h1>
           </button>
+          </Link>
 
+          <Link to="/dashboard/home">
           <button
             type="button"
             className="flex items-center w-full p-1.5 mt-1.5 border border-gray-200 rounded-lg bg-white text-gray-800 font-medium text-sm hover:bg-gray-50 gap-2.5 cursor-pointer transition-colors"
@@ -167,7 +175,8 @@ const Login = () => {
             </div>
             <h1> Continue with Meta</h1>
           </button>
-
+          </Link>
+    
           <button
             type="submit"
             disabled={!isFormValid}
