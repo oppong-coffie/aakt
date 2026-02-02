@@ -29,7 +29,7 @@ const Confident = () => {
   };
 
   return (
-    <div className="h-screen bg-[#f0f0eb] pt-5 px-40">
+    <div className="h-screen bg-[#f0f0eb] pt-5 md:px-40 px-5">
       {/* Skip Button */}
       <div className="flex justify-end">
         <button
@@ -40,13 +40,15 @@ const Confident = () => {
         </button>
       </div>
 
+{/* Question */}
       <div className="mt-20 mb-16 flex justify-center">
         <h2 className="text-2xl font-bold text-gray-900 leading-relaxed">
           How confident are you in the following to achieve your 12 month goals?
         </h2>
       </div>
 
-      <div className="space-y-8 ml-48">
+{/* Slider */}
+      <div className="space-y-8 md:ml-48">
         {metrics.map((metric) => (
           <div key={metric} className="flex">
             <div className="w-24 text-left text-gray-800 font-medium text-lg">
@@ -54,7 +56,7 @@ const Confident = () => {
             </div>
             <div className="relative flex items-center">
               {/* Track Background */}
-              <div className="w-[32vw] h-7 bg-gray-200/50 rounded-full border border-gray-200"></div>
+              <div className="md:w-[32vw] w-[62vw] h-7 bg-gray-200/50 rounded-full border border-gray-200"></div>
 
               {/* Custom Range Input overlay */}
               <input

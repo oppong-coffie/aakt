@@ -111,12 +111,9 @@ const Project = () => {
     : "Reality";
 
   return (
-    <div
-      className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden"
-      onClick={() => setActiveMenuIndex(null)}
-    >
+    <div className="" onClick={() => setActiveMenuIndex(null)}>
       {/* Header Area */}
-      <div className="flex justify-between items-center mb-16">
+      <div className="">
         <div className="flex items-center gap-4">
           <Link
             to={`/dashboard/bizinfra/skillset/${id}`}
@@ -128,23 +125,27 @@ const Project = () => {
             <span className="text-xs font-bold text-gray-500">
               {skillBreadcrumb}
             </span>
-            <h2 className="text-xl font-extrabold text-gray-900 border-l border-gray-300 pl-3">
+            <h2 className="text-xl font-extrabold text-gray-900 pl-3">
               Project
             </h2>
           </div>
         </div>
-        <button className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 hover:bg-gray-50 transition-colors">
-          <SearchIcon />
-        </button>
+        <div className="flex justify-end items-center mb-16">
+          <button className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 hover:bg-gray-50 transition-colors">
+            <SearchIcon />
+          </button>
+        </div>
       </div>
+      
 
       {/* Main content - Horizontal Flow */}
-      <div className="flex-1 flex items-center justify-center -mt-20 overflow-x-auto no-scrollbar pb-10">
+     
+ <div className="overflow-x-auto no-scrollbar pb-10">
         <div className="flex items-center gap-8 min-w-max px-20">
           {[1, 1, 1].map((num, i) => (
-            <div key={i} className="flex items-center gap-8">
+            <div key={i} className="flex items-center gap-8 h-[calc(100vh-400px)]">
               <div className="relative">
-                <motion.h1
+                <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 }}
@@ -152,12 +153,12 @@ const Project = () => {
                     e.stopPropagation();
                     setActiveMenuIndex(activeMenuIndex === i ? null : i);
                   }}
-                  className={`text-6xl sm:text-7xl font-bold tracking-tight whitespace-nowrap cursor-pointer px-4 py-2 rounded-2xl transition-colors
+                  className={`text-xl sm:text-4xl font-bold tracking-tight whitespace-nowrap cursor-pointer px-4 py-2 rounded-2xl transition-colors
                     ${activeMenuIndex === i ? "bg-gray-400/30 text-gray-900" : "text-gray-900 hover:bg-gray-200/50"}
                   `}
                 >
                   Project {num}
-                </motion.h1>
+                </motion.div>
                 <AnimatePresence>
                   {activeMenuIndex === i && (
                     <motion.div
@@ -221,12 +222,7 @@ const Project = () => {
           </motion.button>
         </div>
       </div>
-
-      <div className="absolute bottom-28 right-10">
-        <button className="px-8 py-2.5 bg-blue-600 text-white rounded-xl font-bold text-sm shadow-xl shadow-blue-600/20 hover:bg-blue-700 transition-all hover:scale-105 active:scale-95">
-          Go Live
-        </button>
-      </div>
+      
 
       <div className="mt-auto flex justify-center pb-6 sm:pb-10 pt-10">
         <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar max-w-full px-4 text-center">
@@ -257,6 +253,12 @@ const Project = () => {
           })}
         </div>
       </div>
+      <div className="flex justify-end mr-32">
+        <button className="px-8 py-2.5 bg-blue-600 text-white rounded-xl font-bold text-sm shadow-xl shadow-blue-600/20 hover:bg-blue-700 transition-all hover:scale-105 active:scale-95">
+          Go Live
+        </button>
+      </div>
+
     </div>
   );
 };

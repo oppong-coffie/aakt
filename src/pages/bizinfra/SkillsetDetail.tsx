@@ -99,7 +99,6 @@ const SkillsetDetail = () => {
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
-      <div className="flex justify-between items-center mb-12">
         <div className="flex items-center gap-4">
           <Link
             to="/dashboard/bizinfra/skillset"
@@ -107,17 +106,17 @@ const SkillsetDetail = () => {
           >
             <LeftArrow />
           </Link>
-          <div className="flex flex-col">
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">
+          <div className="flex items-center gap-2">
+            <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1">
               Skillset
-            </span>
-            <h2 className="text-xl font-bold text-gray-900 leading-none">
+            </div>
+            <h2 className="text-xl font-bold text-gray-900">
               {skillName}
             </h2>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex justify-end items-center gap-2">
           <button className="w-8 h-8 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 hover:bg-gray-50 transition-colors">
             <SearchIcon />
           </button>
@@ -125,7 +124,6 @@ const SkillsetDetail = () => {
             <PlusIcon />
           </button>
         </div>
-      </div>
 
       {/* Categories Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto w-full flex-1">

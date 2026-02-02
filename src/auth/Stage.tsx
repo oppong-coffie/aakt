@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 
 const stages = [
   { id: "pre-concept", label: "Pre-Concept", x: "10%", y: "85%" },
-  { id: "concept", label: "Concept", x: "30%", y: "82%" },
-  { id: "experiment", label: "Experiment", x: "50%", y: "70%" },
-  { id: "scale", label: "Scale", x: "70%", y: "50%" },
+  { id: "concept", label: "Concept", x: "30%", y: "80.60%" },
+  { id: "experiment", label: "Experiment", x: "50%", y: "67%" },
+  { id: "scale", label: "Scale", x: "70%", y: "46%" },
   { id: "maturity", label: "Maturity", x: "90%", y: "20%" },
 ];
 
@@ -24,7 +24,7 @@ const Stage = () => {
   };
 
   return (
-    <div className="bg-[#f0f0eb] h-screen px-32 pt-5">
+    <div className="bg-[#f0f0eb] h-screen md:px-32 px-0 pt-5">
       {/* Skip Button */}
       <div className="flex justify-end">
         <button
@@ -35,14 +35,14 @@ const Stage = () => {
         </button>
       </div>
 
-      <div className="mt-10 mb-10 text-center z-10">
+      <div className="md:mt-10 mt-32 mb-10 text-center z-10">
         <h2 className="text-xl font-bold text-gray-900">
           What stage would you say you're at?
         </h2>
       </div>
 
       {/* Graph Area */}
-      <div className="relative w-full h-[450px]">
+      <div className="relative md:w-full h-[300px] md:h-[450px]">
         {/* SVG Curve */}
         <svg
           className="absolute top-0 left-0 w-full h-full overflow-visible"

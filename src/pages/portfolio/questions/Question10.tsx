@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Info, Search, Plus } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface ProductMarketPair {
   id: string;
@@ -182,6 +182,7 @@ const Question10 = () => {
               }}
             >
               {/* Product */}
+              <Link to={`/dashboard/portfolio/p1/productobject1`}>
               <div
                 contentEditable
                 suppressContentEditableWarning
@@ -197,6 +198,7 @@ const Question10 = () => {
               >
                 {pair.product}
               </div>
+              </Link>
 
               {/* Arrow */}
               <svg
@@ -231,11 +233,12 @@ const Question10 = () => {
               </svg>
 
               {/* Market */}
-              <div
-                contentEditable
-                suppressContentEditableWarning
-                style={{
-                  fontSize: "32px",
+              <Link to="/dashboard/portfolio/question11">
+                <div
+                  contentEditable
+                  suppressContentEditableWarning
+                  style={{
+                    fontSize: "32px",
                   fontWeight: "600",
                   color: "#000",
                   minWidth: "150px",
@@ -246,6 +249,7 @@ const Question10 = () => {
               >
                 {pair.market}
               </div>
+              </Link>
             </div>
           ))}
         </div>

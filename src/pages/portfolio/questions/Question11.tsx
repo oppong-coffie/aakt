@@ -10,7 +10,7 @@ const Question11 = () => {
 
   const handleContinue = () => {
     // Navigate to next question or complete the flow
-    navigate("/dashboard/portfolio/question12");
+    navigate("/dashboard/portfolio/market/entity");
   };
 
   return (

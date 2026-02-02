@@ -77,6 +77,7 @@ const Feeling = () => {
         </button>
       </div>
 
+      {/* Question */}
       <div className="mt-14 mb-5 text-center z-10">
         <h2 className="text-xl font-bold text-gray-900 leading-relaxed">
           How are you feeling about your <br /> entrepreneurial journey?
@@ -115,15 +116,15 @@ const Feeling = () => {
         ></div>
       </div>
 
-      <div className="w-full max-w-xl space-y-6 z-10">
+      <div className="w-full md:w-[50vw] space-y-6 z-10">
         {feelingsList.map((item, index) => (
           <div
             key={item.left}
             className="flex items-center justify-between text-gray-800 font-medium"
           >
-            <div className="w-24 text-right">{item.left}</div>
+            <div className="md:w-24 w-16 text-right">{item.left}</div>
 
-            <div className="flex-1 mx-6 relative h-7 flex items-center">
+            <div className="flex-1 md:mx-6 mx-2 relative h-7 flex items-center">
               {/* Track */}
               <div className="w-full h-7 bg-gray-200/50 rounded-full border border-gray-200 shadow-inner"></div>
 
@@ -144,7 +145,7 @@ const Feeling = () => {
               ></div>
             </div>
 
-            <div className="w-24 text-left">{item.right}</div>
+            <div className="md:w-24 w-16 text-left">{item.right}</div>
           </div>
         ))}
       </div>

@@ -25,12 +25,7 @@ const allSkills: Skill[] = [
 ];
 
 const Skills = () => {
-  const [selectedSkills, setSelectedSkills] = useState<string[]>([
-    "engineering",
-    "branding",
-    "management",
-    "value",
-  ]);
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const navigate = useNavigate();
 
   const toggleSkill = (skillId: string) => {
@@ -64,8 +59,14 @@ const Skills = () => {
 
   const categories: Category[] = ["Product", "Strategy", "Team", "Finance"];
 
+  // Check if at least one skill is selected from each category
+  const isValidSelection = categories.every((category) => {
+    const categorySkills = skillsByCategory[category];
+    return categorySkills?.some((skill) => selectedSkills.includes(skill.id));
+  });
+
   return (
-    <div className="h-screen bg-[#f0f0eb] px-40">
+    <div className="h-screen bg-[#f0f0eb] md:px-40 px-5">
       {/* Skip Button */}
       <div className="flex justify-end pt-5">
         <button
@@ -115,7 +116,12 @@ const Skills = () => {
       <div className="flex justify-end">
         <button
           onClick={handleContinue}
-          className="px-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition"
+          disabled={!isValidSelection}
+          className={`px-3 font-semibold rounded-lg shadow-lg transition ${
+            isValidSelection
+              ? "bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
+              : "bg-[#94A6FD] cursor-not-allowed"
+          }`}
         >
           Continue
         </button>

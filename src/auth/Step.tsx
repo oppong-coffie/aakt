@@ -15,7 +15,7 @@ const Step = () => {
   };
 
   return (
-    <div className="h-screen bg-[#f0f0eb] px-40">
+    <div className="h-screen bg-[#f0f0eb] md:px-40 px-5">
       {/* Skip Button */}
       <div className="flex justify-end pt-5">
         <button

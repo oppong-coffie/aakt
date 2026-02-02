@@ -306,13 +306,18 @@ const Skilset = () => {
 
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
-      {/* Search Bar - Trigger */}
-      <div className="flex justify-between items-center mb-8">
-        <Link to="/dashboard/bizinfra">
+      <div className="flex items-center gap-2">
+          <Link to="/dashboard/bizinfra">
           <div className="p-2 hover:bg-white/50 rounded-lg transition-colors">
             <LeftArrow />
           </div>
         </Link>
+        <div className="">BizInfra</div>
+        <div className="font-bold text-xl ml-24">Skillset</div>
+      </div>
+      {/* Search Bar - Trigger */}
+      <div className="flex justify-end items-center mb-8">
+      
 
         <div className="flex items-center gap-2">
           <div

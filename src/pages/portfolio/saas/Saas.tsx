@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SearchIcon = () => (
   <svg
@@ -52,6 +53,7 @@ const LeftArrowIcon = () => (
 );
 
 const Saas = () => {
+  const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const cards = [
     { id: "dept1", label: "Department 1" },
@@ -142,6 +144,7 @@ const Saas = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
               className="flex flex-col items-center gap-4 group"
+              onClick={() => navigate("/dashboard/portfolio/saas/department")}
             >
               <div className="w-full aspect-video bg-white rounded-2xl shadow-sm border border-gray-100 transition-all group-hover:shadow-md cursor-pointer relative overflow-hidden">
                 <div className="absolute inset-0 bg-linear-to-br from-blue-50/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>

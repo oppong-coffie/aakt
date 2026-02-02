@@ -2,6 +2,24 @@ import { useState } from "react";
 import { Info } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+const LeftArrowIcon = () => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M19 12H5M5 12L12 19M5 12L12 5"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 interface Shareholder {
   id: string;
   name: string;
@@ -9,6 +27,8 @@ interface Shareholder {
   provide: string;
   want: string;
 }
+
+
 
 const Question6 = () => {
   const navigate = useNavigate();
@@ -78,6 +98,13 @@ const Question6 = () => {
         padding: "2rem",
       }}
     >
+       <button
+          onClick={() => navigate(-1)}
+          className="top-4 left-6 sm:left-12 text-gray-500 hover:text-gray-900 transition-colors"
+        >
+          <LeftArrowIcon />
+        </button>
+
       <div
         style={{
           maxWidth: "800px",
