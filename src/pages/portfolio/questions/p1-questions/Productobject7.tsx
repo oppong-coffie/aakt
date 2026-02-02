@@ -6,10 +6,6 @@ type Method = { id: string; step: StepKey; text: string };
 
 const uid = () => Math.random().toString(36).slice(2, 10);
 
-function cn(...v: Array<string | false | null | undefined>) {
-  return v.filter(Boolean).join(" ");
-}
-
 export default function ProductObjectProcessProfileWithModal() {
   const navigate = useNavigate();
 
