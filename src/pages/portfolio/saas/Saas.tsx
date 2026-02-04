@@ -72,71 +72,71 @@ const Saas = () => {
   return (
     <div className="bg-[#f0f0eb]">
       {/* Header Area */}
-      
-        <div className="flex items-center gap-4">
-          <Link
-            to="/dashboard/portfolio"
-            className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm border border-gray-100 text-blue-600 hover:bg-gray-50 transition-colors"
-          >
-            <LeftArrowIcon />
-          </Link>
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">
-              Portfolio
-            </span>
-            <h2 className="text-xl font-extrabold text-gray-900 border-l border-gray-300 pl-3 uppercase">
-              SaaS
-            </h2>
-          </div>
+
+      <div className="flex items-center gap-4">
+        <Link
+          to="/dashboard/portfolio"
+          className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm border border-gray-100 text-blue-600 hover:bg-gray-50 transition-colors"
+        >
+          <LeftArrowIcon />
+        </Link>
+        <div className="flex items-center gap-3">
+          <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">
+            Portfolio
+          </span>
+          <h2 className="text-xl font-extrabold text-gray-900 border-l border-gray-300 pl-3 uppercase">
+            SaaS
+          </h2>
         </div>
+      </div>
 
-        <div className="flex justify-end items-center gap-3 relative">
-          <button className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 hover:bg-gray-50 transition-colors">
-            <SearchIcon />
-          </button>
-          <button
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 text-blue-600 hover:bg-gray-50 transition-colors"
-          >
-            <PlusIcon />
-          </button>
+      <div className="flex justify-end items-center gap-3 relative">
+        <button className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 hover:bg-gray-50 transition-colors">
+          <SearchIcon />
+        </button>
+        <button
+          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 text-blue-600 hover:bg-gray-50 transition-colors"
+        >
+          <PlusIcon />
+        </button>
 
-          {/* Actions Dropdown */}
-          <AnimatePresence>
-            {isDropdownOpen && (
-              <>
-                <div
-                  className="fixed inset-0 z-40"
-                  onClick={() => setIsDropdownOpen(false)}
-                />
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                  className="absolute right-0 top-12 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 py-3 overflow-hidden"
-                >
-                  {dropdownItems.map((item, i) => (
-                    <button
-                      key={i}
-                      className="w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 transition-colors text-left group"
-                    >
-                      <span className="text-gray-400 group-hover:text-blue-600">
-                        <PlusIcon />
-                      </span>
-                      <span className="text-xs font-bold text-gray-700 tracking-tight">
-                        {item.label}
-                      </span>
-                    </button>
-                  ))}
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
-        </div>
+        {/* Actions Dropdown */}
+        <AnimatePresence>
+          {isDropdownOpen && (
+            <>
+              <div
+                className="fixed inset-0 z-40"
+                onClick={() => setIsDropdownOpen(false)}
+              />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                className="absolute right-0 top-12 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 py-3 overflow-hidden"
+              >
+                {dropdownItems.map((item, i) => (
+                  <button
+                    key={i}
+                    className="w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 transition-colors text-left group"
+                  >
+                    <span className="text-gray-400 group-hover:text-blue-600">
+                      <PlusIcon />
+                    </span>
+                    <span className="text-xs font-bold text-gray-700 tracking-tight">
+                      {item.label}
+                    </span>
+                  </button>
+                ))}
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+      </div>
 
-{/* Cards */}
+      {/* Cards */}
       <div className="flex h-[calc(100vh-100px)] items-center justify-center">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full">
+        <div className="flex flex-wrap justify-center gap-8 max-w-6xl w-full">
           {cards.map((card, i) => (
             <motion.div
               key={card.id}
@@ -146,7 +146,7 @@ const Saas = () => {
               className="flex flex-col items-center gap-4 group"
               onClick={() => navigate("/dashboard/portfolio/saas/department")}
             >
-              <div className="w-full aspect-video bg-white rounded-2xl shadow-sm border border-gray-100 transition-all group-hover:shadow-md cursor-pointer relative overflow-hidden">
+              <div className="w-64 h-40 bg-white rounded-2xl shadow-sm border border-gray-100 transition-all group-hover:shadow-md cursor-pointer relative overflow-hidden">
                 <div className="absolute inset-0 bg-linear-to-br from-blue-50/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </div>
               <span className="text-sm font-black text-gray-900 tracking-tight uppercase">

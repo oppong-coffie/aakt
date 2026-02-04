@@ -81,7 +81,9 @@ export default function Marketing() {
             <BackIcon />
           </button>
 
-          <div className="text-sm font-semibold text-gray-900">Department 2</div>
+          <div className="text-sm font-semibold text-gray-900">
+            Department 2
+          </div>
           <div className="text-sm font-semibold text-gray-900">Marketing</div>
         </div>
 
@@ -108,12 +110,8 @@ export default function Marketing() {
       <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-6">
         <div className="flex gap-10">
           {cards.map((c) => (
-            <button
-              key={c.id}
-              type="button"
-              className="group"
-            >
-              <div className="h-[86px] w-[120px] rounded-md border border-gray-300 bg-white shadow-sm transition group-hover:shadow-md" />
+            <button key={c.id} type="button" className="group">
+              <div className="w-64 h-40 rounded-md border border-gray-300 bg-white shadow-sm transition group-hover:shadow-md" />
               <div className="mt-2 text-[11px] font-semibold text-gray-900 text-center">
                 {c.title}
               </div>

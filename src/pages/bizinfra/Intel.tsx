@@ -93,7 +93,6 @@ const categories = [
 const Intel = () => {
   const { id } = useParams();
 
-
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isAddDropdownOpen, setIsAddDropdownOpen] = useState(false);
 
@@ -287,11 +286,11 @@ const Intel = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto w-full flex-1">
+      <div className="flex flex-wrap justify-center gap-8 max-w-7xl mx-auto w-full flex-1">
         {categories.map((cat) => {
           const content = (
             <>
-              <div className="w-full aspect-video bg-white rounded-2xl shadow-sm border border-gray-100 mb-4 group-hover:shadow-md transition-shadow"></div>
+              <div className="w-64 h-40 bg-white rounded-2xl shadow-sm border border-gray-100 mb-4 group-hover:shadow-md transition-shadow"></div>
               <h3 className="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
                 {cat.label}
               </h3>

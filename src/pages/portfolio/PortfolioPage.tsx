@@ -148,7 +148,7 @@ const PortfolioPage = () => {
       <div className="flex items-start gap-8">
         {cards.map((card, index) => (
           <div key={index} className="flex flex-col items-center gap-3 w-64">
-            <div className="w-full aspect-4/3 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer"></div>
+            <div className="w-64 h-40 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer"></div>
             <span className="text-gray-800 font-medium">{card.title}</span>
           </div>
         ))}

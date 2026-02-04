@@ -159,7 +159,7 @@ export default function Department2() {
               onClick={() => navigate(c.to)}
               className="group"
             >
-              <div className="h-[86px] w-[120px] rounded-md border border-gray-300 bg-white shadow-sm transition group-hover:shadow-md" />
+              <div className="w-64 h-40 rounded-md border border-gray-300 bg-white shadow-sm transition group-hover:shadow-md" />
               <div className="mt-2 text-[11px] font-semibold text-gray-900 text-center">
                 {c.title}
               </div>

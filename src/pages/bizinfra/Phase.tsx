@@ -156,8 +156,7 @@ export default function Phase() {
               onClick={() => navigate(p.to)}
               className="group"
             >
-              <div className="relative h-[100px] w-[140px] rounded-2xl border border-gray-200 bg-white shadow-sm transition-all group-hover:shadow-lg group-hover:-translate-y-1 overflow-hidden flex items-center justify-center">
-              </div>
+              <div className="relative w-64 h-40 rounded-2xl border border-gray-200 bg-white shadow-sm transition-all group-hover:shadow-lg group-hover:-translate-y-1 overflow-hidden flex items-center justify-center"></div>
               <div className="mt-3 text-[12px] font-bold text-gray-800 text-center group-hover:text-blue-600 transition-colors">
                 {p.type}
               </div>

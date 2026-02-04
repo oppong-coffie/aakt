@@ -47,11 +47,15 @@ type Card = {
 };
 
 const cards: Card[] = [
-  { id: "sales-pdf", title: "Sales pdf", to: `/dashboard/portfolio/saas/department/block` },
+  {
+    id: "sales-pdf",
+    title: "Sales pdf",
+    to: `/dashboard/portfolio/saas/department/block`,
+  },
   {
     id: "sales-operation",
     title: "Sales Operation",
-    to: `/dashboard/portfolio/saas/department/block`
+    to: `/dashboard/portfolio/saas/department/block`,
   },
   {
     id: "brand-identity",
@@ -61,7 +65,7 @@ const cards: Card[] = [
 ];
 
 export default function Sales() {
-    const { id } = useParams();
+  const { id } = useParams();
   const skillName = id
     ? id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " ")
     : "Skillset";
@@ -81,7 +85,9 @@ export default function Sales() {
             <BackIcon />
           </button>
 
-          <div className="text-sm font-semibold text-gray-900">Department 2</div>
+          <div className="text-sm font-semibold text-gray-900">
+            Department 2
+          </div>
           <div className="text-sm font-semibold text-gray-900">{skillName}</div>
         </div>
 
@@ -114,7 +120,7 @@ export default function Sales() {
               onClick={() => navigate(c.to)}
               className="group"
             >
-              <div className="h-[86px] w-[120px] rounded-md border border-gray-300 bg-white shadow-sm transition group-hover:shadow-md" />
+              <div className="w-64 h-40 rounded-md border border-gray-300 bg-white shadow-sm transition group-hover:shadow-md" />
               <div className="mt-2 text-[11px] font-semibold text-gray-900 text-center">
                 {c.title}
               </div>
