@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 // Icons (Simple SVGs)
 const HomeIcon = () => (
@@ -65,6 +66,37 @@ const CloseIcon = () => (
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
+
+
+ useEffect(() => {
+  const initBotpress = () => {
+    if (!window.botpressWebChat) return;
+
+    window.botpressWebChat.init({
+      botId: "YOUR_BOT_ID",
+      clientId: "YOUR_CLIENT_ID",
+      hostUrl: "https://cdn.botpress.cloud/webchat/v1",
+      messagingUrl: "https://messaging.botpress.cloud",
+      lazySocket: true,
+      showPoweredBy: false,
+    });
+  };
+
+  // try immediately
+  initBotpress();
+
+  // fallback: in case script loads after component mounts
+  const interval = setInterval(() => {
+    if (window.botpressWebChat) {
+      initBotpress();
+      clearInterval(interval);
+    }
+  }, 300);
+
+  return () => clearInterval(interval);
+}, []);
+
+
 
   return (
     <div className="flex h-screen bg-[#f0f0eb] font-sans text-gray-800">
@@ -222,6 +254,8 @@ const Dashboard = () => {
           <Outlet />
         </div>
       </main>
+   
+
     </div>
   );
 };

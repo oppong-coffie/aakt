@@ -52,7 +52,6 @@ const LeftArrow = () => (
 
 const categories = [
   { id: "project", label: "Project" },
-  { id: "phase", label: "Phase" },
   { id: "process", label: "Process" },
   { id: "block", label: "Block" },
 ];
@@ -149,17 +148,6 @@ const SkillsetDetail = () => {
             );
           }
 
-          if (cat.id === "phase") {
-            return (
-              <Link
-                key={cat.id}
-                to={`/dashboard/bizinfra/skillset/${id}/phases`}
-                className="flex flex-col items-center group"
-              >
-                {content}
-              </Link>
-            );
-          }
 
           if (cat.id === "process") {
             return (

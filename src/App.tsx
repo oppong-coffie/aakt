@@ -24,7 +24,7 @@ import Capital from "./pages/bizinfra/Capital";
 import Intel from "./pages/bizinfra/Intel";
 import Reach from "./pages/bizinfra/Reach";
 import SkillsetDetail from "./pages/bizinfra/SkillsetDetail";
-import Phases from "./pages/bizinfra/Phases";
+import Phase from "./pages/bizinfra/Phase";
 import Project from "./pages/bizinfra/Project";
 import Process from "./pages/bizinfra/Process";
 import Block from "./pages/bizinfra/Block";
@@ -106,7 +106,6 @@ const App = () => {
             <Route index element={<Firstpage />} />
             <Route path="skillset" element={<Skilset />} />
             <Route path="skillset/:id" element={<SkillsetDetail />} />
-            <Route path="skillset/:id/phases" element={<Phases />} />
             <Route path="skillset/:id/project" element={<Project />} />
             <Route path="skillset/:id/process" element={<Process />} />
             <Route path="skillset/:id/block" element={<Block />} />
@@ -114,6 +113,8 @@ const App = () => {
             <Route path="capital" element={<Capital />} />
             <Route path="intel" element={<Intel />} />
             <Route path="reach" element={<Reach />} />
+            <Route path="phase" element={<Phase />} />
+
           </Route>
 
           <Route path="portfolio" element={<PortfolioMain />}>

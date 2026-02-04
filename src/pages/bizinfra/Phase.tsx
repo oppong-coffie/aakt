@@ -42,31 +42,29 @@ const PlusIcon = () => (
   </svg>
 );
 
-type Card = {
+type PhaseCard = {
   id: string;
-  title: string;
+  type: "process" | "block";
   to: string;
+  color: string;
 };
 
-const cards: Card[] = [
+const phases: PhaseCard[] = [
   {
-    id: "sales",
-    title: "Sales",
-    to: "/dashboard/portfolio/saas/department/sales",
+    id: "discovery",
+    type: "process",
+    to: "/dashboard/bizinfra/skillset/process/process",
+    color: "bg-blue-500",
   },
   {
-    id: "marketing",
-    title: "Marketing",
-    to: "/dashboard/portfolio/saas/department/marketing",
-  },
-  {
-    id: "product",
-    title: "Product",
-    to: "/dashboard/portfolio/saas/department/product",
+    id: "technical-spec",
+    type: "block",
+    to: "/dashboard/bizinfra/skillset/block/block",
+    color: "bg-purple-500",
   },
 ];
 
-export default function Department2() {
+export default function Phase() {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -84,9 +82,12 @@ export default function Department2() {
             <BackIcon />
           </button>
 
-          <div className="text-sm font-semibold text-gray-900">SaaS</div>
-          <div className="text-sm font-semibold text-gray-900">
-            Department 2
+          <div className="flex items-center gap-2 text-sm font-semibold text-gray-400">
+            <span>SaaS</span>
+            <span>/</span>
+            <span>Department</span>
+            <span>/</span>
+            <span className="text-gray-900">Phase</span>
           </div>
         </div>
 
@@ -123,9 +124,6 @@ export default function Department2() {
                     className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 overflow-hidden"
                   >
                     {[
-                      { id: "department", label: "Department" },
-                      { id: "operation", label: "Operation" },
-                      { id: "project", label: "Project" },
                       { id: "process", label: "Process" },
                       { id: "block", label: "Block" },
                     ].map((option) => (
@@ -133,7 +131,6 @@ export default function Department2() {
                         key={option.id}
                         onClick={() => {
                           setIsDropdownOpen(false);
-                          // Add navigation or modal logic here if needed
                         }}
                         className="w-full text-left px-4 py-3 text-xs font-bold text-gray-600 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-3"
                       >
@@ -149,19 +146,20 @@ export default function Department2() {
         </div>
       </div>
 
-      {/* Center cards */}
+      {/* Center content */}
       <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-6">
         <div className="flex gap-10">
-          {cards.map((c) => (
+          {phases.map((p) => (
             <button
-              key={c.id}
+              key={p.id}
               type="button"
-              onClick={() => navigate(c.to)}
+              onClick={() => navigate(p.to)}
               className="group"
             >
-              <div className="h-[86px] w-[120px] rounded-md border border-gray-300 bg-white shadow-sm transition group-hover:shadow-md" />
-              <div className="mt-2 text-[11px] font-semibold text-gray-900 text-center">
-                {c.title}
+              <div className="relative h-[100px] w-[140px] rounded-2xl border border-gray-200 bg-white shadow-sm transition-all group-hover:shadow-lg group-hover:-translate-y-1 overflow-hidden flex items-center justify-center">
+              </div>
+              <div className="mt-3 text-[12px] font-bold text-gray-800 text-center group-hover:text-blue-600 transition-colors">
+                {p.type}
               </div>
             </button>
           ))}

@@ -136,28 +136,27 @@ const Project = () => {
           </button>
         </div>
       </div>
-      
 
       {/* Main content - Horizontal Flow */}
-     
- <div className="overflow-x-auto no-scrollbar pb-10">
+
+      <div className="overflow-x-auto no-scrollbar pb-10">
         <div className="flex items-center gap-8 min-w-max px-20">
           {[1, 1, 1].map((num, i) => (
-            <div key={i} className="flex items-center gap-8 h-[calc(100vh-400px)]">
+            <div
+              key={i}
+              className="flex items-center gap-8 h-[calc(100vh-250px)]"
+            >
               <div className="relative">
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.1 }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setActiveMenuIndex(activeMenuIndex === i ? null : i);
-                  }}
+                  onMouseEnter={() => setActiveMenuIndex(i)}
                   className={`text-xl sm:text-4xl font-bold tracking-tight whitespace-nowrap cursor-pointer px-4 py-2 rounded-2xl transition-colors
                     ${activeMenuIndex === i ? "bg-gray-400/30 text-gray-900" : "text-gray-900 hover:bg-gray-200/50"}
                   `}
                 >
-                  Project {num}
+                  <Link to="/dashboard/bizinfra/phase">Phase {num}</Link>
                 </motion.div>
                 <AnimatePresence>
                   {activeMenuIndex === i && (
@@ -222,43 +221,12 @@ const Project = () => {
           </motion.button>
         </div>
       </div>
-      
 
-      <div className="mt-auto flex justify-center pb-6 sm:pb-10 pt-10">
-        <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar max-w-full px-4 text-center">
-          {navItems.map((item) => {
-            const isSelected = item.id === "Skillset";
-            return (
-              <Link
-                key={item.id}
-                to={item.path}
-                className="flex flex-col items-center gap-2 group shrink-0"
-              >
-                <div
-                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
-                  ${isSelected ? "bg-blue-600/10 border-2 border-blue-600 ring-4 ring-blue-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
-                `}
-                >
-                  <div
-                    className={`w-3/5 h-3/5 rounded-lg bg-linear-to-br ${item.gradient} rotate-12`}
-                  ></div>
-                </div>
-                <span
-                  className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}
-                >
-                  {item.label}
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
       <div className="flex justify-end mr-32">
         <button className="px-8 py-2.5 bg-blue-600 text-white rounded-xl font-bold text-sm shadow-xl shadow-blue-600/20 hover:bg-blue-700 transition-all hover:scale-105 active:scale-95">
           Go Live
         </button>
       </div>
-
     </div>
   );
 };

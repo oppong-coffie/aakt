@@ -1,39 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-
-const SearchIcon = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="text-blue-600"
-  >
-    <circle cx="11" cy="11" r="8"></circle>
-    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-  </svg>
-);
-
-const PlusIcon = () => (
-  <svg
-    width="18"
-    height="18"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="3"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <line x1="12" y1="5" x2="12" y2="19"></line>
-    <line x1="5" y1="12" x2="19" y2="12"></line>
-  </svg>
-);
 
 const LeftArrowIcon = () => (
   <svg
@@ -86,142 +51,92 @@ const navItems = [
 
 const Block = () => {
   const { id } = useParams();
-  const [hoveredBlock, setHoveredBlock] = useState<number | null>(null);
-  const [hoveredPerson, setHoveredPerson] = useState<string | null>(null);
 
   const skillBreadcrumb = id
     ? id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " ")
     : "Sales Pdt";
 
-  const people = [
-    { name: "Adam fatal", seed: "Adam" },
-    { name: "Aneka", seed: "Aneka" },
-    { name: "Jace", seed: "Jace" },
-  ];
-
   return (
-    <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
-      {/* Header Area */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-4">
-          <Link
-            to={`/dashboard/bizinfra/skillset/${id}`}
-            className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm border border-gray-100 text-blue-600 hover:bg-gray-50 transition-colors"
-          >
-            <LeftArrowIcon />
-          </Link>
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-bold text-gray-500">
-              {skillBreadcrumb}
-            </span>
-            <h2 className="text-xl font-extrabold text-gray-900 border-l border-gray-300 pl-3">
-              Blocks
-            </h2>
-          </div>
-        </div>
-        <button className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 hover:bg-gray-50 transition-colors">
-          <SearchIcon />
-        </button>
-      </div>
-
-      <div className="flex flex-1 gap-6">
-        {/* Left Sidebar */}
-        <div className="w-16 flex flex-col gap-8 py-4 z-50 overflow-visible">
-          <div className="flex flex-col items-center gap-3">
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
-              Blocks
-            </span>
-            {[1, 2, 3, 4, 5, 6, 7].map((i) => (
-              <div
-                key={i}
-                className="relative group flex items-center"
-                onMouseEnter={() => setHoveredBlock(i)}
-                onMouseLeave={() => setHoveredBlock(null)}
-              >
-                <div className="w-10 h-10 bg-gray-300 rounded-lg shrink-0 cursor-pointer hover:bg-gray-400 transition-colors"></div>
-                <AnimatePresence>
-                  {hoveredBlock === i && (
-                    <motion.div
-                      initial={{ opacity: 0, x: -5 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -5 }}
-                      className="absolute left-14 flex items-center gap-0 z-100 pointer-events-none"
-                    >
-                      <div className="w-10 h-10 bg-white rounded-xl shadow-lg border border-gray-100 flex items-center justify-center relative translate-x-1">
-                        <div className="w-4 h-4 bg-white rotate-45 absolute -left-1.5 border-l border-b border-gray-100"></div>
-                        <div className="w-6 h-6 bg-gray-300 rounded-md"></div>
-                      </div>
-                      <div className="bg-white px-3 py-2.5 rounded-xl shadow-lg border border-gray-100 ml-1.5 whitespace-nowrap">
-                        <span className="text-xs font-bold text-gray-700">
-                          Stage {i}
-                        </span>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
-            <button className="w-10 h-10 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center text-blue-600 hover:bg-white transition-colors shrink-0">
-              <PlusIcon />
-            </button>
-          </div>
-
-          <div className="flex flex-col items-center gap-3 mt-auto">
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
-              People
-            </span>
-            {people.map((person) => (
-              <div
-                key={person.name}
-                className="relative group flex items-center"
-                onMouseEnter={() => setHoveredPerson(person.name)}
-                onMouseLeave={() => setHoveredPerson(null)}
-              >
-                <img
-                  src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${person.seed}`}
-                  className="w-9 h-9 rounded-full border-2 border-white shadow-sm object-cover cursor-pointer hover:scale-105 transition-transform shrink-0"
-                />
-                <AnimatePresence>
-                  {hoveredPerson === person.name && (
-                    <motion.div
-                      initial={{ opacity: 0, x: -5 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -5 }}
-                      className="absolute left-12 flex items-center gap-0 z-100 pointer-events-none"
-                    >
-                      <div className="w-9 h-9 bg-white rounded-full shadow-lg border border-gray-100 flex items-center justify-center relative translate-x-1">
-                        <div className="w-3 h-3 bg-white rotate-45 absolute -left-1 border-l border-b border-gray-100"></div>
-                        <img
-                          src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${person.seed}`}
-                          className="w-6 h-6 rounded-full"
-                        />
-                      </div>
-                      <div className="bg-white px-3 py-2 rounded-xl shadow-lg border border-gray-100 ml-1.5 whitespace-nowrap">
-                        <span className="text-xs font-bold text-gray-700">
-                          {person.name}
-                        </span>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
-            <button className="text-[9px] font-bold text-blue-600 hover:underline whitespace-nowrap">
-              View More
-            </button>
-          </div>
+    <div className="min-h-full bg-[#dcdcdc] p-4 sm:p-10 flex flex-col items-center">
+      {/* The Notepad Paper */}
+      <div className="w-full max-w-2xl bg-[#fffdf0] shadow-2xl rounded-sm relative min-h-[85vh] flex flex-col">
+        {/* Spiral Binder (Left Side) */}
+        <div className="absolute -left-3 top-8 bottom-8 flex flex-col justify-around z-20">
+          {[...Array(15)].map((_, i) => (
+            <div key={i} className="flex items-center gap-1">
+              <div className="w-6 h-3 bg-gradient-to-r from-gray-400 to-gray-200 rounded-full shadow-inner border border-gray-500"></div>
+              <div className="w-2 h-2 bg-gray-300 rounded-full shadow-sm"></div>
+            </div>
+          ))}
         </div>
 
-        {/* Main Content Area */}
-        <div className="flex-1 bg-white rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden flex flex-col">
-          <div className="p-8">
-            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
-              Block
-            </h1>
+        {/* Vertical Margin Line */}
+        <div className="absolute left-14 top-0 bottom-0 w-[2px] bg-red-200/60 z-10"></div>
+
+        {/* Horizontal Lines (Background Pattern) */}
+        <div
+          className="absolute inset-0 pointer-events-none z-0"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(transparent, transparent 31px, #e2e8f0 31px, #e2e8f0 32px)",
+            backgroundSize: "100% 32px",
+            marginTop: "64px",
+          }}
+        ></div>
+
+        {/* Content Area */}
+        <div className="relative z-10 flex-1 flex flex-col pt-16 px-16 sm:pl-24 sm:pr-12">
+          {/* Header/Breadcrumbs */}
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-4">
+              <Link
+                to={`/dashboard/bizinfra/skillset/${id}`}
+                className="text-blue-500 hover:text-blue-700 transition-colors"
+                title="Go Back"
+              >
+                <LeftArrowIcon />
+              </Link>
+              <div className="flex flex-col">
+                <span className="text-[10px] uppercase font-bold text-gray-400 tracking-widest">
+                  {skillBreadcrumb}
+                </span>
+                <h1 className="text-4xl font-extrabold text-[#2d3436] font-serif leading-none italic">
+                  Blocks
+                </h1>
+              </div>
+            </div>
           </div>
-          <div className="flex-1"></div>
-          <div className="flex justify-center pb-10">
-            <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar max-w-full px-4 text-center">
+
+          {/* Main Body */}
+          <div className="flex-1 space-y-8 mt-12">
+            <div className="max-w-prose">
+              <h2 className="text-2xl font-bold mb-4 text-[#34495e]">
+                WAITING FOR INTEGRATIONS for Blocks
+              </h2>
+              <p className="text-lg leading-[32px] text-[#2c3e50] font-medium italic">
+                Infrastructure blocks are the fundamental units of our business
+                ecosystem. They represent modular capabilities that can be
+                combined to form complex solutions.
+              </p>
+              <div className="mt-8">
+                <ul className="space-y-[32px] list-disc list-inside text-lg text-[#2c3e50] italic">
+                  <li>Scalable architecture nodes</li>
+                  <li>Distributed latency handlers</li>
+                  <li>State persistence layers</li>
+                  <li>Security validation protocols</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Footer Navigation (Integrated into the notepad) */}
+          <div className="pt-12 pb-16">
+            <div className="border-t-2 border-dashed border-gray-200 pt-8 mb-4">
+              <span className="text-xs font-bold text-gray-400 uppercase tracking-tighter">
+                Related Modules
+              </span>
+            </div>
+            <div className="flex items-center gap-4 sm:gap-8 overflow-x-auto no-scrollbar py-2">
               {navItems.map((item) => {
                 const isSelected = item.id === "Skillset";
                 return (
@@ -231,8 +146,8 @@ const Block = () => {
                     className="flex flex-col items-center gap-2 group shrink-0"
                   >
                     <div
-                      className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
-                      ${isSelected ? "bg-blue-600/10 border-2 border-blue-600 ring-4 ring-blue-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
+                      className={`w-12 h-12 rounded-xl flex items-center justify-center relative transition-all duration-300
+                      ${isSelected ? "bg-white shadow-xl ring-2 ring-blue-500 scale-110" : "bg-white border border-gray-200 hover:shadow-md hover:-translate-y-1"}
                     `}
                     >
                       <div
@@ -240,7 +155,7 @@ const Block = () => {
                       ></div>
                     </div>
                     <span
-                      className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}
+                      className={`text-[10px] font-bold ${isSelected ? "text-blue-600 underline underline-offset-4" : "text-gray-400 group-hover:text-gray-600"}`}
                     >
                       {item.label}
                     </span>
@@ -250,7 +165,13 @@ const Block = () => {
             </div>
           </div>
         </div>
+
+        {/* Paper Texture Overlay */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] rounded-sm"></div>
       </div>
+
+      {/* Page Turn Effect (optional bottom corner) */}
+      <div className="w-full max-w-2xl h-2 bg-[#ccc] rounded-b-lg shadow-inner mt-[-4px]"></div>
     </div>
   );
 };

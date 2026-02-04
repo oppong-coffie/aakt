@@ -147,12 +147,7 @@ const MainHomepage = () => {
         <Outlet />
       </main>
 
-      {/* Floating Action Button */}
-      <div className="fixed bottom-24 sm:bottom-32 right-6 sm:right-10 z-40">
-        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-linear-to-tr from-blue-600 to-teal-400 shadow-lg flex items-center justify-center cursor-pointer hover:shadow-xl transition-transform hover:scale-105">
-          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-linear-to-b from-teal-300 to-blue-500 opacity-80 blur-sm"></div>
-        </div>
-      </div>
+     
 
       <SearchModal
         isOpen={isSearchOpen}

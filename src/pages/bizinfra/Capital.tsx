@@ -55,6 +55,24 @@ const ListViewIcon = () => (
   </svg>
 );
 
+const CardViewIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect width="7" height="7" x="3" y="3" rx="1" />
+    <rect width="7" height="7" x="14" y="3" rx="1" />
+    <rect width="7" height="7" x="14" y="14" rx="1" />
+    <rect width="7" height="7" x="3" y="14" rx="1" />
+  </svg>
+);
+
 const navItems = [
   {
     id: "Skillset",
@@ -90,53 +108,95 @@ const navItems = [
 
 const capitalSources = [
   {
+    id: 1,
     source: "eBay",
     amount: "$767.50",
     status: "Warm",
     statusColor: "text-yellow-600",
+    type: "Corporate Venture",
+    location: "San Jose, CA",
+    thesis:
+      "Strategic investments in e-commerce infrastructure and fintech sectors.",
+    notes:
+      "Follow up scheduled for next quarter. Interested in scalable logistics solutions.",
   },
   {
+    id: 2,
     source: "Sony",
     amount: "$779.58",
     status: "Committed",
     statusColor: "text-green-600",
+    type: "Venture Capital",
+    location: "Tokyo, JP",
+    thesis: "Entertainment, gaming, and consumer electronics innovation.",
+    notes:
+      "Highly interested in interactive digital content and hardware synergies.",
   },
   {
+    id: 3,
     source: "Mitsubishi",
     amount: "$219.78",
     status: "Warm",
     statusColor: "text-yellow-600",
+    type: "Investment Bank",
+    location: "Tokyo, JP",
+    thesis: "Global industrial and technology expansion support.",
+    notes: "Exploring debt-equity mix for infrastructure projects.",
   },
   {
+    id: 4,
     source: "MasterCard",
     amount: "$782.01",
     status: "Committed",
     statusColor: "text-green-600",
+    type: "Corporate VC",
+    location: "New York, NY",
+    thesis: "Digital payments, security, and financial inclusion technologies.",
+    notes:
+      "Confirmed participation in Series B round. Strategic partnership pending.",
   },
   {
+    id: 5,
     source: "McDonald's",
     amount: "$589.99",
     status: "Committed",
     statusColor: "text-green-600",
+    type: "Strategic Partner",
+    location: "Chicago, IL",
+    thesis: "Restaurant tech, logistics, and supply chain efficiency.",
+    notes: "Focusing on automation and delivery experience improvements.",
   },
   {
+    id: 6,
     source: "L'Oréal",
     amount: "$710.68",
     status: "Pitched",
     statusColor: "text-blue-500",
+    type: "Brand Fund",
+    location: "Paris, FR",
+    thesis:
+      "Beauty tech, AI-driven personalization, and sustainable materials.",
+    notes: "Initial pitch went well. Moving to technical due diligence.",
   },
   {
+    id: 7,
     source: "Bank of America",
     amount: "$450.54",
     status: "Committed",
     statusColor: "text-green-600",
+    type: "Institutional Parent",
+    location: "Charlotte, NC",
+    thesis: "Fintech, cybersecurity, and ESG-focused investments.",
+    notes: "Strong support for the green energy transition portfolio.",
   },
 ];
 
 const Capital = () => {
+  const [viewMode, setViewMode] = useState<"list" | "card">("list");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isCreateCampaignModalOpen, setIsCreateCampaignModalOpen] =
     useState(false);
+  const [selectedSource, setSelectedSource] = useState<any | null>(null);
 
   // Add Source Modal
   const AddCapitalModal = () => (
@@ -361,6 +421,119 @@ const Capital = () => {
     </AnimatePresence>
   );
 
+  // Source Details Modal
+  const SourceDetailsModal = () => (
+    <AnimatePresence>
+      {selectedSource && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-black/60 backdrop-blur-md"
+            onClick={() => setSelectedSource(null)}
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 30 }}
+            className="bg-white w-full max-w-md rounded-[3rem] shadow-2xl relative z-100 overflow-hidden"
+          >
+            {/* Modal Header/Art */}
+            <div className="h-32 bg-linear-to-br from-yellow-500 to-yellow-300 relative">
+              <button
+                onClick={() => setSelectedSource(null)}
+                className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center bg-white/20 backdrop-blur-lg rounded-full text-white hover:bg-white/30 transition-colors"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="px-10 pb-10 -mt-10">
+              <div className="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100 mb-8 flex flex-col items-center">
+                <div className="w-24 h-24 bg-gray-100 rounded-2xl flex items-center justify-center mb-4">
+                  <span className="text-3xl font-black text-yellow-600">
+                    {selectedSource.source[0]}
+                  </span>
+                </div>
+                <h3 className="text-2xl font-black text-gray-900 text-center">
+                  {selectedSource.source}
+                </h3>
+                <p className="text-xs font-bold text-gray-400 mt-1 uppercase tracking-widest">
+                  {selectedSource.type}
+                </p>
+                <div className="mt-4 px-4 py-1.5 bg-gray-50 rounded-full">
+                  <span
+                    className={`text-[10px] font-black uppercase tracking-widest ${selectedSource.statusColor}`}
+                  >
+                    {selectedSource.status}
+                  </span>
+                </div>
+              </div>
+
+              <div className="space-y-8 mb-10">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-gray-50/50 p-4 rounded-2xl">
+                    <span className="text-[10px] font-bold text-gray-400 uppercase block mb-1">
+                      Check Size
+                    </span>
+                    <span className="text-lg font-black text-blue-600">
+                      {selectedSource.amount}
+                    </span>
+                  </div>
+                  <div className="bg-gray-50/50 p-4 rounded-2xl">
+                    <span className="text-[10px] font-bold text-gray-400 uppercase block mb-1">
+                      Geography
+                    </span>
+                    <span className="text-xs font-bold text-gray-900">
+                      {selectedSource.location}
+                    </span>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">
+                    Investment Thesis
+                  </h4>
+                  <p className="text-xs text-gray-600 leading-relaxed font-medium">
+                    {selectedSource.thesis}
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">
+                    Notes
+                  </h4>
+                  <p className="text-xs text-gray-600 leading-relaxed font-medium">
+                    {selectedSource.notes}
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setSelectedSource(null)}
+                className="w-full py-5 bg-gray-900 text-white rounded-[2rem] font-bold hover:bg-gray-800 transition-colors mb-4"
+              >
+                Close Details
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
@@ -377,7 +550,7 @@ const Capital = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100">
+          <button className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 transition-colors hover:bg-gray-50">
             <SearchIcon />
           </button>
           <button
@@ -386,8 +559,19 @@ const Capital = () => {
           >
             <PlusIcon />
           </button>
-          <button className="px-4 py-2 bg-white rounded-xl flex items-center gap-2 shadow-sm border border-gray-100 text-xs font-bold text-gray-700">
-            <ListViewIcon /> List view
+          <button
+            onClick={() => setViewMode(viewMode === "list" ? "card" : "list")}
+            className="px-4 py-2 bg-white rounded-xl flex items-center gap-2 shadow-sm border border-gray-100 text-xs font-bold text-gray-700 transition-colors hover:bg-gray-50"
+          >
+            {viewMode === "list" ? (
+              <>
+                <CardViewIcon /> Card view
+              </>
+            ) : (
+              <>
+                <ListViewIcon /> List view
+              </>
+            )}
           </button>
         </div>
       </div>
@@ -397,31 +581,102 @@ const Capital = () => {
           <h3 className="text-xl font-bold text-gray-900 mb-6">
             Capital Sources
           </h3>
-          <div className="bg-white/50 rounded-[2.5rem] p-4 border border-gray-200/50">
-            <div className="grid grid-cols-3 px-8 py-4 text-[10px] font-extrabold text-gray-400 uppercase tracking-widest border-b border-gray-100/50">
-              <span>Source</span>
-              <span>Amount</span>
-              <span>Status</span>
-            </div>
-            <div className="space-y-1 mt-2">
-              {capitalSources.map((item, i) => (
-                <div
-                  key={i}
-                  className="grid grid-cols-3 px-8 py-4 hover:bg-white rounded-2xl transition-colors cursor-pointer group"
-                >
-                  <span className="text-sm font-bold text-gray-600 group-hover:text-gray-900">
-                    {item.source}
-                  </span>
-                  <span className="text-sm font-bold text-gray-600">
-                    {item.amount}
-                  </span>
-                  <span className={`text-sm font-bold ${item.statusColor}`}>
-                    {item.status}
-                  </span>
+          <AnimatePresence mode="wait">
+            {viewMode === "list" ? (
+              <motion.div
+                key="list"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="bg-white/50 rounded-[2.5rem] p-4 border border-gray-200/50"
+              >
+                <div className="grid grid-cols-3 px-8 py-4 text-[10px] font-extrabold text-gray-400 uppercase tracking-widest border-b border-gray-100/50">
+                  <span>Source</span>
+                  <span>Amount</span>
+                  <span>Status</span>
                 </div>
-              ))}
-            </div>
-          </div>
+                <div className="space-y-1 mt-2">
+                  {capitalSources.map((item, i) => (
+                    <div
+                      key={i}
+                      onClick={() => setSelectedSource(item)}
+                      className="grid grid-cols-3 px-8 py-4 hover:bg-white rounded-2xl transition-colors cursor-pointer group"
+                    >
+                      <span className="text-sm font-bold text-gray-600 group-hover:text-gray-900">
+                        {item.source}
+                      </span>
+                      <span className="text-sm font-bold text-gray-600">
+                        {item.amount}
+                      </span>
+                      <span className={`text-sm font-bold ${item.statusColor}`}>
+                        {item.status}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="card"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+              >
+                {capitalSources.map((item, i) => (
+                  <div
+                    key={i}
+                    onClick={() => setSelectedSource(item)}
+                    className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 hover:shadow-md transition-shadow group cursor-pointer relative overflow-hidden"
+                  >
+                    <div className="absolute top-0 right-0 p-4">
+                      <div
+                        className={`w-2 h-2 rounded-full ${item.statusColor.replace("text-", "bg-")}`}
+                      ></div>
+                    </div>
+                    <div className="space-y-4">
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
+                          Source
+                        </span>
+                        <h4 className="text-lg font-bold text-gray-900 leading-tight">
+                          {item.source}
+                        </h4>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
+                          Amount
+                        </span>
+                        <span className="text-2xl font-black text-blue-600 tracking-tight">
+                          {item.amount}
+                        </span>
+                      </div>
+                      <div className="pt-2 border-t border-gray-50 flex items-center justify-between">
+                        <span
+                          className={`text-[10px] font-black uppercase tracking-widest ${item.statusColor}`}
+                        >
+                          {item.status}
+                        </span>
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="text-gray-300 group-hover:text-blue-600 transition-colors"
+                        >
+                          <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </section>
 
         <section>
@@ -461,9 +716,11 @@ const Capital = () => {
                       <span className="text-green-600">Live</span>
                     </div>
                   </div>
-                  <button className="w-full py-3 bg-blue-600 text-white rounded-2xl font-bold text-sm hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20">
-                    Explore
-                  </button>
+                  <Link to="/dashboard/bizinfra/skillset/project/project">
+                    <button className="w-full py-3 bg-blue-600 text-white rounded-2xl font-bold text-sm hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20">
+                      Explore
+                    </button>
+                  </Link>
                 </div>
               </div>
             ))}
@@ -473,6 +730,7 @@ const Capital = () => {
 
       <AddCapitalModal />
       <CreateCampaignModal />
+      <SourceDetailsModal />
 
       <div className="mt-auto flex justify-center pb-6 pt-10">
         <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar max-w-full px-4 text-center">
