@@ -61,6 +61,7 @@ const PlusIcon = () => (
 );
 
 const PortfolioPage = () => {
+  const [activeTab, setActiveTab] = useState("Home");
   const { category } = useParams();
   const navigate = useNavigate();
 
@@ -144,14 +145,36 @@ const PortfolioPage = () => {
         </div>
       </header>
 
+      {/* Tabs */}
+      <div className="flex items-center justify-center gap-8 mb-8">
+        {["Home", "Team"].map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`relative px-2 py-1 text-sm font-medium transition-colors ${
+              activeTab === tab ? "text-gray-900" : "text-gray-500"
+            }`}
+          >
+            {tab}
+            {activeTab === tab && (
+              <div className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-full" />
+            )}
+          </button>
+        ))}
+      </div>
+
       {/* Grid Content */}
       <div className="flex items-start gap-8">
-        {cards.map((card, index) => (
-          <div key={index} className="flex flex-col items-center gap-3 w-64">
-            <div className="w-64 h-40 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer"></div>
-            <span className="text-gray-800 font-medium">{card.title}</span>
-          </div>
-        ))}
+        {activeTab === "Home" &&
+          cards.map((card, index) => (
+            <div key={index} className="flex flex-col items-center gap-3 w-64">
+              <div className="w-64 h-40 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer"></div>
+              <span className="text-gray-800 font-medium">{card.title}</span>
+            </div>
+          ))}
+        {activeTab === "Team" && (
+          <div className="text-gray-500 text-sm">No team members found</div>
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const BackIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -65,6 +66,7 @@ const cards: Card[] = [
 ];
 
 export default function Product() {
+  const [activeTab, setActiveTab] = useState("Home");
   const navigate = useNavigate();
 
   return (
@@ -106,17 +108,39 @@ export default function Product() {
         </div>
       </div>
 
+      {/* Tabs */}
+      <div className="flex items-center justify-center gap-8 mb-8">
+        {["Home", "Team"].map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`relative px-2 py-1 text-sm font-medium transition-colors ${
+              activeTab === tab ? "text-gray-900" : "text-gray-500"
+            }`}
+          >
+            {tab}
+            {activeTab === tab && (
+              <div className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-full" />
+            )}
+          </button>
+        ))}
+      </div>
+
       {/* Center cards */}
       <div className="flex items-center justify-center min-h-[calc(100vh-72px)] px-6">
         <div className="flex gap-10">
-          {cards.map((c) => (
-            <button key={c.id} type="button" className="group">
-              <div className="w-64 h-40 rounded-md border border-gray-300 bg-white shadow-sm transition group-hover:shadow-md" />
-              <div className="mt-2 text-[11px] font-semibold text-gray-900 text-center">
-                {c.title}
-              </div>
-            </button>
-          ))}
+          {activeTab === "Home" &&
+            cards.map((c) => (
+              <button key={c.id} type="button" className="group">
+                <div className="w-64 h-40 rounded-md border border-gray-300 bg-white shadow-sm transition group-hover:shadow-md" />
+                <div className="mt-2 text-[11px] font-semibold text-gray-900 text-center">
+                  {c.title}
+                </div>
+              </button>
+            ))}
+          {activeTab === "Team" && (
+            <div className="text-gray-500 text-sm">No team members found</div>
+          )}
         </div>
       </div>
     </div>
