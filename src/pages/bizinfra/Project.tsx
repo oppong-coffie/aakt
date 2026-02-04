@@ -69,39 +69,6 @@ const NextArrowIcon = () => (
   </svg>
 );
 
-const navItems = [
-  {
-    id: "Skillset",
-    label: "Skillset",
-    gradient: "from-blue-600 to-blue-200",
-    path: "/dashboard/bizinfra/skillset",
-  },
-  {
-    id: "Network",
-    label: "Network",
-    gradient: "from-green-500 to-green-200",
-    path: "/dashboard/bizinfra/network",
-  },
-  {
-    id: "Capital",
-    label: "Capital",
-    gradient: "from-yellow-500 via-yellow-300 to-yellow-100",
-    path: "/dashboard/bizinfra/capital",
-  },
-  {
-    id: "Intel",
-    label: "Intel",
-    gradient: "from-yellow-600 to-yellow-200",
-    path: "/dashboard/bizinfra/intel",
-  },
-  {
-    id: "Reach",
-    label: "Reach",
-    gradient: "from-purple-600 to-purple-300",
-    path: "/dashboard/bizinfra/reach",
-  },
-];
-
 const Project = () => {
   const { id } = useParams();
   const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null);

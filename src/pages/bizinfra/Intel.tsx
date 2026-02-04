@@ -92,9 +92,7 @@ const categories = [
 
 const Intel = () => {
   const { id } = useParams();
-  const skillName = id
-    ? id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " ")
-    : "Skillset";
+
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isAddDropdownOpen, setIsAddDropdownOpen] = useState(false);
