@@ -148,7 +148,6 @@ export default function Department2() {
             </AnimatePresence>
           </div>
         </div>
-        </div>
       </div>
 
       {/* Tabs */}
