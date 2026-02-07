@@ -170,24 +170,33 @@ const Dashboard = () => {
               </Link>
             </div>
             <div className="pl-4 space-y-1 border-l-2 border-gray-100 ml-5">
-              {["Skillset", "Network", "Intel", "Capital", "Reach"].map(
-                (item) => (
-                  <Link
-                    key={item}
-                    to={`/dashboard/bizinfra/${item.toLowerCase().replace("skilset", "skillset")}`}
-                    onClick={() => setIsSidebarOpen(false)}
-                    className={`block px-4 py-2 text-sm font-medium rounded-lg transition-colors
-                      ${
-                        location.pathname.includes(item.toLowerCase())
-                          ? "bg-blue-50 text-blue-600"
-                          : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                      }
-                    `}
-                  >
-                    {item}
-                  </Link>
-                ),
-              )}
+              {[
+                { name: "Skillset", icon: "/bizinfra/skill2.png" },
+                { name: "Network", icon: "/bizinfra/network.png" },
+                { name: "Intel", icon: "/bizinfra/intel2.png" },
+                { name: "Capital", icon: "/bizinfra/capital.png" },
+                { name: "Reach", icon: "/bizinfra/reach.png" },
+              ].map((item) => (
+                <Link
+                  key={item.name}
+                  to={`/dashboard/bizinfra/${item.name.toLowerCase()}`}
+                  onClick={() => setIsSidebarOpen(false)}
+                  className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors
+                    ${
+                      location.pathname.includes(item.name.toLowerCase())
+                        ? "bg-blue-50 text-blue-600"
+                        : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                    }
+                  `}
+                >
+                  <img
+                    src={item.icon}
+                    alt=""
+                    className="w-4 h-4 object-contain opacity-70 group-hover:opacity-100 transition-opacity"
+                  />
+                  <span>{item.name}</span>
+                </Link>
+              ))}
             </div>
           </div>
 

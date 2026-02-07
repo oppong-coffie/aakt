@@ -1,14 +1,27 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  type DropResult,
+} from "@hello-pangea/dnd";
 
 /**
  * Homepage - A fully interactive task management dashboard.
- * Supports adding workload columns, adding tasks, and managing tasks via dropdowns.
+ *
+ * Features:
+ * - Dynamic Workload Columns: Create, rename, and delete columns.
+ * - Task Management: Add tasks, edit names, toggle completion, and delete.
+ * - Drag and Drop: Reorder columns and move tasks between columns.
+ * - Archive System: Move tasks to a separate archive section to declutter.
+ * - Responsive Design: Adapts to various screen sizes.
  */
 
-// --- Icons ---
+// --- SVG Components (Icons) ---
 
+/** Plus icon for adding new items */
 const PlusIcon = ({ size = 16, className = "" }) => (
   <svg
     width={size}
@@ -26,6 +39,7 @@ const PlusIcon = ({ size = 16, className = "" }) => (
   </svg>
 );
 
+/** Three-dot icon for action menus */
 const MoreIcon = () => (
   <svg
     width="16"
@@ -44,6 +58,7 @@ const MoreIcon = () => (
   </svg>
 );
 
+/** Simple checkmark for completed tasks */
 const CheckIcon = () => (
   <svg
     width="12"
@@ -60,24 +75,94 @@ const CheckIcon = () => (
   </svg>
 );
 
-// --- Components ---
+/** File box icon representing the Archive */
+const ArchiveIcon = ({ size = 16 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="21 8 21 21 3 21 3 8"></polyline>
+    <rect x="1" y="3" width="22" height="5"></rect>
+    <line x1="10" y1="12" x2="14" y2="12"></line>
+  </svg>
+);
 
+/** Trash bin icon for permanent deletions */
+const TrashIcon = ({ size = 14 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="3 6 5 6 21 6"></polyline>
+    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+  </svg>
+);
+
+/** Six-dot indicator for drag handles */
+const DragHandle = () => (
+  <svg
+    width="12"
+    height="12"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="text-gray-300"
+  >
+    <circle cx="9" cy="5" r="1"></circle>
+    <circle cx="9" cy="12" r="1"></circle>
+    <circle cx="9" cy="19" r="1"></circle>
+    <circle cx="15" cy="5" r="1"></circle>
+    <circle cx="15" cy="12" r="1"></circle>
+    <circle cx="15" cy="19" r="1"></circle>
+  </svg>
+);
+
+// --- Sub-Components ---
+
+/**
+ * TaskItem Component
+ * Manages individual task display, completion state, editing, and its own context menu.
+ */
 const TaskItem = ({
   task,
+  index,
   onToggle,
   onDelete,
   onEdit,
+  onArchive,
+  isArchived = false,
+  onUnarchive,
 }: {
   task: any;
+  index: number;
   onToggle: () => void;
   onDelete: () => void;
   onEdit: (newText: string) => void;
+  onArchive?: () => void;
+  isArchived?: boolean;
+  onUnarchive?: () => void;
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(task.text);
   const menuRef = useRef<HTMLDivElement>(null);
 
+  // Close the popup menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -88,108 +173,245 @@ const TaskItem = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Save edits and exit edit mode
   const handleEditSubmit = () => {
     onEdit(editText);
     setIsEditing(false);
     setIsMenuOpen(false);
   };
 
-  return (
-    <div className="relative group flex items-center justify-between gap-3 p-1 rounded-lg hover:bg-gray-50 transition-colors">
-      <div className="flex items-center gap-3 flex-1 overflow-hidden">
-        <div
-          onClick={onToggle}
-          className={`shrink-0 w-5 h-5 rounded-md border-2 transition-all flex items-center justify-center cursor-pointer ${
-            task.completed
-              ? "bg-blue-600 border-blue-600"
-              : "border-gray-200 hover:border-blue-400"
-          }`}
-        >
-          {task.completed && <CheckIcon />}
-        </div>
-
-        {isEditing ? (
-          <input
-            autoFocus
-            className="flex-1 bg-white border border-blue-300 rounded px-1 py-0.5 text-sm outline-none"
-            value={editText}
-            onChange={(e) => setEditText(e.target.value)}
-            onBlur={handleEditSubmit}
-            onKeyDown={(e) => e.key === "Enter" && handleEditSubmit()}
-          />
-        ) : (
-          <span
-            className={`text-sm font-medium truncate ${task.completed ? "text-gray-400 line-through" : "text-gray-700"}`}
+  /** Specific layout for tasks that are currently in the Archive section */
+  if (isArchived) {
+    return (
+      <div className="bg-white/50 border border-gray-100 rounded-2xl p-4 flex items-center justify-between group hover:bg-white transition-all shadow-sm">
+        <div className="flex items-center gap-3 overflow-hidden">
+          <div
+            className={`w-4 h-4 rounded-sm border flex items-center justify-center ${task.completed ? "bg-blue-400 border-blue-400" : "border-gray-300"}`}
           >
+            {task.completed && <CheckIcon />}
+          </div>
+          <span className="text-sm font-medium text-gray-500 truncate">
             {task.text}
           </span>
-        )}
+        </div>
+        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button
+            onClick={onUnarchive}
+            className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
+            title="Restore from archive"
+          >
+            <PlusIcon size={14} />
+          </button>
+          <button
+            onClick={onDelete}
+            className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+            title="Delete permanently"
+          >
+            <TrashIcon size={14} />
+          </button>
+        </div>
       </div>
+    );
+  }
 
-      <div className="relative" ref={menuRef}>
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="p-1 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white rounded-md border border-transparent hover:border-gray-100"
+  /** Main Task layout for active workloads (Draggable) */
+  return (
+    <Draggable draggableId={task.id.toString()} index={index}>
+      {(provided, snapshot) => (
+        <div
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          className={`relative group flex items-center justify-between gap-3 p-1 rounded-lg transition-colors ${
+            snapshot.isDragging
+              ? "bg-blue-50 shadow-md ring-1 ring-blue-100"
+              : "hover:bg-gray-50"
+          }`}
         >
-          <MoreIcon />
-        </button>
+          {/* Left: Task Content (Checkbox + Label/Input) */}
+          <div className="flex items-center gap-2 flex-1 overflow-hidden">
+            <div className="p-1 opacity-40 group-hover:opacity-100 transition-opacity">
+              <DragHandle />
+            </div>
 
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: -5 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -5 }}
-              className="absolute right-0 top-full mt-1 w-28 bg-white rounded-xl shadow-xl border border-gray-100 py-1 z-20"
+            <div
+              onClick={onToggle}
+              className={`shrink-0 w-5 h-5 rounded-md border-2 transition-all flex items-center justify-center cursor-pointer ${
+                task.completed
+                  ? "bg-blue-600 border-blue-600"
+                  : "border-gray-200 hover:border-blue-400"
+              }`}
             >
-              <button
-                onClick={() => {
-                  setIsEditing(true);
-                  setIsMenuOpen(false);
-                }}
-                className="w-full text-left px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+              {task.completed && <CheckIcon />}
+            </div>
+
+            {isEditing ? (
+              <input
+                autoFocus
+                className="flex-1 bg-white border border-blue-300 rounded px-1 py-0.5 text-sm font-medium outline-none"
+                value={editText}
+                onChange={(e) => setEditText(e.target.value)}
+                onBlur={handleEditSubmit}
+                onKeyDown={(e) => e.key === "Enter" && handleEditSubmit()}
+              />
+            ) : (
+              <span
+                className={`text-sm font-medium truncate ${task.completed ? "text-gray-400 line-through font-normal" : "text-gray-700"}`}
               >
-                Edit
-              </button>
-              <button
-                onClick={() => {
-                  onToggle();
-                  setIsMenuOpen(false);
-                }}
-                className="w-full text-left px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
-              >
-                {task.completed ? "Undo Task" : "Complete"}
-              </button>
-              <button
-                onClick={() => {
-                  onDelete();
-                  setIsMenuOpen(false);
-                }}
-                className="w-full text-left px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50 transition-colors"
-              >
-                Delete
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </div>
+                {task.text}
+              </span>
+            )}
+          </div>
+
+          {/* Right: Action Menu (More icon + Dropdown) */}
+          <div className="relative" ref={menuRef}>
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-1 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white rounded-md border border-transparent hover:border-gray-100"
+            >
+              <MoreIcon />
+            </button>
+
+            <AnimatePresence>
+              {isMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: -5 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: -5 }}
+                  className="absolute right-0 top-full mt-1 w-32 bg-white rounded-xl shadow-xl border border-gray-100 py-1 z-20"
+                >
+                  <button
+                    onClick={() => {
+                      setIsEditing(true);
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => {
+                      onToggle();
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    {task.completed ? "Undo Task" : "Complete"}
+                  </button>
+                  <button
+                    onClick={() => {
+                      onArchive?.();
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    Archive
+                  </button>
+                  <button
+                    onClick={() => {
+                      onDelete();
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50 transition-colors"
+                  >
+                    Delete
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+      )}
+    </Draggable>
   );
 };
 
+/**
+ * Main Homepage Component
+ * Controls the top-level state for workloads, columns, and archiving.
+ */
 const Homepage = () => {
+  // --- STATE ---
+
+  /** Active workloads split into columns */
   const [workloads, setWorkloads] = useState([
     {
       id: "today",
       title: "Today",
       tasks: [
-        { id: 1, text: "Review business infrastructure", completed: false },
-        { id: 2, text: "Update portfolio metrics", completed: false },
+        { id: "1", text: "Review business infrastructure", completed: false },
+        { id: "2", text: "Update portfolio metrics", completed: false },
       ],
     },
     { id: "later", title: "Later", tasks: [] },
   ]);
 
+  /** Tasks moved out of active workloads */
+  const [archivedTasks, setArchivedTasks] = useState<any[]>([]);
+
+  // --- DRAG AND DROP HANDLER ---
+
+  /**
+   * Orchestrates the final result of a drag operation.
+   * Handles reordering columns, reordering tasks within a column, or moving tasks between columns.
+   */
+  const onDragEnd = (result: DropResult) => {
+    const { destination, source, type } = result;
+
+    if (!destination) return; // Dropped outside
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    )
+      return; // Same spot
+
+    // Case 1: Reordering Columns
+    if (type === "COLUMN") {
+      const newWorkloads = Array.from(workloads);
+      const [removed] = newWorkloads.splice(source.index, 1);
+      newWorkloads.splice(destination.index, 0, removed);
+      setWorkloads(newWorkloads);
+      return;
+    }
+
+    // Case 2: Reordering/Moving Tasks
+    const sourceCol = workloads.find((w) => w.id === source.droppableId);
+    const destCol = workloads.find((w) => w.id === destination.droppableId);
+
+    if (!sourceCol || !destCol) return;
+
+    if (sourceCol === destCol) {
+      // Reorder within the same list
+      const newTasks = Array.from(sourceCol.tasks);
+      const [removed] = newTasks.splice(source.index, 1);
+      newTasks.splice(destination.index, 0, removed);
+
+      setWorkloads(
+        workloads.map((w) =>
+          w.id === sourceCol.id ? { ...w, tasks: newTasks } : w,
+        ),
+      );
+    } else {
+      // Move between two different lists
+      const sourceTasks = Array.from(sourceCol.tasks);
+      const [removed] = sourceTasks.splice(source.index, 1);
+
+      const destTasks = Array.from(destCol.tasks);
+      destTasks.splice(destination.index, 0, removed);
+
+      setWorkloads(
+        workloads.map((w) => {
+          if (w.id === sourceCol.id) return { ...w, tasks: sourceTasks };
+          if (w.id === destCol.id) return { ...w, tasks: destTasks };
+          return w;
+        }),
+      );
+    }
+  };
+
+  // --- ACTIONS: WORKLOADS ---
+
+  /** Create a new empty workload column */
   const addWorkload = () => {
     const newId = Date.now().toString();
     setWorkloads([
@@ -198,10 +420,16 @@ const Homepage = () => {
     ]);
   };
 
+  /** Remove an entire workload column */
   const deleteWorkload = (workloadId: string) => {
-    setWorkloads(workloads.filter((w) => w.id !== workloadId));
+    if (confirm("Are you sure you want to delete this workload?")) {
+      setWorkloads(workloads.filter((w) => w.id !== workloadId));
+    }
   };
 
+  // --- ACTIONS: TASKS ---
+
+  /** Add a new task to a specific workload column */
   const addTask = (workloadId: string) => {
     const taskText = prompt("Enter task title:");
     if (!taskText) return;
@@ -213,7 +441,7 @@ const Homepage = () => {
             ...w,
             tasks: [
               ...w.tasks,
-              { id: Date.now(), text: taskText, completed: false },
+              { id: Date.now().toString(), text: taskText, completed: false },
             ],
           };
         }
@@ -222,7 +450,8 @@ const Homepage = () => {
     );
   };
 
-  const toggleTask = (workloadId: string, taskId: number) => {
+  /** Toggle the completion status (checked/unchecked) */
+  const toggleTask = (workloadId: string, taskId: string) => {
     setWorkloads(
       workloads.map((w) => {
         if (w.id === workloadId) {
@@ -238,7 +467,8 @@ const Homepage = () => {
     );
   };
 
-  const deleteTask = (workloadId: string, taskId: number) => {
+  /** Remove a task from its workload column */
+  const deleteTask = (workloadId: string, taskId: string) => {
     setWorkloads(
       workloads.map((w) => {
         if (w.id === workloadId) {
@@ -252,7 +482,8 @@ const Homepage = () => {
     );
   };
 
-  const editTask = (workloadId: string, taskId: number, newText: string) => {
+  /** Rename an existing task */
+  const editTask = (workloadId: string, taskId: string, newText: string) => {
     setWorkloads(
       workloads.map((w) => {
         if (w.id === workloadId) {
@@ -268,112 +499,247 @@ const Homepage = () => {
     );
   };
 
+  // --- ACTIONS: ARCHIVE ---
+
+  /** Move a task to the Archive section and track its original column for restoration */
+  const archiveTask = (workloadId: string, taskId: string) => {
+    const workload = workloads.find((w) => w.id === workloadId);
+    if (!workload) return;
+    const taskToArchive = workload.tasks.find((t: any) => t.id === taskId);
+    if (!taskToArchive) return;
+
+    setArchivedTasks([
+      ...archivedTasks,
+      { ...taskToArchive, originalWorkloadId: workloadId },
+    ]);
+    deleteTask(workloadId, taskId);
+  };
+
+  /** Restore a task from the Archive back to its workload */
+  const unarchiveTask = (archiveId: string) => {
+    const task = archivedTasks.find((t) => t.id === archiveId);
+    if (!task) return;
+
+    setWorkloads(
+      workloads.map((w) => {
+        // Restore to original col if it still exists, else "Today", else first col
+        if (
+          w.id === task.originalWorkloadId ||
+          (w.id === "today" &&
+            !workloads.some((wl) => wl.id === task.originalWorkloadId))
+        ) {
+          return {
+            ...w,
+            tasks: [
+              ...w.tasks,
+              { id: task.id, text: task.text, completed: task.completed },
+            ],
+          };
+        }
+        return w;
+      }),
+    );
+    setArchivedTasks(archivedTasks.filter((t) => t.id !== archiveId));
+  };
+
+  /** Delete an archived task permanently */
+  const deleteArchivedTask = (archiveId: string) => {
+    setArchivedTasks(archivedTasks.filter((t) => t.id !== archiveId));
+  };
+
+  // --- RENDER ---
+
   return (
-    <div className="relative min-h-[85vh] flex flex-col gap-12">
-      {/* Top Action & Workloads Grid */}
-      <div className="flex flex-wrap gap-6 items-start">
-        <AnimatePresence>
-          {workloads.map((workload, idx) => (
-            <motion.div
-              layout
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              key={workload.id}
-              className="bg-white rounded-[2rem] p-6 shadow-sm border border-gray-100 flex flex-col gap-4 min-h-[180px] w-full max-w-[280px]"
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div className="relative min-h-[85vh] flex flex-col gap-12 pb-2">
+        {/* Main Workspace: Workloads Grid */}
+        <Droppable
+          droppableId="all-columns"
+          direction="horizontal"
+          type="COLUMN"
+        >
+          {(provided) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className="flex flex-wrap gap-6 items-start"
             >
-              <div className="flex justify-between items-center px-1">
-                <input
-                  className="font-bold text-gray-800 text-lg bg-transparent border-none outline-none w-32 focus:bg-gray-50 rounded px-1 transition-colors"
-                  value={workload.title}
-                  onChange={(e) => {
-                    setWorkloads(
-                      workloads.map((w) =>
-                        w.id === workload.id
-                          ? { ...w, title: e.target.value }
-                          : w,
-                      ),
-                    );
-                  }}
-                />
-                <button
-                  onClick={() => deleteWorkload(workload.id)}
-                  className="p-1 hover:bg-gray-50 rounded-lg transition-colors group"
+              {workloads.map((workload, index) => (
+                <Draggable
+                  key={workload.id}
+                  draggableId={workload.id}
+                  index={index}
                 >
-                  <MoreIcon />
-                </button>
-              </div>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      className={`bg-white rounded-4xl p-6 shadow-sm border border-gray-100 flex flex-col gap-4 min-h-[220px] w-full max-w-[280px] transition-shadow ${
+                        snapshot.isDragging
+                          ? "shadow-2xl ring-2 ring-blue-500/20 rotate-1"
+                          : ""
+                      }`}
+                    >
+                      {/* Column Header */}
+                      <div className="flex justify-between items-center px-1">
+                        <input
+                          className="font-bold text-gray-800 text-lg bg-transparent border-none outline-none w-32 focus:bg-gray-50 rounded px-1 transition-colors cursor-text"
+                          value={workload.title}
+                          onClick={(e) => e.stopPropagation()}
+                          onChange={(e) => {
+                            setWorkloads(
+                              workloads.map((w) =>
+                                w.id === workload.id
+                                  ? { ...w, title: e.target.value }
+                                  : w,
+                              ),
+                            );
+                          }}
+                        />
+                        <button
+                          onClick={() => deleteWorkload(workload.id)}
+                          className="p-1 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-lg transition-colors"
+                          title="Delete workload"
+                        >
+                          <TrashIcon size={14} />
+                        </button>
+                      </div>
 
-              <div className="flex-1 flex flex-col gap-1">
-                {workload.tasks.length > 0 ? (
-                  workload.tasks.map((task: any) => (
-                    <TaskItem
-                      key={task.id}
-                      task={task}
-                      onToggle={() => toggleTask(workload.id, task.id)}
-                      onDelete={() => deleteTask(workload.id, task.id)}
-                      onEdit={(text) => editTask(workload.id, task.id, text)}
-                    />
-                  ))
-                ) : (
-                  <span className="text-gray-400 text-sm px-1 italic">
-                    No tasks yet
-                  </span>
-                )}
-              </div>
+                      {/* Tasks List (Droppable area for tasks) */}
+                      <Droppable droppableId={workload.id} type="TASK">
+                        {(provided, snapshot) => (
+                          <div
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                            className={`flex-1 flex flex-col gap-1 min-h-[50px] rounded-xl transition-colors ${
+                              snapshot.isDraggingOver ? "bg-blue-50/50" : ""
+                            }`}
+                          >
+                            {workload.tasks.length > 0
+                              ? workload.tasks.map((task: any, idx: number) => (
+                                  <TaskItem
+                                    key={task.id}
+                                    index={idx}
+                                    task={task}
+                                    onToggle={() =>
+                                      toggleTask(workload.id, task.id)
+                                    }
+                                    onDelete={() =>
+                                      deleteTask(workload.id, task.id)
+                                    }
+                                    onEdit={(text) =>
+                                      editTask(workload.id, task.id, text)
+                                    }
+                                    onArchive={() =>
+                                      archiveTask(workload.id, task.id)
+                                    }
+                                  />
+                                ))
+                              : !snapshot.isDraggingOver && (
+                                  <span className="text-gray-400 text-sm px-1 italic py-2">
+                                    No tasks yet
+                                  </span>
+                                )}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
 
-              <button
-                onClick={() => addTask(workload.id)}
-                className="flex items-center gap-2 text-gray-800 hover:text-blue-600 transition-colors text-sm font-semibold px-1 mt-2"
+                      {/* Add Task Button */}
+                      <button
+                        onClick={() => addTask(workload.id)}
+                        className="flex items-center gap-2 text-gray-800 hover:text-blue-600 transition-colors text-sm font-semibold px-1 mt-2 group"
+                      >
+                        <PlusIcon
+                          size={14}
+                          className="text-gray-400 group-hover:text-blue-600"
+                        />
+                        <span>Add new task</span>
+                      </button>
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+
+              {/* "Add New Workload" Button - Permanently at the end of the list */}
+              <motion.button
+                layout
+                onClick={addWorkload}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="bg-white px-8 py-4 rounded-3xl shadow-sm border border-gray-100 flex items-center gap-3 text-gray-800 font-bold text-sm hover:shadow-md transition-all h-[56px] shrink-0 self-start mt-2"
               >
-                <PlusIcon size={14} />
-                <span>Add new task</span>
-              </button>
-            </motion.div>
-          ))}
-        </AnimatePresence>
+                <PlusIcon className="text-gray-400" />
+                <span>Add new workload</span>
+              </motion.button>
+            </div>
+          )}
+        </Droppable>
 
-        {/* Dynamic Add Workload Button */}
-        <motion.button
-          layout
-          onClick={addWorkload}
-          className="bg-white px-8 py-4 rounded-[1.5rem] shadow-sm border border-gray-100 flex items-center gap-3 text-gray-800 font-bold text-sm hover:shadow-md transition-all h-[56px] shrink-0"
-        >
-          <PlusIcon className="text-gray-400" />
-          <span>Add new workload</span>
-        </motion.button>
-
-        {/* Floating Detail */}
-        <div className="fixed bottom-24 right-12 w-16 h-16 rounded-full bg-linear-to-br from-cyan-400 via-blue-500 to-indigo-600 shadow-[0_0_40px_rgba(59,130,246,0.5)] flex items-center justify-center cursor-pointer hover:scale-110 transition-transform z-10">
-          <div className="w-14 h-14 rounded-full bg-linear-to-br from-transparent to-black/10"></div>
-        </div>
-      </div>
-
-      {/* Account Setup Banner */}
-      <div className="mt-auto mb-32 w-full">
-        <motion.div
-          data-aos="fade-up"
-          data-aos-delay="300"
-          className="bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-sm border border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-6"
-        >
-          <div className="text-center sm:text-left">
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Finish setting up your account
-            </h3>
-            <p className="text-gray-400 text-sm">
-              Things that you have missed should be filled.
-            </p>
+        {/* --- ARCHIVE SECTION --- */}
+        <div className="mt-8 flex flex-col gap-8">
+          {/* Header with horizontal dividers */}
+          <div className="flex items-center gap-4">
+            <div className="h-[1px] flex-1 bg-gray-200"></div>
+            <div className="flex items-center gap-2 text-gray-400 font-bold text-xs uppercase tracking-widest px-4">
+              <ArchiveIcon size={14} />
+              <span>Archive ({archivedTasks.length})</span>
+            </div>
+            <div className="h-[1px] flex-1 bg-gray-200"></div>
           </div>
 
-          <Link
-            to="finish"
-            className="px-10 py-3 border border-blue-600 text-blue-600 rounded-full font-bold text-sm hover:bg-blue-50 transition-colors whitespace-nowrap"
+          {/* Archived Tasks Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-2">
+            {archivedTasks.length > 0 ? (
+              archivedTasks.map((task) => (
+                <TaskItem
+                  key={task.id}
+                  index={0}
+                  task={task}
+                  onToggle={() => {}} // Non-toggleable in archive view
+                  onDelete={() => deleteArchivedTask(task.id)}
+                  onEdit={() => {}}
+                  isArchived={true}
+                  onUnarchive={() => unarchiveTask(task.id)}
+                />
+              ))
+            ) : (
+              <div className="col-span-full py-12 flex flex-col items-center justify-center text-gray-300 gap-2">
+                <ArchiveIcon size={32} />
+                <p className="text-sm font-medium italic">
+                  Your archive is empty
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Footer Banner: Finish Account Setup */}
+        <div className="mt-12 w-full">
+          <motion.div
+            className="bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-sm border border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-6"
           >
-            Finish It
-          </Link>
-        </motion.div>
+            <div className="text-center sm:text-left">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Finish setting up your account
+              </h3>
+              <p className="text-gray-400 text-sm">
+                Things that you have missed should be filled.
+              </p>
+            </div>
+
+            <Link
+              to="finish"
+              className="px-10 py-3 border border-blue-600 text-blue-600 rounded-full font-bold text-sm hover:bg-blue-50 transition-colors whitespace-nowrap"
+            >
+              Finish It
+            </Link>
+          </motion.div>
+        </div>
       </div>
-    </div>
+    </DragDropContext>
   );
 };
 
