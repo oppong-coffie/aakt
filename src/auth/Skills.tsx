@@ -59,11 +59,12 @@ const Skills = () => {
 
   const categories: Category[] = ["Product", "Strategy", "Team", "Finance"];
 
-  // Check if at least one skill is selected from each category
-  const isValidSelection = categories.every((category) => {
-    const categorySkills = skillsByCategory[category];
-    return categorySkills?.some((skill) => selectedSkills.includes(skill.id));
-  });
+  // Check if at least one skill is selected (optional, user said "don't need to choose one of each type")
+  // User request: "In “Select which skills you feel defines you?”, they don’t need to choose one of each type"
+  // So we just check if ANY skill is selected, or maybe even allow empty? Generally "defines you" implies selecting at least one.
+  // I will require at least one skill for "Continue" to be active, or just always valid if skipping is allowed via Skip button.
+  // Given there is a Skip button, Continue probably implies "I have made my selection".
+  const isValidSelection = selectedSkills.length > 0;
 
   return (
     <div className="h-screen bg-[#f0f0eb] md:px-40 px-5">

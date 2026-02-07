@@ -2,6 +2,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
+/**
+ * Phases Page (BizInfra) - Displays a horizontal flow of project phases.
+ * Allows users to interact with each phase (delete, rename) and add new ones.
+ */
+
 const SearchIcon = () => (
   <svg
     width="20"
@@ -73,31 +78,31 @@ const navItems = [
   {
     id: "Skillset",
     label: "Skillset",
-    gradient: "from-blue-600 to-blue-200",
+    image: "/bizinfra/skill2.png",
     path: "/dashboard/bizinfra/skillset",
   },
   {
     id: "Network",
     label: "Network",
-    gradient: "from-green-500 to-green-200",
+    image: "/bizinfra/network.png",
     path: "/dashboard/bizinfra/network",
   },
   {
     id: "Capital",
     label: "Capital",
-    gradient: "from-yellow-500 via-yellow-300 to-yellow-100",
+    image: "/bizinfra/capital.png",
     path: "/dashboard/bizinfra/capital",
   },
   {
     id: "Intel",
     label: "Intel",
-    gradient: "from-yellow-600 to-yellow-200",
+    image: "/bizinfra/intel2.png",
     path: "/dashboard/bizinfra/intel",
   },
   {
     id: "Reach",
     label: "Reach",
-    gradient: "from-purple-600 to-purple-300",
+    image: "/bizinfra/reach.png",
     path: "/dashboard/bizinfra/reach",
   },
 ];
@@ -106,39 +111,31 @@ const Phases = () => {
   const { id } = useParams();
   const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null);
 
-  const skillBreadcrumb = id
-    ? id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " ")
-    : "Reality";
-
   return (
     <div
       className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden"
       onClick={() => setActiveMenuIndex(null)}
     >
       {/* Header Area */}
-      <div className="flex justify-between items-center mb-16">
-        <div className="flex items-center gap-4">
+      <div className="flex justify-between items-center mb-6">
+        <div className="flex items-center gap-2">
           <Link
             to={`/dashboard/bizinfra/skillset/${id}`}
-            className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm border border-gray-100 text-blue-600 hover:bg-gray-50 transition-colors"
+            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
           >
             <LeftArrowIcon />
           </Link>
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-bold text-gray-500">
-              {skillBreadcrumb}
-            </span>
-            <h2 className="text-xl font-extrabold text-gray-900 border-l border-gray-300 pl-3">
-              Phases
-            </h2>
+          <div className="flex items-center gap-2">
+            <div className="">BizInfra</div>
+            <div className="font-bold text-xl ml-24">Phases</div>
           </div>
         </div>
-        <button className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 hover:bg-gray-50 transition-colors">
+        <button className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors">
           <SearchIcon />
         </button>
       </div>
 
-      {/* Main content - Horizontal Flow */}
+      {/* Horizontal Flow - Displays phases as a navigable sequence. */}
       <div className="flex-1 flex items-center justify-center -mt-20 overflow-x-auto no-scrollbar pb-10">
         <div className="flex items-center gap-8 min-w-max px-20">
           {[1, 1, 1].map((num, i) => (
@@ -243,9 +240,11 @@ const Phases = () => {
                   ${isSelected ? "bg-blue-600/10 border-2 border-blue-600 ring-4 ring-blue-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
                 `}
                 >
-                  <div
-                    className={`w-3/5 h-3/5 rounded-lg bg-linear-to-br ${item.gradient} rotate-12`}
-                  ></div>
+                  <img
+                    src={item.image}
+                    alt={item.label}
+                    className="w-3/4 h-3/4 object-contain transform rotate-12 group-hover:rotate-0 transition-transform duration-300"
+                  />
                 </div>
                 <span
                   className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}

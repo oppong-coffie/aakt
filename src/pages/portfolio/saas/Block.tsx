@@ -1,6 +1,11 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
+
+/**
+ * Block Page (SaaS) - A detailed view for managing business blocks within a SaaS context.
+ * Features a sidebar for Blocks and People, mirroring the BizInfra Process/Block views.
+ */
 
 const SearchIcon = () => (
   <svg
@@ -12,7 +17,6 @@ const SearchIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-blue-600"
   >
     <circle cx="11" cy="11" r="8"></circle>
     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -55,37 +59,38 @@ const navItems = [
   {
     id: "Skillset",
     label: "Skillset",
-    gradient: "from-blue-600 to-blue-200",
+    image: "/bizinfra/skill2.png",
     path: "/dashboard/bizinfra/skillset",
   },
   {
     id: "Network",
     label: "Network",
-    gradient: "from-green-500 to-green-200",
+    image: "/bizinfra/network.png",
     path: "/dashboard/bizinfra/network",
   },
   {
     id: "Capital",
     label: "Capital",
-    gradient: "from-yellow-500 via-yellow-300 to-yellow-100",
+    image: "/bizinfra/capital.png",
     path: "/dashboard/bizinfra/capital",
   },
   {
     id: "Intel",
     label: "Intel",
-    gradient: "from-yellow-600 to-yellow-200",
+    image: "/bizinfra/intel2.png",
     path: "/dashboard/bizinfra/intel",
   },
   {
     id: "Reach",
     label: "Reach",
-    gradient: "from-purple-600 to-purple-300",
+    image: "/bizinfra/reach.png",
     path: "/dashboard/bizinfra/reach",
   },
 ];
 
 const Block = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [hoveredBlock, setHoveredBlock] = useState<number | null>(null);
   const [hoveredPerson, setHoveredPerson] = useState<string | null>(null);
 
@@ -102,26 +107,28 @@ const Block = () => {
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-4">
-          <Link
-            to={`/dashboard/bizinfra/skillset/${id}`}
-            className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm border border-gray-100 text-blue-600 hover:bg-gray-50 transition-colors"
+      <div className="flex justify-between items-center mb-6 relative z-10">
+        <div className="flex items-center gap-2">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => navigate(-1)}
+            className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
           >
             <LeftArrowIcon />
-          </Link>
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-bold text-gray-500">
-              {skillBreadcrumb}
-            </span>
-            <h2 className="text-xl font-extrabold text-gray-900 border-l border-gray-300 pl-3">
-              Blocks
-            </h2>
+          </motion.button>
+          <div className="flex items-center gap-2">
+            <div className="">{skillBreadcrumb}</div>
+            <div className="font-bold text-xl ml-24 text-gray-900">Block</div>
           </div>
         </div>
-        <button className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 hover:bg-gray-50 transition-colors">
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+        >
           <SearchIcon />
-        </button>
+        </motion.button>
       </div>
 
       <div className="flex flex-1 gap-6">
@@ -132,11 +139,13 @@ const Block = () => {
               Blocks
             </span>
             {[1, 2, 3, 4, 5, 6, 7].map((i) => (
-              <div
+              <motion.div
                 key={i}
                 className="relative group flex items-center"
                 onMouseEnter={() => setHoveredBlock(i)}
                 onMouseLeave={() => setHoveredBlock(null)}
+                whileHover={{ scale: 1.1, x: 5 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <div className="w-10 h-10 bg-gray-300 rounded-lg shrink-0 cursor-pointer hover:bg-gray-400 transition-colors"></div>
                 <AnimatePresence>
@@ -159,13 +168,18 @@ const Block = () => {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             ))}
-            <button className="w-10 h-10 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center text-blue-600 hover:bg-white transition-colors shrink-0">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="w-10 h-10 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center text-blue-600 hover:bg-white transition-colors shrink-0"
+            >
               <PlusIcon />
-            </button>
+            </motion.button>
           </div>
 
+          {/* People Section - Displays team members associated with this block. */}
           <div className="flex flex-col items-center gap-3 mt-auto">
             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
               People
@@ -174,12 +188,14 @@ const Block = () => {
               <div
                 key={person.name}
                 className="relative group flex items-center"
-                onMouseEnter={() => setHoveredPerson(person.name)}
-                onMouseLeave={() => setHoveredPerson(null)}
               >
-                <img
+                <motion.img
                   src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${person.seed}`}
                   className="w-9 h-9 rounded-full border-2 border-white shadow-sm object-cover cursor-pointer hover:scale-105 transition-transform shrink-0"
+                  onMouseEnter={() => setHoveredPerson(person.name)}
+                  onMouseLeave={() => setHoveredPerson(null)}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                 />
                 <AnimatePresence>
                   {hoveredPerson === person.name && (
@@ -194,6 +210,7 @@ const Block = () => {
                         <img
                           src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${person.seed}`}
                           className="w-6 h-6 rounded-full"
+                          alt={person.name}
                         />
                       </div>
                       <div className="bg-white px-3 py-2 rounded-xl shadow-lg border border-gray-100 ml-1.5 whitespace-nowrap">
@@ -225,25 +242,29 @@ const Block = () => {
               {navItems.map((item) => {
                 const isSelected = item.id === "Skillset";
                 return (
-                  <Link
-                    key={item.id}
-                    to={item.path}
-                    className="flex flex-col items-center gap-2 group shrink-0"
-                  >
-                    <div
-                      className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
-                      ${isSelected ? "bg-blue-600/10 border-2 border-blue-600 ring-4 ring-blue-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
-                    `}
+                  <Link key={item.id} to={item.path} className="contents">
+                    <motion.div
+                      className="flex flex-col items-center gap-2 group shrink-0 cursor-pointer"
+                      whileHover={{ y: -5 }}
+                      whileTap={{ scale: 0.95 }}
                     >
                       <div
-                        className={`w-3/5 h-3/5 rounded-lg bg-linear-to-br ${item.gradient} rotate-12`}
-                      ></div>
-                    </div>
-                    <span
-                      className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}
-                    >
-                      {item.label}
-                    </span>
+                        className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
+                      ${isSelected ? "bg-blue-600/10 border-2 border-blue-600 ring-4 ring-blue-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
+                    `}
+                      >
+                        <img
+                          src={item.image}
+                          alt={item.label}
+                          className={`w-full h-full object-cover ${isSelected ? "" : "opacity-50"}`}
+                        />
+                      </div>
+                      <span
+                        className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}
+                      >
+                        {item.label}
+                      </span>
+                    </motion.div>
                   </Link>
                 );
               })}

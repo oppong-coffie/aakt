@@ -2,6 +2,11 @@ import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
+/**
+ * Main Homepage Layout - A wrapper for the Home module routes.
+ * Includes a global search header and a main outlet for sub-pages.
+ */
+
 const SearchIcon = () => (
   <svg
     width="16"
@@ -117,7 +122,6 @@ const SearchModal = ({
       )}
     </AnimatePresence>
   );
-  
 };
 
 const MainHomepage = () => {
@@ -146,8 +150,6 @@ const MainHomepage = () => {
       <main>
         <Outlet />
       </main>
-
-     
 
       <SearchModal
         isOpen={isSearchOpen}

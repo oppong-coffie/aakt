@@ -104,7 +104,7 @@ const Question3 = () => {
       <div className="px-6 sm:px-12 pt-8 sm:pt-12 pb-6 relative">
         <button
           onClick={() => navigate(-1)}
-          className="absolute top-4 left-6 sm:left-12 text-gray-500 hover:text-gray-900 transition-colors"
+          className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
         >
           <LeftArrowIcon />
         </button>
@@ -163,8 +163,6 @@ const Question3 = () => {
 
       {/* Footer */}
       <div className="bottom-0 left-0 right-0 p-6 sm:px-12 sm:py-8 flex items-center justify-end max-w-7xl mx-auto w-full pointer-events-none">
-      
-
         <div className="pointer-events-auto flex gap-4">
           <button
             onClick={() => navigate(-1)}
@@ -180,12 +178,12 @@ const Question3 = () => {
           </button>
         </div>
       </div>
-       <button
-          onClick={() => setIsModalOpen(true)}
-          className="pointer-events-auto"
-        >
-          <InfoIcon />
-        </button>
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="pointer-events-auto"
+      >
+        <InfoIcon />
+      </button>
 
       {/* Info Modal */}
       <AnimatePresence>

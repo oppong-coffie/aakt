@@ -1,7 +1,10 @@
 import { motion, AnimatePresence } from "framer-motion";
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+
+/**
+ * SearchIcon component - renders a standard search magnifying glass SVG.
+ */
 const SearchIcon = () => (
   <svg
     width="16"
@@ -12,7 +15,7 @@ const SearchIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-gray-400"
+    className=""
   >
     <circle cx="11" cy="11" r="8"></circle>
     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -53,6 +56,11 @@ const PlusIcon = () => (
   </svg>
 );
 
+/**
+ * SearchModal component - provides a full-screen search interface with categorized results.
+ * @param isOpen - boolean to control visibility
+ * @param onClose - function to handle modal closure
+ */
 const SearchModal = ({
   isOpen,
   onClose,
@@ -95,7 +103,7 @@ const SearchModal = ({
           />
 
           {/* Modal Container */}
-          <div className="fixed inset-0 flex items-center justify-center p-4 z-101 pointer-events-none">
+          <div className="fixed inset-0 flex items-center justify-center p-4 z-100 pointer-events-none">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -115,7 +123,7 @@ const SearchModal = ({
 
               <div className="flex flex-1 overflow-hidden">
                 {/* Sidebar */}
-                <div className="w-56 border-r border-gray-50 flex flex-col p-4 gap-1">
+                <div className="w-56 border-r border-gray-50 flex flex-col p-4 gap-1 overflow-y-auto no-scrollbar">
                   {categories.map((category) => (
                     <button
                       key={category}
@@ -154,6 +162,11 @@ const SearchModal = ({
     </AnimatePresence>
   );
 };
+/**
+ * AddSkillModal component - provides a form to add a new skill to the BizInfra module.
+ * @param isOpen - boolean to control visibility
+ * @param onClose - function to handle modal closure
+ */
 const AddSkillModal = ({
   isOpen,
   onClose,
@@ -183,7 +196,7 @@ const AddSkillModal = ({
             onClick={onClose}
             className="fixed inset-0 bg-black/20 backdrop-blur-xs z-100"
           />
-          <div className="fixed inset-0 flex items-center justify-center p-4 z-101 pointer-events-none">
+          <div className="fixed inset-0 flex items-center justify-center p-4 z-100 pointer-events-none">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -289,17 +302,37 @@ const skillsetCards = [
 ];
 
 const navItems = [
-  { id: "Skillset", label: "Skillset", gradient: "from-blue-600 to-blue-200" },
-  { id: "Network", label: "Network", gradient: "from-green-500 to-green-200" },
+  {
+    id: "Skillset",
+    label: "Skillset",
+    image: "/bizinfra/skill2.png",
+  },
+  {
+    id: "Network",
+    label: "Network",
+    image: "/bizinfra/network.png",
+  },
   {
     id: "Capital",
     label: "Capital",
-    gradient: "from-yellow-500 via-yellow-300 to-yellow-100",
+    image: "/bizinfra/capital.png",
   },
-  { id: "Intel", label: "Intel", gradient: "from-yellow-600 to-yellow-200" },
-  { id: "Reach", label: "Reach", gradient: "from-purple-600 to-purple-300" },
+  {
+    id: "Intel",
+    label: "Intel",
+    image: "/bizinfra/intel2.png",
+  },
+  {
+    id: "Reach",
+    label: "Reach",
+    image: "/bizinfra/reach.png",
+  },
 ];
 
+/**
+ * Skilset Page - The main landing page for the BizInfra module.
+ * Displays a grid of skills and provides search/add functionality.
+ */
 const Skilset = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isPlusOpen, setIsPlusOpen] = useState(false);
@@ -307,8 +340,8 @@ const Skilset = () => {
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       <div className="flex items-center gap-2">
-          <Link to="/dashboard/bizinfra">
-          <div className="p-2 hover:bg-white/50 rounded-lg transition-colors">
+        <Link to="/dashboard/bizinfra">
+          <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
             <LeftArrow />
           </div>
         </Link>
@@ -317,21 +350,23 @@ const Skilset = () => {
       </div>
       {/* Search Bar - Trigger */}
       <div className="flex justify-end items-center mb-8">
-      
-
         <div className="flex items-center gap-2">
-          <div
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={() => setIsSearchOpen(true)}
-            className="p-2 bg-white rounded-xl shadow-sm border border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors"
+            className="w-10 h-10 rounded-xl cursor-pointer hover:text-blue-600 hover:bg-white transition-colors flex items-center justify-center text-gray-400"
           >
             <SearchIcon />
-          </div>
-          <div
+          </motion.div>
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={() => setIsPlusOpen(true)}
-            className="p-2 bg-blue-600 text-white rounded-xl shadow-sm cursor-pointer hover:bg-blue-700 transition-colors"
+            className="w-10 h-10 rounded-xl cursor-pointer hover:text-white hover:bg-blue-600 transition-colors flex items-center justify-center text-gray-400"
           >
             <PlusIcon />
-          </div>
+          </motion.div>
         </div>
       </div>
 
@@ -343,23 +378,31 @@ const Skilset = () => {
       <AddSkillModal isOpen={isPlusOpen} onClose={() => setIsPlusOpen(false)} />
 
       {/* Top Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 lg:mb-20 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
+      <div className="flex flex-wrap items-center justify-center gap-6 mb-12 lg:mb-20 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
         {skillsetCards.map((card, index) => (
           <Link
             key={index}
             to={`/dashboard/bizinfra/skillset/${card.title.toLowerCase().replace(/\s+/g, "-")}`}
-            className="flex flex-col group cursor-pointer"
+            className="contents"
           >
-            {/* White Placeholder Box */}
-            <div className="w-full aspect-square bg-white rounded-2xl shadow-sm border border-gray-100 mb-4 group-hover:shadow-md transition-shadow"></div>
+            <motion.div
+              className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
+              data-aos="fade-up"
+              data-aos-delay={index * 100}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              {/* White Placeholder Box */}
+              <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex flex-col items-center justify-center relative overflow-hidden">
+                {/* Optional: Add a subtle overlay or just let the bg change handle it */}
+              </div>
 
-            {/* Content */}
-            <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-              {card.title}
-            </h3>
-            <p className="text-xs sm:text-sm text-gray-500 leading-relaxed line-clamp-3">
-              {card.description}
-            </p>
+              {/* Content */}
+              <h3 className="text-lg sm:text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                {card.title}
+              </h3>
+              {/* Description removed as per request */}
+            </motion.div>
           </Link>
         ))}
       </div>
@@ -378,28 +421,33 @@ const Skilset = () => {
                     ? "/dashboard/bizinfra/capital"
                     : item.id === "Intel"
                       ? "/dashboard/bizinfra/intel"
-                      : "#";
+                      : item.id === "Reach"
+                        ? "/dashboard/bizinfra/reach"
+                        : "#";
             return (
-              <Link
-                key={item.id}
-                to={path}
-                className="flex flex-col items-center gap-2 group shrink-0"
-              >
-                <div
-                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
+              <Link key={item.id} to={path} className="contents">
+                <motion.div
+                  className="flex flex-col items-center gap-2 group shrink-0 cursor-pointer"
+                  whileHover={{ y: -5 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <div
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
                     ${isSelected ? "bg-blue-600/10 border-2 border-blue-600 ring-4 ring-blue-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
                   `}
-                >
-                  {/* Small Gradient Shape inside Nav Item */}
-                  <div
-                    className={`w-3/5 h-3/5 rounded-lg bg-linear-to-br ${item.gradient} rotate-12`}
-                  ></div>
-                </div>
-                <span
-                  className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}
-                >
-                  {item.label}
-                </span>
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.label}
+                      className="w-3/4 h-3/4 object-contain transform rotate-12 group-hover:rotate-0 transition-transform duration-300"
+                    />
+                  </div>
+                  <span
+                    className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}
+                  >
+                    {item.label}
+                  </span>
+                </motion.div>
               </Link>
             );
           })}

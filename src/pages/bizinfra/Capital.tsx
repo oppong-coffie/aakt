@@ -2,6 +2,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+/**
+ * Capital Page - Manages fundraising campaigns and capital sources.
+ * Includes detailed views for investment sources and creation of campaigns.
+ */
+
 const SearchIcon = () => (
   <svg
     width="20"
@@ -12,10 +17,25 @@ const SearchIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-blue-600"
   >
     <circle cx="11" cy="11" r="8"></circle>
     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+  </svg>
+);
+
+const LeftArrowIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="m12 19-7-7 7-7" />
+    <path d="M19 12H5" />
   </svg>
 );
 
@@ -77,31 +97,31 @@ const navItems = [
   {
     id: "Skillset",
     label: "Skillset",
-    gradient: "from-blue-600 to-blue-200",
+    image: "/bizinfra/skill2.png",
     path: "/dashboard/bizinfra/skillset",
   },
   {
     id: "Network",
     label: "Network",
-    gradient: "from-green-500 to-green-200",
+    image: "/bizinfra/network.png",
     path: "/dashboard/bizinfra/network",
   },
   {
     id: "Capital",
     label: "Capital",
-    gradient: "from-yellow-500 via-yellow-300 to-yellow-100",
+    image: "/bizinfra/capital.png",
     path: "/dashboard/bizinfra/capital",
   },
   {
     id: "Intel",
     label: "Intel",
-    gradient: "from-yellow-600 to-yellow-200",
+    image: "/bizinfra/intel2.png",
     path: "/dashboard/bizinfra/intel",
   },
   {
     id: "Reach",
     label: "Reach",
-    gradient: "from-purple-600 to-purple-300",
+    image: "/bizinfra/reach.png",
     path: "/dashboard/bizinfra/reach",
   },
 ];
@@ -191,6 +211,23 @@ const capitalSources = [
   },
 ];
 
+const fundraisingCampaigns = [
+  {
+    id: 1,
+    name: "Series A Extension",
+    type: "Equity",
+    amount: "$2M",
+    status: "Active",
+  },
+  {
+    id: 2,
+    name: "Q3 Bridge Round",
+    type: "Debt",
+    amount: "$500k",
+    status: "Live",
+  },
+];
+
 const Capital = () => {
   const [viewMode, setViewMode] = useState<"list" | "card">("list");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -198,7 +235,9 @@ const Capital = () => {
     useState(false);
   const [selectedSource, setSelectedSource] = useState<any | null>(null);
 
-  // Add Source Modal
+  /**
+   * Modal to add a new capital source.
+   */
   const AddCapitalModal = () => (
     <AnimatePresence>
       {isAddModalOpen && (
@@ -214,7 +253,7 @@ const Capital = () => {
             initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
-            className="bg-white w-full max-w-xl rounded-[2rem] shadow-2xl relative z-index-100 p-8 max-h-[90vh] overflow-y-auto no-scrollbar"
+            className="bg-white w-full max-w-xl rounded-4xl shadow-2xl relative z-index-100 p-8 max-h-[90vh] overflow-y-auto no-scrollbar"
           >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold text-gray-900">
@@ -316,7 +355,9 @@ const Capital = () => {
     </AnimatePresence>
   );
 
-  // Create Campaign Modal
+  /**
+   * Modal to create a new fundraising campaign.
+   */
   const CreateCampaignModal = () => (
     <AnimatePresence>
       {isCreateCampaignModalOpen && (
@@ -332,7 +373,7 @@ const Capital = () => {
             initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
-            className="bg-white w-full max-w-lg rounded-[2rem] shadow-2xl relative z-index-100 p-8 max-h-[90vh] overflow-y-auto no-scrollbar"
+            className="bg-white w-full max-w-lg rounded-4xl shadow-2xl relative z-index-100 p-8 max-h-[90vh] overflow-y-auto no-scrollbar"
           >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold text-gray-900">
@@ -421,7 +462,9 @@ const Capital = () => {
     </AnimatePresence>
   );
 
-  // Source Details Modal
+  /**
+   * Modal to view and edit details of a specific capital source.
+   */
   const SourceDetailsModal = () => (
     <AnimatePresence>
       {selectedSource && (
@@ -437,7 +480,7 @@ const Capital = () => {
             initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
-            className="bg-white w-full max-w-md rounded-[3rem] shadow-2xl relative z-100 overflow-hidden"
+            className="bg-white w-full max-w-md rounded-5xl shadow-2xl relative z-100 overflow-hidden"
           >
             {/* Modal Header/Art */}
             <div className="h-32 bg-linear-to-br from-yellow-500 to-yellow-300 relative">
@@ -461,7 +504,7 @@ const Capital = () => {
             </div>
 
             <div className="px-10 pb-10 -mt-10">
-              <div className="bg-white rounded-[2.5rem] p-8 shadow-sm border border-gray-100 mb-8 flex flex-col items-center">
+              <div className="bg-white rounded-4xl p-8 shadow-sm border border-gray-100 mb-8 flex flex-col items-center">
                 <div className="w-24 h-24 bg-gray-100 rounded-2xl flex items-center justify-center mb-4">
                   <span className="text-3xl font-black text-yellow-600">
                     {selectedSource.source[0]}
@@ -523,7 +566,7 @@ const Capital = () => {
 
               <button
                 onClick={() => setSelectedSource(null)}
-                className="w-full py-5 bg-gray-900 text-white rounded-[2rem] font-bold hover:bg-gray-800 transition-colors mb-4"
+                className="w-full py-5 bg-gray-900 text-white rounded-4xl font-bold hover:bg-gray-800 transition-colors mb-4"
               >
                 Close Details
               </button>
@@ -537,28 +580,38 @@ const Capital = () => {
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
-      <div className="flex justify-between items-center mb-10">
-        <div className="flex items-center gap-4">
-          <div className="flex flex-col bg-white p-3 rounded-2xl shadow-sm border border-gray-100">
-            <span className="text-[10px] font-bold text-gray-400 leading-none mb-1">
-              Bizinfra
-            </span>
-            <h2 className="text-sm font-bold text-gray-900 leading-none">
-              Capital
-            </h2>
-          </div>
+      <div className="flex items-center gap-2 mb-6">
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+          <Link
+            to="/dashboard/bizinfra"
+            className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+          >
+            <LeftArrowIcon />
+          </Link>
+        </motion.div>
+        <div className="flex items-center gap-2">
+          <div className="">BizInfra</div>
+          <div className="font-bold text-xl ml-24">Capital</div>
         </div>
+      </div>
 
-        <div className="flex items-center gap-3">
-          <button className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 transition-colors hover:bg-gray-50">
+      <div className="flex justify-end items-center mb-8">
+        <div className="flex items-center gap-2">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+          >
             <SearchIcon />
-          </button>
-          <button
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={() => setIsAddModalOpen(true)}
-            className="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-md hover:bg-blue-700 transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
           >
             <PlusIcon />
-          </button>
+          </motion.button>
           <button
             onClick={() => setViewMode(viewMode === "list" ? "card" : "list")}
             className="px-4 py-2 bg-white rounded-xl flex items-center gap-2 shadow-sm border border-gray-100 text-xs font-bold text-gray-700 transition-colors hover:bg-gray-50"
@@ -588,7 +641,7 @@ const Capital = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="bg-white/50 rounded-[2.5rem] p-4 border border-gray-200/50"
+                className="bg-white/50 rounded-4xl p-4 border border-gray-200/50"
               >
                 <div className="grid grid-cols-3 px-8 py-4 text-[10px] font-extrabold text-gray-400 uppercase tracking-widest border-b border-gray-100/50">
                   <span>Source</span>
@@ -597,10 +650,18 @@ const Capital = () => {
                 </div>
                 <div className="space-y-1 mt-2">
                   {capitalSources.map((item, i) => (
-                    <div
+                    <motion.div
                       key={i}
                       onClick={() => setSelectedSource(item)}
                       className="grid grid-cols-3 px-8 py-4 hover:bg-white rounded-2xl transition-colors cursor-pointer group"
+                      data-aos="fade-up"
+                      data-aos-duration="2500"
+                      data-aos-delay={i * 200}
+                      whileHover={{
+                        scale: 1.01,
+                        backgroundColor: "rgba(255, 255, 255, 1)",
+                      }}
+                      whileTap={{ scale: 0.99 }}
                     >
                       <span className="text-sm font-bold text-gray-600 group-hover:text-gray-900">
                         {item.source}
@@ -611,7 +672,7 @@ const Capital = () => {
                       <span className={`text-sm font-bold ${item.statusColor}`}>
                         {item.status}
                       </span>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </motion.div>
@@ -624,10 +685,15 @@ const Capital = () => {
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
               >
                 {capitalSources.map((item, i) => (
-                  <div
+                  <motion.div
                     key={i}
                     onClick={() => setSelectedSource(item)}
-                    className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 hover:shadow-md transition-shadow group cursor-pointer relative overflow-hidden"
+                    className="bg-white p-6 rounded-4xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group cursor-pointer relative overflow-hidden"
+                    data-aos="fade-up"
+                    data-aos-duration="2500"
+                    data-aos-delay={i * 200}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     <div className="absolute top-0 right-0 p-4">
                       <div
@@ -672,7 +738,7 @@ const Capital = () => {
                         </svg>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </motion.div>
             )}
@@ -686,43 +752,52 @@ const Capital = () => {
             </h3>
             <button
               onClick={() => setIsCreateCampaignModalOpen(true)}
-              className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 text-blue-600 hover:bg-gray-50 transition-colors"
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
             >
               <PlusIcon />
             </button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2].map((i) => (
-              <div
+          <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full">
+            {fundraisingCampaigns.map((campaign, i) => (
+              <Link
                 key={i}
-                className="bg-white p-6 rounded-[2.5rem] shadow-sm border border-gray-100 flex flex-col gap-6"
+                to="/dashboard/bizinfra/skillset/project/project"
+                className="contents"
               >
-                <div className="w-full aspect-square bg-gray-100 rounded-[2rem]"></div>
-                <div className="space-y-4">
-                  <h4 className="text-lg font-bold text-gray-900">
-                    Campaign {i}
-                  </h4>
-                  <div className="grid grid-cols-1 gap-2">
-                    <div className="flex justify-between text-[11px] font-bold">
-                      <span className="text-gray-400 uppercase">Type:</span>
-                      <span className="text-gray-900">Fund</span>
+                <motion.div
+                  className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
+                  data-aos="fade-up"
+                  data-aos-duration="3000"
+                  data-aos-delay={i * 300}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex flex-col gap-4 relative overflow-hidden p-6">
+                    <div className="w-full aspect-square bg-gray-100 rounded-2xl mb-2 relative overflow-hidden hidden">
+                      {/* Placeholder or image hidden in standard view if it clashes with info */}
                     </div>
-                    <div className="flex justify-between text-[11px] font-bold">
-                      <span className="text-gray-400 uppercase">Amount:</span>
-                      <span className="text-gray-900">$90,000</span>
-                    </div>
-                    <div className="flex justify-between text-[11px] font-bold">
-                      <span className="text-gray-400 uppercase">Status:</span>
-                      <span className="text-green-600">Live</span>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-[10px] font-bold">
+                        <span className="text-gray-400 uppercase">Type:</span>
+                        <span className="text-gray-900">{campaign.type}</span>
+                      </div>
+                      <div className="flex justify-between text-[10px] font-bold">
+                        <span className="text-gray-400 uppercase">Amount:</span>
+                        <span className="text-gray-900">{campaign.amount}</span>
+                      </div>
+                      <div className="flex justify-between text-[10px] font-bold">
+                        <span className="text-gray-400 uppercase">Status:</span>
+                        <span className="text-green-600">
+                          {campaign.status}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  <Link to="/dashboard/bizinfra/skillset/project/project">
-                    <button className="w-full py-3 bg-blue-600 text-white rounded-2xl font-bold text-sm hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20">
-                      Explore
-                    </button>
-                  </Link>
-                </div>
-              </div>
+                  <h4 className="text-base font-bold text-gray-900 truncate group-hover:text-blue-600 transition-colors">
+                    {campaign.name}
+                  </h4>
+                </motion.div>
+              </Link>
             ))}
           </div>
         </section>
@@ -737,25 +812,29 @@ const Capital = () => {
           {navItems.map((item) => {
             const isSelected = item.id === "Capital";
             return (
-              <Link
-                key={item.id}
-                to={item.path}
-                className="flex flex-col items-center gap-2 group shrink-0"
-              >
-                <div
-                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
-                  ${isSelected ? "bg-yellow-600/10 border-2 border-yellow-600 ring-4 ring-yellow-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
-                `}
+              <Link key={item.id} to={item.path} className="contents">
+                <motion.div
+                  className="flex flex-col items-center gap-2 group shrink-0 cursor-pointer"
+                  whileHover={{ y: -5 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <div
-                    className={`w-3/5 h-3/5 rounded-lg bg-linear-to-br ${item.gradient} rotate-12`}
-                  ></div>
-                </div>
-                <span
-                  className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}
-                >
-                  {item.label}
-                </span>
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
+                    ${isSelected ? "bg-yellow-600/10 border-2 border-yellow-600 ring-4 ring-yellow-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
+                  `}
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.label}
+                      className="w-3/4 h-3/4 object-contain transform rotate-12 group-hover:rotate-0 transition-transform duration-300"
+                    />
+                  </div>
+                  <span
+                    className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}
+                  >
+                    {item.label}
+                  </span>
+                </motion.div>
               </Link>
             );
           })}

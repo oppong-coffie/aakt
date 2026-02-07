@@ -25,7 +25,7 @@ const Question1 = () => {
     <div className="flex flex-col h-full bg-[#f0f0eb] p-6 sm:p-12 font-sans text-gray-900 justify-center items-center relative">
       <button
         onClick={() => navigate(-1)}
-        className="absolute top-6 left-6 text-gray-500 hover:text-gray-900 transition-colors"
+        className="absolute top-6 left-6 w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
       >
         <LeftArrowIcon />
       </button>
@@ -74,11 +74,9 @@ const Question1 = () => {
             Cancel
           </button>
           <Link to="/dashboard/portfolio/question2">
-          <button
-            className="px-8 py-2.5 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
-          >
-            Continue
-          </button>
+            <button className="px-8 py-2.5 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg">
+              Continue
+            </button>
           </Link>
         </div>
       </div>

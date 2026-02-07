@@ -34,7 +34,7 @@ const Step = () => {
 
       <div className="w-full flex justify-center">
         <textarea
-          className="w-[500px] h-40 p-6 rounded-xl border-none shadow-sm resize-none focus:ring-2 focus:ring-blue-100 outline-none text-gray-700 text-lg placeholder-gray-400 bg-white"
+          className="w-full max-w-3xl h-64 p-6 rounded-xl border-none shadow-sm resize-none focus:ring-2 focus:ring-blue-100 outline-none text-gray-700 text-lg placeholder-gray-400 bg-white"
           placeholder="Answer"
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}

@@ -1,5 +1,9 @@
 import { Link } from "react-router-dom";
 
+/**
+ * Shared Header Component - Top-level navigation bar for the global layout.
+ * Includes branding and basic links to Home, About, and Contact.
+ */
 const Header = () => {
   return (
     <header

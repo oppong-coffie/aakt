@@ -2,6 +2,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
+/**
+ * Intel Page - Provides categorized intelligence and strategic planning views.
+ * Similar to SkillsetDetail but focused on Intelligence gathering and sources.
+ */
+
 const SearchIcon = () => (
   <svg
     width="20"
@@ -12,7 +17,6 @@ const SearchIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-blue-600"
   >
     <circle cx="11" cy="11" r="8"></circle>
     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -55,31 +59,31 @@ const navItems = [
   {
     id: "Skillset",
     label: "Skillset",
-    gradient: "from-blue-600 to-blue-200",
+    image: "/bizinfra/skill2.png",
     path: "/dashboard/bizinfra/skillset",
   },
   {
     id: "Network",
     label: "Network",
-    gradient: "from-green-500 to-green-200",
+    image: "/bizinfra/network.png",
     path: "/dashboard/bizinfra/network",
   },
   {
     id: "Capital",
     label: "Capital",
-    gradient: "from-yellow-500 via-yellow-300 to-yellow-100",
+    image: "/bizinfra/capital.png",
     path: "/dashboard/bizinfra/capital",
   },
   {
     id: "Intel",
     label: "Intel",
-    gradient: "from-yellow-600 to-yellow-200",
+    image: "/bizinfra/intel2.png",
     path: "/dashboard/bizinfra/intel",
   },
   {
     id: "Reach",
     label: "Reach",
-    gradient: "from-purple-600 to-purple-300",
+    image: "/bizinfra/reach.png",
     path: "/dashboard/bizinfra/reach",
   },
 ];
@@ -96,7 +100,10 @@ const Intel = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isAddDropdownOpen, setIsAddDropdownOpen] = useState(false);
 
-  // Modal Component (Mirrors Capital Add Modal)
+  /**
+   * Modal component to add a new Intelligence Source.
+   * Reuses the structure from the Capital module for consistency.
+   */
   const AddIntelModal = () => (
     <AnimatePresence>
       {isAddModalOpen && (
@@ -112,7 +119,7 @@ const Intel = () => {
             initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
-            className="bg-white w-full max-w-xl rounded-[2rem] shadow-2xl relative z-index-100 p-8 max-h-[90vh] overflow-y-auto no-scrollbar"
+            className="bg-white w-full max-w-xl rounded-4xl shadow-2xl relative z-index-100 p-8 max-h-[90vh] overflow-y-auto no-scrollbar"
           >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold text-gray-900">
@@ -217,36 +224,40 @@ const Intel = () => {
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
-      <div className="flex justify-between items-center mb-10">
-        <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 mb-6">
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <Link
-            to="/dashboard/bizinfra"
-            className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm border border-gray-100 text-blue-600 hover:bg-gray-50 transition-colors"
+            to="/dashboard/bizinfra/skillset"
+            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
           >
             <LeftArrowIcon />
           </Link>
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">
-              Bizinfra
-            </span>
-            <h2 className="text-xl font-extrabold text-gray-900 border-l border-gray-300 pl-3">
-              Intel
-            </h2>
-          </div>
+        </motion.div>
+        <div className="flex items-center gap-2">
+          <div className="">BizInfra</div>
+          <div className="font-bold text-xl ml-24">Intel</div>
         </div>
+      </div>
 
-        <div className="flex items-center gap-3 relative">
-          <button className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 hover:bg-gray-50 transition-colors">
+      <div className="flex justify-end items-center mb-8">
+        <div className="flex items-center gap-2 relative">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+          >
             <SearchIcon />
-          </button>
+          </motion.button>
 
           <div className="relative">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               onClick={() => setIsAddDropdownOpen(!isAddDropdownOpen)}
-              className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 text-blue-600 hover:bg-gray-50 transition-colors"
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
             >
               <PlusIcon />
-            </button>
+            </motion.button>
 
             <AnimatePresence>
               {isAddDropdownOpen && (
@@ -286,59 +297,29 @@ const Intel = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-8 max-w-7xl mx-auto w-full flex-1">
-        {categories.map((cat) => {
-          const content = (
-            <>
-              <div className="w-64 h-40 bg-white rounded-2xl shadow-sm border border-gray-100 mb-4 group-hover:shadow-md transition-shadow"></div>
+      <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
+        {categories.map((cat, index) => (
+          <Link
+            key={cat.id}
+            to={`/dashboard/bizinfra/skillset/${id}/${cat.id}`}
+            className="contents"
+          >
+            <motion.div
+              className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
+              data-aos="fade-up"
+              data-aos-delay={index * 100}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center">
+                {/* Optional Icon/Content placeholder inside */}
+              </div>
               <h3 className="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
                 {cat.label}
               </h3>
-            </>
-          );
-
-          if (cat.id === "project") {
-            return (
-              <Link
-                key={cat.id}
-                to={`/dashboard/bizinfra/skillset/${id}/project`}
-                className="flex flex-col items-center group"
-              >
-                {content}
-              </Link>
-            );
-          }
-
-          if (cat.id === "process") {
-            return (
-              <Link
-                key={cat.id}
-                to={`/dashboard/bizinfra/skillset/${id}/process`}
-                className="flex flex-col items-center group"
-              >
-                {content}
-              </Link>
-            );
-          }
-
-          if (cat.id === "block") {
-            return (
-              <Link
-                key={cat.id}
-                to={`/dashboard/bizinfra/skillset/${id}/block`}
-                className="flex flex-col items-center group"
-              >
-                {content}
-              </Link>
-            );
-          }
-
-          return (
-            <div key={cat.id} className="flex flex-col items-center">
-              {content}
-            </div>
-          );
-        })}
+            </motion.div>
+          </Link>
+        ))}
       </div>
 
       <AddIntelModal />
@@ -349,25 +330,29 @@ const Intel = () => {
           {navItems.map((item) => {
             const isSelected = item.id === "Intel";
             return (
-              <Link
-                key={item.id}
-                to={item.path}
-                className="flex flex-col items-center gap-2 group shrink-0"
-              >
-                <div
-                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
-                  ${isSelected ? "bg-yellow-600/10 border-2 border-yellow-600 ring-4 ring-yellow-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
-                `}
+              <Link key={item.id} to={item.path} className="contents">
+                <motion.div
+                  className="flex flex-col items-center gap-2 group shrink-0 cursor-pointer"
+                  whileHover={{ y: -5 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <div
-                    className={`w-3/5 h-3/5 rounded-lg bg-linear-to-br ${item.gradient} rotate-12`}
-                  ></div>
-                </div>
-                <span
-                  className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}
-                >
-                  {item.label}
-                </span>
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
+                        ${isSelected ? "bg-yellow-600/10 border-2 border-yellow-600 ring-4 ring-yellow-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
+                      `}
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.label}
+                      className="w-3/4 h-3/4 object-contain transform rotate-12 group-hover:rotate-0 transition-transform duration-300"
+                    />
+                  </div>
+                  <span
+                    className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}
+                  >
+                    {item.label}
+                  </span>
+                </motion.div>
               </Link>
             );
           })}

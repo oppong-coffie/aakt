@@ -3,36 +3,40 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
+/**
+ * BizInfra First Page - The entry point for the Business Infrastructure module.
+ * Displays large cards representing different sectors like Skillset, Network, and Capital.
+ */
 
 const cards = [
   {
     id: "Skillset",
     label: "Skillset",
-    gradient: "from-blue-600 to-blue-200",
+    image: "/bizinfra/skill2.png",
     link: "skillset",
   },
   {
     id: "Network",
     label: "Network",
-    gradient: "from-green-500 to-green-200",
+    image: "/bizinfra/network.png",
     link: "network",
   },
   {
     id: "Capital",
     label: "Capital",
-    gradient: "from-yellow-500 via-yellow-300 to-yellow-100",
+    image: "/bizinfra/capital.png",
     link: "capital",
   },
   {
     id: "Intel",
     label: "Intel",
-    gradient: "from-yellow-600 to-yellow-200",
+    image: "/bizinfra/intel2.png",
     link: "intel",
-  }, // More goldish
+  },
   {
     id: "Reach",
     label: "Reach",
-    gradient: "from-purple-600 to-purple-300",
+    image: "/bizinfra/reach.png",
     link: "reach",
   },
 ];
@@ -47,7 +51,7 @@ const SearchIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-gray-400"
+    className=""
   >
     <circle cx="11" cy="11" r="8"></circle>
     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -96,7 +100,7 @@ const SearchModal = ({
           />
 
           {/* Modal Container */}
-          <div className="fixed inset-0 flex items-center justify-center p-4 z-101 pointer-events-none">
+          <div className="fixed inset-0 flex items-center justify-center p-4 z-100 pointer-events-none">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -116,7 +120,7 @@ const SearchModal = ({
 
               <div className="flex flex-1 overflow-hidden">
                 {/* Sidebar */}
-                <div className="w-56 border-r border-gray-50 flex flex-col p-4 gap-1">
+                <div className="w-56 border-r border-gray-50 flex flex-col p-4 gap-1 overflow-y-auto no-scrollbar">
                   {categories.map((category) => (
                     <button
                       key={category}
@@ -156,51 +160,42 @@ const SearchModal = ({
   );
 };
 
-
 const Firstpage = () => {
-    const [isSearchOpen, setIsSearchOpen] = useState(false);
-  
-  return (
-    
-    <div className="">
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-    
+  return (
+    <div className="">
       {/* Header */}
-      <header className="">
+      <header className="flex justify-between items-center px-8 pt-6 mb-6">
         <div className="font-bold text-xl">BizInfra</div>
-        <div className="flex justify-end mr-32">
-          <div onClick={() => setIsSearchOpen(true)} className="bg-white w-8 p-2 rounded-xl cursor-pointer">
+        <div className="flex items-center gap-2">
+          <div
+            onClick={() => setIsSearchOpen(true)}
+            className="w-10 h-10 rounded-xl cursor-pointer text-gray-400 hover:text-blue-600 hover:bg-white transition-colors flex items-center justify-center"
+          >
             <SearchIcon />
           </div>
         </div>
       </header>
-      
+
       {/* cards */}
       <div className="h-[85vh] w-full flex flex-col justify-center">
         <div className="grid grid-cols-5 gap-6 px-4">
           {cards.map((card) => (
-            <Link to={card.link}>
-              <div
-                key={card.id}
-                className="flex flex-col items-center group cursor-pointer"
-              >
+            <Link to={card.link} key={card.id}>
+              <div className="flex flex-col items-center group cursor-pointer">
                 {/* Card Container */}
                 <div className="w-full aspect-square bg-gray-100/50 rounded-xl shadow-sm border border-gray-200/50 flex items-center justify-center relative overflow-hidden transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md">
-                  {/* Gradient Shape */}
-                  <div
-                    className={`w-3/5 h-3/5 rounded-[2rem] bg-linear-to-br ${card.gradient} shadow-lg relative transform rotate-12 group-hover:rotate-0 transition-transform duration-500`}
-                  >
-                    {/* Noise Texture Overlay */}
-                    <div
-                      className="absolute inset-0 opacity-20 mix-blend-overlay"
-                      style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                      }}
-                    ></div>
+                  {/* Image Shape */}
 
-                    {/* Inner Shine */}
-                    <div className="absolute inset-0 bg-linear-to-tr from-transparent via-white/20 to-transparent opacity-50"></div>
-                  </div>
+                  <img
+                    src={card.image}
+                    alt={card.label}
+                    className="object-cover w-3/4 relative transform rotate-12 group-hover:rotate-0 transition-transform duration-500"
+                  />
+
+                  {/* Inner Shine/Overlay if needed for depth */}
+                  <div className="absolute inset-0 bg-linear-to-tr from-black/10 via-transparent to-white/20 pointer-events-none"></div>
                 </div>
 
                 {/* Label */}

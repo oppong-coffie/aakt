@@ -2,6 +2,12 @@ import { useState } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
+/**
+ * Dashboard Layout - The primary layout for the application's authenticated area.
+ * Features a persistent Sidebar (navigation), a main content area (Outlet),
+ * and integrated Botpress webchat for support.
+ */
+
 // Icons (Simple SVGs)
 const HomeIcon = () => (
   <svg
@@ -67,39 +73,36 @@ const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
 
+  useEffect(() => {
+    const initBotpress = () => {
+      if (!window.botpressWebChat) return;
 
- useEffect(() => {
-  const initBotpress = () => {
-    if (!window.botpressWebChat) return;
+      window.botpressWebChat.init({
+        botId: "YOUR_BOT_ID",
+        clientId: "YOUR_CLIENT_ID",
+        hostUrl: "https://cdn.botpress.cloud/webchat/v1",
+        messagingUrl: "https://messaging.botpress.cloud",
+        lazySocket: true,
+        showPoweredBy: false,
+      });
+    };
 
-    window.botpressWebChat.init({
-      botId: "YOUR_BOT_ID",
-      clientId: "YOUR_CLIENT_ID",
-      hostUrl: "https://cdn.botpress.cloud/webchat/v1",
-      messagingUrl: "https://messaging.botpress.cloud",
-      lazySocket: true,
-      showPoweredBy: false,
-    });
-  };
+    // try immediately
+    initBotpress();
 
-  // try immediately
-  initBotpress();
+    // fallback: in case script loads after component mounts
+    const interval = setInterval(() => {
+      if (window.botpressWebChat) {
+        initBotpress();
+        clearInterval(interval);
+      }
+    }, 300);
 
-  // fallback: in case script loads after component mounts
-  const interval = setInterval(() => {
-    if (window.botpressWebChat) {
-      initBotpress();
-      clearInterval(interval);
-    }
-  }, 300);
-
-  return () => clearInterval(interval);
-}, []);
-
-
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div className="flex h-screen bg-[#f0f0eb] font-sans text-gray-800">
+    <div className="flex h-screen bg-[#f0f0eb] font-sans text-gray-800 overflow-hidden">
       {/* Mobile Toggle Button */}
       <button
         onClick={() => setIsSidebarOpen(true)}
@@ -140,11 +143,15 @@ const Dashboard = () => {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 space-y-2">
+        <nav className="flex-1 space-y-4">
           <Link
             to="/dashboard/home"
             onClick={() => setIsSidebarOpen(false)}
-            className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors ${location.pathname === "/dashboard/home" ? "bg-gray-200/80 shadow-sm border border-gray-300/50" : "hover:bg-gray-100 text-gray-600"}`}
+            className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors ${
+              location.pathname === "/dashboard/home"
+                ? "bg-gray-200/80 shadow-sm border border-gray-300/50 text-gray-900"
+                : "hover:bg-gray-100 text-gray-600 hover:text-gray-900"
+            }`}
           >
             <div className="w-6 flex justify-center">
               <HomeIcon />
@@ -152,83 +159,65 @@ const Dashboard = () => {
             <span className="font-medium text-sm">Home</span>
           </Link>
 
-          {/* BizInfra Item with Hover Menu */}
-          <div className="group relative">
-            <Link
-              to="/dashboard/bizinfra"
-              onClick={() => setIsSidebarOpen(false)}
-              className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-100 text-gray-600 transition-colors"
-            >
-              <div className="w-6 flex justify-center">
-                <BizIcon />
-              </div>
-              <span className="font-medium text-sm">BizInfra</span>
-            </Link>
-
-            {/* Popover - Desktop only ideally or adjusted for mobile */}
-            <div className="absolute left-full top-0 ml-2 w-64 bg-[#f0f0eb]/90 backdrop-blur-xl border border-gray-200/50 rounded-2xl p-4 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-x-[-10px] group-hover:translate-x-0 z-50 lg:block hidden">
-              <div className="grid grid-cols-3 gap-3">
-                {["Skilset", "Network", "Intel", "Capital", "Reach"].map(
-                  (item) => (
-                    <Link
-                      key={item}
-                      to={`/dashboard/bizinfra/${item.toLowerCase().replace("skilset", "skillset")}`}
-                      className="flex flex-col items-center gap-1 cursor-pointer hover:bg-white/50 p-2 rounded-lg transition-colors"
-                    >
-                      <div
-                        className={`w-8 h-8 rounded-lg shadow-sm flex items-center justify-center text-white text-xs font-bold
-                                    ${
-                                      item === "Skilset"
-                                        ? "bg-blue-600"
-                                        : item === "Network"
-                                          ? "bg-green-500"
-                                          : item === "Intel"
-                                            ? "bg-yellow-500"
-                                            : item === "Capital"
-                                              ? "bg-yellow-300"
-                                              : "bg-purple-500"
-                                    }`}
-                      >
-                        <div className="w-3 h-3 border border-white/50 rounded-sm"></div>
-                      </div>
-                      <span className="text-[10px] font-medium text-gray-600">
-                        {item}
-                      </span>
-                    </Link>
-                  ),
-                )}
-              </div>
+          {/* BizInfra Group */}
+          <div className="space-y-1">
+            <div className="px-4 py-1">
+              <Link
+                to="/dashboard/bizinfra"
+                className="flex items-center gap-3 text-gray-500 font-bold text-xs uppercase tracking-wider mb-2 hover:text-gray-800 transition-colors"
+              >
+                <BizIcon /> BizInfra
+              </Link>
+            </div>
+            <div className="pl-4 space-y-1 border-l-2 border-gray-100 ml-5">
+              {["Skillset", "Network", "Intel", "Capital", "Reach"].map(
+                (item) => (
+                  <Link
+                    key={item}
+                    to={`/dashboard/bizinfra/${item.toLowerCase().replace("skilset", "skillset")}`}
+                    onClick={() => setIsSidebarOpen(false)}
+                    className={`block px-4 py-2 text-sm font-medium rounded-lg transition-colors
+                      ${
+                        location.pathname.includes(item.toLowerCase())
+                          ? "bg-blue-50 text-blue-600"
+                          : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                      }
+                    `}
+                  >
+                    {item}
+                  </Link>
+                ),
+              )}
             </div>
           </div>
 
-          {/* Portfolio Item with Hover Menu */}
-          <div className="group relative">
-            <Link
-              to="/dashboard/portfolio"
-              onClick={() => setIsSidebarOpen(false)}
-              className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-100 text-gray-600 transition-colors"
-            >
-              <div className="w-6 flex justify-center">
-                <PortfolioIcon />
-              </div>
-              <span className="font-medium text-sm">Portfolio</span>
-            </Link>
-
-            {/* Popover */}
-            <div className="absolute left-full top-0 ml-2 w-48 bg-[#f0f0eb]/90 backdrop-blur-xl border border-gray-200/50 rounded-2xl p-4 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-x-[-10px] group-hover:translate-x-0 z-50 lg:block hidden">
-              <div className="flex flex-col gap-3">
-                {["SaaS", "Ecommerce"].map((item) => (
-                  <div
-                    key={item}
-                    className="flex flex-col items-center gap-2 cursor-pointer hover:bg-white/50 p-2 rounded-xl transition-colors"
-                  >
-                    <div className="w-full h-20 bg-white rounded-lg border border-gray-200 shadow-sm"></div>
-                    <span className="text-xs font-medium text-gray-700">
-                      {item}
-                    </span>
-                  </div>
-                ))}
-              </div>
+          {/* Portfolio Group */}
+          <div className="space-y-1 pt-2">
+            <div className="px-4 py-1">
+              <Link
+                to="/dashboard/portfolio"
+                className="flex items-center gap-3 text-gray-500 font-bold text-xs uppercase tracking-wider mb-2 hover:text-gray-800 transition-colors"
+              >
+                <PortfolioIcon /> Portfolio
+              </Link>
+            </div>
+            <div className="pl-4 space-y-1 border-l-2 border-gray-100 ml-5">
+              {["SaaS", "Ecommerce"].map((item) => (
+                <Link
+                  key={item}
+                  to={`/dashboard/portfolio/${item.toLowerCase()}`}
+                  onClick={() => setIsSidebarOpen(false)}
+                  className={`block px-4 py-2 text-sm font-medium rounded-lg transition-colors
+                       ${
+                         location.pathname.includes(item.toLowerCase())
+                           ? "bg-blue-50 text-blue-600"
+                           : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                       }
+                    `}
+                >
+                  {item}
+                </Link>
+              ))}
             </div>
           </div>
         </nav>
@@ -237,7 +226,7 @@ const Dashboard = () => {
           <Link
             to="/"
             onClick={() => setIsSidebarOpen(false)}
-            className="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-100 text-gray-600 transition-colors"
+            className="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-100 text-gray-600 transition-colors hover:text-gray-900"
           >
             <div className="w-6 flex justify-center">
               <SettingsIcon />
@@ -248,14 +237,12 @@ const Dashboard = () => {
       </aside>
 
       {/* Main Content Area */}
-      <main className="w-full">
+      <main className="flex-1 h-full overflow-y-auto no-scrollbar">
         {/* Scrollable Content */}
-        <div className="px-4">
+        <div className="px-4 py-8">
           <Outlet />
         </div>
       </main>
-   
-
     </div>
   );
 };

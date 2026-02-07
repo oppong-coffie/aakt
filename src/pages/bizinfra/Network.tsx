@@ -2,6 +2,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+/**
+ * Network Page - Displays a directory of connections with multiple view modes.
+ * Features a Directory (Grid/List) and an Outreach (Campaigns) section.
+ */
+
 const SearchIcon = () => (
   <svg
     width="20"
@@ -12,7 +17,6 @@ const SearchIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-blue-600"
   >
     <circle cx="11" cy="11" r="8"></circle>
     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -64,31 +68,31 @@ const navItems = [
   {
     id: "Skillset",
     label: "Skillset",
-    gradient: "from-blue-600 to-blue-200",
+    image: "/bizinfra/skill2.png",
     path: "/dashboard/bizinfra/skillset",
   },
   {
     id: "Network",
     label: "Network",
-    gradient: "from-green-500 to-green-200",
+    image: "/bizinfra/network.png",
     path: "/dashboard/bizinfra/network",
   },
   {
     id: "Capital",
     label: "Capital",
-    gradient: "from-yellow-500 via-yellow-300 to-yellow-100",
+    image: "/bizinfra/capital.png",
     path: "/dashboard/bizinfra/capital",
   },
   {
     id: "Intel",
     label: "Intel",
-    gradient: "from-yellow-600 to-yellow-200",
+    image: "/bizinfra/intel2.png",
     path: "/dashboard/bizinfra/intel",
   },
   {
     id: "Reach",
     label: "Reach",
-    gradient: "from-purple-600 to-purple-300",
+    image: "/bizinfra/reach.png",
     path: "/dashboard/bizinfra/reach",
   },
 ];
@@ -144,6 +148,10 @@ const people: Person[] = [
   },
 ];
 
+/**
+ * NetworkTree Component - Visualizes connections in a radial tree/map layout.
+ * @param onSelectPerson - callback when a person node is clicked
+ */
 const NetworkTree = ({
   onSelectPerson,
 }: {
@@ -199,6 +207,8 @@ const NetworkTree = ({
             transition={{ delay: i * 0.1 }}
             className="absolute flex items-center gap-3 z-30 cursor-pointer"
             onClick={() => onSelectPerson(person)}
+            data-aos="fade-in"
+            data-aos-duration="3000"
           >
             <div className="w-10 h-10 rounded-full border-2 border-white shadow-md overflow-hidden bg-white hover:scale-110 transition-transform">
               <img
@@ -223,13 +233,17 @@ const NetworkTree = ({
   );
 };
 
+/**
+ * ListView Component - Renders the network directory in a standard table format.
+ * @param onSelectPerson - callback when a row is clicked
+ */
 const ListView = ({
   onSelectPerson,
 }: {
   onSelectPerson: (person: Person) => void;
 }) => {
   return (
-    <div className="w-full h-full bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden flex flex-col">
+    <div className="w-full h-full bg-white rounded-4xl shadow-sm border border-gray-100 overflow-hidden flex flex-col">
       <div className="overflow-y-auto no-scrollbar">
         <table className="w-full text-left border-collapse">
           <thead>
@@ -257,6 +271,9 @@ const ListView = ({
                 transition={{ delay: i * 0.03 }}
                 className="group hover:bg-blue-50/30 transition-colors cursor-pointer border-b border-gray-50 last:border-0"
                 onClick={() => onSelectPerson(person)}
+                data-aos="fade-right"
+                data-aos-duration="3000"
+                data-aos-delay={i * 50}
               >
                 <td className="px-8 py-4">
                   <div className="flex items-center gap-4">
@@ -316,12 +333,14 @@ const Network = () => {
   );
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isViewDropdownOpen, setIsViewDropdownOpen] = useState(false);
-  const [addModalStep, setAddModalStep] = useState<"initial" | "not-known">(
-    "initial",
-  );
+  const [addModalStep, setAddModalStep] = useState<
+    "initial" | "not-known" | "add-person"
+  >("initial");
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
 
-  // Person Details Modal
+  /**
+   * Modal component to display detailed information about a selected connection.
+   */
   const PersonDetailsModal = () => (
     <AnimatePresence>
       {selectedPerson && (
@@ -337,7 +356,7 @@ const Network = () => {
             initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
-            className="bg-white w-full max-w-md rounded-[3rem] shadow-2xl relative z-100 overflow-hidden"
+            className="bg-white w-full max-w-md rounded-5xl shadow-2xl relative z-100 overflow-hidden"
           >
             {/* Modal Header/Art */}
             <div className="h-32 bg-linear-to-br from-blue-600 to-blue-400 relative">
@@ -362,7 +381,7 @@ const Network = () => {
 
             {/* Avatar positioning */}
             <div className="px-10 -mt-16 text-center">
-              <div className="inline-block p-1 bg-white rounded-[2rem] shadow-xl">
+              <div className="inline-block p-1 bg-white rounded-4xl shadow-xl">
                 <img
                   src={selectedPerson.avatar}
                   className="w-32 h-32 rounded-[1.8rem] bg-gray-50 object-cover"
@@ -412,7 +431,7 @@ const Network = () => {
 
               <button
                 onClick={() => setSelectedPerson(null)}
-                className="w-full py-5 bg-gray-900 text-white rounded-[2rem] font-bold hover:bg-gray-800 transition-colors mb-10"
+                className="w-full py-5 bg-gray-900 text-white rounded-4xl font-bold hover:bg-gray-800 transition-colors mb-10"
               >
                 Close Profile
               </button>
@@ -423,7 +442,9 @@ const Network = () => {
     </AnimatePresence>
   );
 
-  // Modal Component
+  /**
+   * Modal component to add a new connection with a multi-step form.
+   */
   const AddConnectionModal = () => (
     <AnimatePresence>
       {isAddModalOpen && (
@@ -442,7 +463,7 @@ const Network = () => {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="bg-white w-full max-w-sm rounded-[2.5rem] shadow-2xl relative z-100 p-10 overflow-hidden"
+            className="bg-white w-full max-w-sm rounded-4xl shadow-2xl relative z-100 p-10 overflow-hidden"
           >
             {/* Header */}
             <div className="flex justify-between items-center mb-10">
@@ -498,48 +519,48 @@ const Network = () => {
             <div className="space-y-4">
               {addModalStep === "initial" ? (
                 <>
-                <Link to="/dashboard/bizinfra/skillset/${id}/process">
-                  <button className="w-full text-left p-6 rounded-2xl border border-gray-100 hover:border-blue-100 hover:bg-blue-50/30 transition-all group">
+                  <button
+                    onClick={() => setAddModalStep("add-person")}
+                    className="w-full text-left p-6 rounded-2xl border border-gray-100 hover:border-blue-100 hover:bg-blue-50/30 transition-all group"
+                  >
                     <h3 className="text-base font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
                       Known
                     </h3>
                     <p className="text-xs text-gray-400 font-medium">
-                      People you already know.
+                      Add a person you already know.
                     </p>
                   </button>
-                  </Link>
 
-                  <button
-                    onClick={() => setAddModalStep("not-known")}
-                    className="w-full text-left p-6 rounded-2xl border border-gray-100 hover:border-blue-100 hover:bg-blue-50/30 transition-all group"
-                  >
-                    <h3 className="text-base font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
-                      Not Known
-                    </h3>
-                    <p className="text-xs text-gray-400 font-medium">
-                      People you dont know but want to get to know them.
-                    </p>
-                  </button>
+                  <Link to="/dashboard/bizinfra/skillset/network/process">
+                    <button className="w-full text-left p-6 rounded-2xl border border-gray-100 hover:border-blue-100 hover:bg-blue-50/30 transition-all group mt-4">
+                      <h3 className="text-base font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
+                        Unknown
+                      </h3>
+                      <p className="text-xs text-gray-400 font-medium">
+                        Start a process to reach someone you don't know.
+                      </p>
+                    </button>
+                  </Link>
                 </>
+              ) : addModalStep === "add-person" ? (
+                <div className="space-y-3">
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    className="w-full p-3 border rounded-xl outline-none focus:border-blue-500 bg-gray-50/50"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Role"
+                    className="w-full p-3 border rounded-xl outline-none focus:border-blue-500 bg-gray-50/50"
+                  />
+                  <button className="w-full py-3 bg-blue-600 text-white rounded-xl font-bold mt-2">
+                    Add Person
+                  </button>
+                </div>
               ) : (
                 <>
-                  <button className="w-full text-left p-6 rounded-2xl border border-gray-100 hover:border-blue-100 hover:bg-blue-50/30 transition-all group">
-                    <h3 className="text-base font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
-                      Warm
-                    </h3>
-                    <p className="text-xs text-gray-400 font-medium">
-                      Someone you have a mutual connection with.
-                    </p>
-                  </button>
-
-                  <button className="w-full text-left p-6 rounded-2xl border border-gray-100 hover:border-blue-100 hover:bg-blue-50/30 transition-all group">
-                    <h3 className="text-base font-bold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
-                      Cold
-                    </h3>
-                    <p className="text-xs text-gray-400 font-medium">
-                      Someone you have no previous contact with.
-                    </p>
-                  </button>
+                  {/* Previous logic for not-known/warm/cold removed or replaced by direct link above */}
                 </>
               )}
             </div>
@@ -552,35 +573,31 @@ const Network = () => {
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
-      <div className="flex justify-between items-center mb-10 relative z-10">
-        <div className="flex items-center gap-4">
-          <Link
-            to="/dashboard/bizinfra"
-            className="w-10 h-10 flex items-center justify-center bg-white rounded-xl shadow-sm border border-gray-100 text-gray-500 hover:text-blue-600 transition-colors"
-          >
-            <LeftArrowIcon />
-          </Link>
-          <div className="flex flex-col bg-white p-3 rounded-2xl shadow-sm border border-gray-100">
-            <span className="text-[10px] font-bold text-gray-400 leading-none mb-1">
-              Module
-            </span>
-            <h2 className="text-sm font-bold text-gray-900 leading-none">
-              Network
-            </h2>
-          </div>
+      <div className="flex items-center gap-2 mb-6 relative z-10">
+        <Link
+          to="/dashboard/bizinfra"
+          className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+        >
+          <LeftArrowIcon />
+        </Link>
+        <div className="flex items-center gap-2">
+          <div className="">BizInfra</div>
+          <div className="font-bold text-xl ml-24">Network</div>
         </div>
+      </div>
 
-        <div className="flex items-center gap-3 relative">
-          <button className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 hover:bg-gray-50 transition-colors">
+      <div className="flex justify-end items-center mb-8 relative z-10">
+        <div className="flex items-center gap-2 relative">
+          <button className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors">
             <SearchIcon />
           </button>
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 hover:bg-gray-50 transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
           >
             <PlusIcon />
           </button>
-          <div className="h-8 w-[1px] bg-gray-200 mx-1"></div>
+          <div className="h-8 w-px bg-gray-200 mx-1"></div>
 
           <div className="relative">
             <button
@@ -599,19 +616,14 @@ const Network = () => {
               >
                 {viewMode === "people" && (
                   <>
-                    <path d="M4 6h16M4 12h16M4 18h16" />
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                   </>
                 )}
-                {viewMode === "tree" && (
-                  <rect width="18" height="18" x="3" y="3" rx="2" />
-                )}
-                {viewMode === "list" && <path d="M4 6h16M4 12h16M4 18h16" />}
               </svg>
-              {viewMode === "people"
-                ? "People view"
-                : viewMode === "tree"
-                  ? "Tree view"
-                  : "List view"}
+              {viewMode === "people" ? "Directory" : "Outreach"}
               <svg
                 width="10"
                 height="10"
@@ -635,9 +647,9 @@ const Network = () => {
                     onClick={() => setIsViewDropdownOpen(false)}
                   />
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 z-50 overflow-hidden"
                   >
                     {[
@@ -662,7 +674,7 @@ const Network = () => {
                       <button
                         key={option.id}
                         onClick={() => {
-                          setViewMode(option.id as any);
+                          setViewMode(option.id as "list" | "people" | "tree");
                           setIsViewDropdownOpen(false);
                         }}
                         className={`w-full text-left px-4 py-3 text-xs font-bold transition-colors flex items-center gap-3
@@ -690,9 +702,53 @@ const Network = () => {
         </div>
       </div>
 
-      <div className="flex-1 relative">
+      <div className="flex-1 overflow-y-auto no-scrollbar pb-20 relative">
+        {/* Outreach Campaigns Section */}
+        <div className="mb-8">
+          <h3 className="text-lg font-bold text-gray-900 mb-4 px-1">
+            Outreach Campaigns
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col items-center justify-center text-center h-40 cursor-pointer hover:shadow-md transition-shadow group">
+              <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 mb-3 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                <PlusIcon />
+              </div>
+              <span className="font-bold text-gray-700 text-sm">
+                Create Campaign
+              </span>
+            </div>
+            {/* Example Campaign Card */}
+            <div
+              className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+              data-aos="fade-up"
+              data-aos-duration="3000"
+            >
+              <div className="flex justify-between items-start mb-4">
+                <span className="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-md">
+                  Active
+                </span>
+                <div className="flex -space-x-2">
+                  {[1, 2, 3].map((i) => (
+                    <div
+                      key={i}
+                      className="w-6 h-6 rounded-full bg-gray-200 border-2 border-white"
+                    ></div>
+                  ))}
+                </div>
+              </div>
+              <h4 className="font-bold text-gray-900 mb-1">
+                Q1 Investor Outreach
+              </h4>
+              <p className="text-xs text-gray-500">
+                Targeting 50 potential angels.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Existing Views */}
         {viewMode === "people" ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 overflow-y-auto no-scrollbar max-h-full pb-20">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
             {people.map((person, i) => (
               <motion.div
                 key={i}
@@ -701,6 +757,9 @@ const Network = () => {
                 transition={{ delay: i * 0.05 }}
                 className="flex flex-col items-center group cursor-pointer"
                 onClick={() => setSelectedPerson(person)}
+                data-aos="fade-up"
+                data-aos-duration="3000"
+                data-aos-delay={i * 100}
               >
                 <div className="w-full aspect-square bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-4 group-hover:shadow-md transition-shadow relative overflow-hidden">
                   <div className="absolute inset-0 bg-linear-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -720,7 +779,7 @@ const Network = () => {
             ))}
           </div>
         ) : viewMode === "tree" ? (
-          <div className="w-full h-100 rounded-[2.5rem] relative overflow-hidden">
+          <div className="w-full h-[500px] rounded-4xl relative overflow-hidden bg-white border border-gray-100">
             <NetworkTree onSelectPerson={setSelectedPerson} />
           </div>
         ) : (
@@ -747,9 +806,11 @@ const Network = () => {
                   ${isSelected ? "bg-blue-600/10 border-2 border-blue-600 ring-4 ring-blue-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
                 `}
                 >
-                  <div
-                    className={`w-3/5 h-3/5 rounded-lg bg-linear-to-br ${item.gradient} rotate-12`}
-                  ></div>
+                  <img
+                    src={item.image}
+                    alt={item.label}
+                    className="w-3/4 h-3/4 object-contain transform rotate-12 group-hover:rotate-0 transition-transform duration-300"
+                  />
                 </div>
                 <span
                   className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}

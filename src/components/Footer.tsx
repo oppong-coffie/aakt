@@ -1,3 +1,6 @@
+/**
+ * Shared Footer Component - Simple footer for the layout.
+ */
 const Footer = () => {
   return (
     <footer

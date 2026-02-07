@@ -1,5 +1,10 @@
 import { useParams, Link } from "react-router-dom";
 
+/**
+ * Block Page (BizInfra) - A specialized view for managing business blocks.
+ * Uses a unique notepad/paper aesthetic for documentation purposes.
+ */
+
 const LeftArrowIcon = () => (
   <svg
     width="20"
@@ -20,31 +25,31 @@ const navItems = [
   {
     id: "Skillset",
     label: "Skillset",
-    gradient: "from-blue-600 to-blue-200",
+    image: "/bizinfra/skill2.png",
     path: "/dashboard/bizinfra/skillset",
   },
   {
     id: "Network",
     label: "Network",
-    gradient: "from-green-500 to-green-200",
+    image: "/bizinfra/network.png",
     path: "/dashboard/bizinfra/network",
   },
   {
     id: "Capital",
     label: "Capital",
-    gradient: "from-yellow-500 via-yellow-300 to-yellow-100",
+    image: "/bizinfra/capital.png",
     path: "/dashboard/bizinfra/capital",
   },
   {
     id: "Intel",
     label: "Intel",
-    gradient: "from-yellow-600 to-yellow-200",
+    image: "/bizinfra/intel2.png",
     path: "/dashboard/bizinfra/intel",
   },
   {
     id: "Reach",
     label: "Reach",
-    gradient: "from-purple-600 to-purple-300",
+    image: "/bizinfra/reach.png",
     path: "/dashboard/bizinfra/reach",
   },
 ];
@@ -91,7 +96,7 @@ const Block = () => {
             <div className="flex items-center gap-4">
               <Link
                 to={`/dashboard/bizinfra/skillset/${id}`}
-                className="text-blue-500 hover:text-blue-700 transition-colors"
+                className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
                 title="Go Back"
               >
                 <LeftArrowIcon />
@@ -120,10 +125,34 @@ const Block = () => {
               </p>
               <div className="mt-8">
                 <ul className="space-y-[32px] list-disc list-inside text-lg text-[#2c3e50] italic">
-                  <li>Scalable architecture nodes</li>
-                  <li>Distributed latency handlers</li>
-                  <li>State persistence layers</li>
-                  <li>Security validation protocols</li>
+                  <li
+                    data-aos="fade-left"
+                    data-aos-duration="3000"
+                    data-aos-delay="200"
+                  >
+                    Scalable architecture nodes
+                  </li>
+                  <li
+                    data-aos="fade-left"
+                    data-aos-duration="3000"
+                    data-aos-delay="400"
+                  >
+                    Distributed latency handlers
+                  </li>
+                  <li
+                    data-aos="fade-left"
+                    data-aos-duration="3000"
+                    data-aos-delay="600"
+                  >
+                    State persistence layers
+                  </li>
+                  <li
+                    data-aos="fade-left"
+                    data-aos-duration="3000"
+                    data-aos-delay="800"
+                  >
+                    Security validation protocols
+                  </li>
                 </ul>
               </div>
             </div>
@@ -146,13 +175,15 @@ const Block = () => {
                     className="flex flex-col items-center gap-2 group shrink-0"
                   >
                     <div
-                      className={`w-12 h-12 rounded-xl flex items-center justify-center relative transition-all duration-300
-                      ${isSelected ? "bg-white shadow-xl ring-2 ring-blue-500 scale-110" : "bg-white border border-gray-200 hover:shadow-md hover:-translate-y-1"}
-                    `}
+                      className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
+                  ${isSelected ? "bg-blue-600/10 border-2 border-blue-600 ring-4 ring-blue-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
+                `}
                     >
-                      <div
-                        className={`w-3/5 h-3/5 rounded-lg bg-linear-to-br ${item.gradient} rotate-12`}
-                      ></div>
+                      <img
+                        src={item.image}
+                        alt={item.label}
+                        className="w-3/4 h-3/4 object-contain transform rotate-12 group-hover:rotate-0 transition-transform duration-300"
+                      />
                     </div>
                     <span
                       className={`text-[10px] font-bold ${isSelected ? "text-blue-600 underline underline-offset-4" : "text-gray-400 group-hover:text-gray-600"}`}

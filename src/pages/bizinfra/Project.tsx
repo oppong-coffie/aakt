@@ -1,11 +1,16 @@
-import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+
+/**
+ * Project Page (BizInfra) - Displays the phases of a selected project.
+ * Allows users to navigate into specific phases.
+ */
 
 const SearchIcon = () => (
   <svg
-    width="20"
-    height="20"
+    width="18"
+    height="18"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -21,12 +26,12 @@ const SearchIcon = () => (
 
 const PlusIcon = () => (
   <svg
-    width="20"
-    height="20"
+    width="18"
+    height="18"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="2.5"
+    strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
     className="text-blue-600"
@@ -36,7 +41,7 @@ const PlusIcon = () => (
   </svg>
 );
 
-const LeftArrowIcon = () => (
+const LeftArrow = () => (
   <svg
     width="20"
     height="20"
@@ -52,147 +57,178 @@ const LeftArrowIcon = () => (
   </svg>
 );
 
-const NextArrowIcon = () => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="text-gray-300"
-  >
-    <path d="M5 12h14" />
-    <path d="m12 5 7 7-7 7" />
-  </svg>
-);
+const phases = [
+  { id: 1, label: "Phase 1" },
+  { id: 2, label: "Phase 2" },
+  { id: 3, label: "Phase 3" },
+];
+
+const navItems = [
+  {
+    id: "Skillset",
+    label: "Skillset",
+    image: "/bizinfra/skill2.png",
+    path: "/dashboard/bizinfra/skillset",
+  },
+  {
+    id: "Network",
+    label: "Network",
+    image: "/bizinfra/network.png",
+    path: "/dashboard/bizinfra/network",
+  },
+  {
+    id: "Capital",
+    label: "Capital",
+    image: "/bizinfra/capital.png",
+    path: "/dashboard/bizinfra/capital",
+  },
+  {
+    id: "Intel",
+    label: "Intel",
+    image: "/bizinfra/intel2.png",
+    path: "/dashboard/bizinfra/intel",
+  },
+  {
+    id: "Reach",
+    label: "Reach",
+    image: "/bizinfra/reach.png",
+    path: "/dashboard/bizinfra/reach",
+  },
+];
 
 const Project = () => {
   const { id } = useParams();
-  const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null);
-
-  const skillBreadcrumb = id
-    ? id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " ")
-    : "Reality";
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   return (
-    <div className="" onClick={() => setActiveMenuIndex(null)}>
+    <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
-      <div className="">
-        <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 mb-6">
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
           <Link
             to={`/dashboard/bizinfra/skillset/${id}`}
-            className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm border border-gray-100 text-blue-600 hover:bg-gray-50 transition-colors"
+            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
           >
-            <LeftArrowIcon />
+            <LeftArrow />
           </Link>
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-bold text-gray-500">
-              {skillBreadcrumb}
-            </span>
-            <h2 className="text-xl font-extrabold text-gray-900 pl-3">
-              Project
-            </h2>
-          </div>
-        </div>
-        <div className="flex justify-end items-center mb-16">
-          <button className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-gray-100 hover:bg-gray-50 transition-colors">
-            <SearchIcon />
-          </button>
+        </motion.div>
+        <div className="flex items-center gap-2">
+          <div className="">Project</div>
+          <div className="font-bold text-xl ml-24">Phases</div>
         </div>
       </div>
 
-      {/* Main content - Horizontal Flow */}
-
-      <div className="overflow-x-auto no-scrollbar pb-10">
-        <div className="flex items-center gap-8 min-w-max px-20">
-          {[1, 1, 1].map((num, i) => (
-            <div
-              key={i}
-              className="flex items-center gap-8 h-[calc(100vh-250px)]"
-            >
-              <div className="relative">
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  onMouseEnter={() => setActiveMenuIndex(i)}
-                  className={`text-xl sm:text-4xl font-bold tracking-tight whitespace-nowrap cursor-pointer px-4 py-2 rounded-2xl transition-colors
-                    ${activeMenuIndex === i ? "bg-gray-400/30 text-gray-900" : "text-gray-900 hover:bg-gray-200/50"}
-                  `}
-                >
-                  <Link to="/dashboard/bizinfra/phase">Phase {num}</Link>
-                </motion.div>
-                <AnimatePresence>
-                  {activeMenuIndex === i && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="absolute left-1/2 -translate-x-1/2 mt-2 w-48 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 p-2"
-                    >
-                      <button className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 rounded-xl transition-colors text-left group">
-                        <svg
-                          width="18"
-                          height="18"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="text-gray-400 group-hover:text-red-500 transition-colors"
-                        >
-                          <path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                        </svg>
-                        <span className="text-sm font-semibold text-gray-700">
-                          Delete
-                        </span>
-                      </button>
-                      <button className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 rounded-xl transition-colors text-left group">
-                        <svg
-                          width="18"
-                          height="18"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="text-gray-400 group-hover:text-blue-500 transition-colors"
-                        >
-                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4Z" />
-                        </svg>
-                        <span className="text-sm font-semibold text-gray-700">
-                          Rename
-                        </span>
-                      </button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-              <NextArrowIcon />
-            </div>
-          ))}
+      <div className="flex justify-end items-center mb-8">
+        <div className="flex items-center gap-2">
           <motion.button
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-2xl shadow-xl flex items-center justify-center border border-white hover:border-blue-400 group transition-all"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
           >
-            <div className="w-10 h-10 rounded-full flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
-              <PlusIcon />
-            </div>
+            <SearchIcon />
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setIsAddModalOpen(true)}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
+          >
+            <PlusIcon />
           </motion.button>
         </div>
       </div>
 
-      <div className="flex justify-end mr-32">
-        <button className="px-8 py-2.5 bg-blue-600 text-white rounded-xl font-bold text-sm shadow-xl shadow-blue-600/20 hover:bg-blue-700 transition-all hover:scale-105 active:scale-95">
-          Go Live
-        </button>
+      <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
+        {phases.map((phase, index) => (
+          <Link
+            key={phase.id}
+            to="/dashboard/bizinfra/phase"
+            className="contents"
+          >
+            <motion.div
+              className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
+              data-aos="fade-up"
+              data-aos-delay={index * 100}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center">
+                {/* Icon placeholder */}
+              </div>
+              <h3 className="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
+                {phase.label}
+              </h3>
+            </motion.div>
+          </Link>
+        ))}
+      </div>
+
+      {/* Add New Phase Modal - Allows users to extend the project lifecycle. */}
+      <AnimatePresence>
+        {isAddModalOpen && (
+          <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+              onClick={() => setIsAddModalOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8"
+            >
+              <h3 className="text-xl font-bold text-gray-900 mb-6">
+                Add New Phase
+              </h3>
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  placeholder="Phase Name"
+                  className="w-full p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none"
+                />
+                <button className="w-full py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700">
+                  Add
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Bottom Navigation */}
+      <div className="mt-auto flex justify-center pb-6 sm:pb-10 pt-10">
+        <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar max-w-full px-4 text-center">
+          {navItems.map((item) => {
+            const isSelected = item.id === "Skillset";
+            return (
+              <Link
+                key={item.id}
+                to={item.path}
+                className="flex flex-col items-center gap-2 group shrink-0"
+              >
+                <div
+                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
+                  ${isSelected ? "bg-blue-600/10 border-2 border-blue-600 ring-4 ring-blue-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
+                `}
+                >
+                  <img
+                    src={item.image}
+                    alt={item.label}
+                    className="w-3/4 h-3/4 object-contain transform rotate-12 group-hover:rotate-0 transition-transform duration-300"
+                  />
+                </div>
+                <span
+                  className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}
+                >
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
