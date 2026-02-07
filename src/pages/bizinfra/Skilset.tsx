@@ -378,7 +378,7 @@ const Skilset = () => {
       <AddSkillModal isOpen={isPlusOpen} onClose={() => setIsPlusOpen(false)} />
 
       {/* Top Cards Grid */}
-      <div className="flex flex-wrap items-center justify-center gap-6 mb-12 lg:mb-20 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
+      <div className="flex flex-wrap items-center justify-center mb-12 lg:mb-20 w-full flex-1 overflow-y-auto no-scrollbar">
         {skillsetCards.map((card, index) => (
           <Link
             key={index}
@@ -386,7 +386,7 @@ const Skilset = () => {
             className="contents"
           >
             <motion.div
-              className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
+              className="flex flex-col items-center gap- w-60 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
               data-aos="fade-up"
               data-aos-delay={index * 100}
               whileHover={{ scale: 1.02 }}
