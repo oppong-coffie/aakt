@@ -55,9 +55,10 @@ const navItems = [
   },
 ];
 
-const navigate = useNavigate();
+
 
 const Reach = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
