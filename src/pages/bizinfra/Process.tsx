@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
 /**
  * Process Page (BizInfra) - A detailed view for managing business processes.
@@ -103,17 +103,19 @@ const Process = () => {
     { name: "Jace", seed: "Jace" },
   ];
 
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-2">
-          <Link
-            to={`/dashboard/bizinfra/skillset/${id}`}
+          <button
+            onClick={() => navigate(-1)}
             className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
           >
             <LeftArrowIcon />
-          </Link>
+          </button>
           <div className="flex items-center gap-2">
             <div className="">{skillBreadcrumb}</div>
             <div className="font-bold text-xl ml-24">Process</div>

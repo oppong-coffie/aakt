@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -17,7 +17,6 @@ const SearchIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-blue-600"
   >
     <circle cx="11" cy="11" r="8"></circle>
     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -34,7 +33,6 @@ const PlusIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-blue-600"
   >
     <line x1="12" y1="5" x2="12" y2="19"></line>
     <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -100,18 +98,19 @@ const navItems = [
 const Operation = () => {
   const { id } = useParams();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const navigate = useNavigate();
   const opName = "Operation Details";
 
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
       <div className="flex items-center gap-2">
-        <Link
-          to="/dashboard/bizinfra/skillset"
+        <button
+          onClick={() => navigate(-1)}
           className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 rounded-xl transition-colors"
         >
           <LeftArrow />
-        </Link>
+        </button>
         <div className="flex items-center gap-2">
           <div className="">Operation</div>
           <div className="font-bold text-xl ml-24">{opName}</div>

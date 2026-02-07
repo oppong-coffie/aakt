@@ -89,6 +89,7 @@ const SearchModal = ({
     return () => window.removeEventListener("keydown", handleEsc);
   }, [onClose]);
 
+  
   return (
     <AnimatePresence>
       {isOpen && (

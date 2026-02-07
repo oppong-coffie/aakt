@@ -141,7 +141,7 @@ const Phase = () => {
         {categories.map((cat, index) => (
           <Link
             key={cat.id}
-            to={`/dashboard/bizinfra/skillset/${cat.id}`} // Linking to Process/Block pages
+            to={`/dashboard/bizinfra/skillset/phase/${cat.id}`} // Linking to Process/Block pages
             className="contents"
           >
             <motion.div

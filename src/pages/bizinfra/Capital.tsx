@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 /**
  * Capital Page - Manages fundraising campaigns and capital sources.
@@ -577,17 +577,19 @@ const Capital = () => {
     </AnimatePresence>
   );
 
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
       <div className="flex items-center gap-2 mb-6">
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <Link
-            to="/dashboard/bizinfra"
+          <button
+            onClick={() => navigate(-1)}  
             className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
           >
             <LeftArrowIcon />
-          </Link>
+          </button>
         </motion.div>
         <div className="flex items-center gap-2">
           <div className="">BizInfra</div>

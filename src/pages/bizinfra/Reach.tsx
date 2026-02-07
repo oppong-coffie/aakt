@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 /**
  * Reach Page - A placeholder page for the Reach module in BizInfra.
@@ -55,17 +55,19 @@ const navItems = [
   },
 ];
 
+const navigate = useNavigate();
+
 const Reach = () => {
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
       <div className="flex items-center gap-2 mb-6">
-        <Link
-          to="/dashboard/bizinfra"
+        <button
+          onClick={() => navigate(-1)}
           className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
         >
           <LeftArrowIcon />
-        </Link>
+        </button>
         <div className="flex items-center gap-2">
           <div className="">BizInfra</div>
           <div className="font-bold text-xl ml-24">Reach</div>
@@ -105,7 +107,7 @@ const Reach = () => {
       </div>
 
       {/* Bottom Navigation */}
-      <div className="mt-auto flex justify-center pb-6 pt-10">
+      <div className="mt-48 flex justify-center pb-6 pt-10">
         <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar max-w-full px-4 text-center">
           {navItems.map((item) => {
             const isSelected = item.id === "Reach";

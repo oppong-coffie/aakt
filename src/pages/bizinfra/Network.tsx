@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 /**
  * Network Page - Displays a directory of connections with multiple view modes.
@@ -338,6 +338,8 @@ const Network = () => {
   >("initial");
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
 
+  const navigate = useNavigate(); 
+  
   /**
    * Modal component to display detailed information about a selected connection.
    */
@@ -574,12 +576,12 @@ const Network = () => {
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
       <div className="flex items-center gap-2 mb-6 relative z-10">
-        <Link
-          to="/dashboard/bizinfra"
+        <button
+          onClick={() => navigate(-1)}
           className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
         >
           <LeftArrowIcon />
-        </Link>
+        </button>
         <div className="flex items-center gap-2">
           <div className="">BizInfra</div>
           <div className="font-bold text-xl ml-24">Network</div>

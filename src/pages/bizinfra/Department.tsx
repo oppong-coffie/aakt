@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -17,7 +17,6 @@ const SearchIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-blue-600"
   >
     <circle cx="11" cy="11" r="8"></circle>
     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -34,7 +33,6 @@ const PlusIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="text-blue-600"
   >
     <line x1="12" y1="5" x2="12" y2="19"></line>
     <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -43,14 +41,14 @@ const PlusIcon = () => (
 
 const LeftArrow = () => (
   <svg
-    width="20"
-    height="20"
+    width="24"
+    height="24"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    strokeWidth="2.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
   >
     <path d="m12 19-7-7 7-7" />
     <path d="M19 12H5" />
@@ -101,7 +99,7 @@ const navItems = [
 const Department = () => {
   const { id } = useParams();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-
+const navigate = useNavigate();
   // In a real app, 'id' might be the department name or ID.
   const deptName = "Department Details";
 
@@ -110,12 +108,12 @@ const Department = () => {
       {/* Header Area */}
       <div className="flex items-center gap-2 mb-6">
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <Link
-            to="/dashboard/bizinfra"
+          <button
+            onClick={() => navigate(-1)}
             className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
           >
             <LeftArrow />
-          </Link>
+          </button>
         </motion.div>
         <div className="flex items-center gap-2">
           <div className="">Department</div>
