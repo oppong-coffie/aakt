@@ -69,8 +69,26 @@ const CloseIcon = () => (
   </svg>
 );
 
+const ChevronIcon = ({ open }: { open: boolean }) => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={`text-gray-500 transition-transform duration-200 shrink-0 ${open ? "rotate-180" : ""}`}
+  >
+    <polyline points="6 9 12 15 18 9"></polyline>
+  </svg>
+);
+
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [bizInfraOpen, setBizInfraOpen] = useState(true);
+  const [portfolioOpen, setPortfolioOpen] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
@@ -147,10 +165,10 @@ const Dashboard = () => {
           <Link
             to="/dashboard/home"
             onClick={() => setIsSidebarOpen(false)}
-            className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors ${
+            className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors duration-200 ${
               location.pathname === "/dashboard/home"
                 ? "bg-gray-200/80 shadow-sm border border-gray-300/50 text-gray-900"
-                : "hover:bg-gray-100 text-gray-600 hover:text-gray-900"
+                : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
             }`}
           >
             <div className="w-6 flex justify-center">
@@ -161,72 +179,108 @@ const Dashboard = () => {
 
           {/* BizInfra Group */}
           <div className="space-y-1">
-            <div className="px-4 py-1">
+            <div className="group flex items-center justify-between gap-2 mb-2 px-4 py-2 rounded-xl transition-colors duration-200 hover:bg-gray-100">
               <Link
                 to="/dashboard/bizinfra"
-                className="flex items-center gap-3 text-gray-500 font-bold text-xs uppercase tracking-wider mb-2 hover:text-gray-800 transition-colors"
+                onClick={() => setIsSidebarOpen(false)}
+                className="flex items-center gap-3 text-gray-500 font-bold text-xs uppercase tracking-wider transition-colors duration-200 group-hover:text-gray-900"
               >
                 <BizIcon /> BizInfra
               </Link>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setBizInfraOpen((o) => !o);
+                }}
+                className="p-1 rounded transition-colors duration-200 hover:bg-gray-200/80 group-hover:bg-gray-200/80"
+                aria-label={bizInfraOpen ? "Collapse BizInfra menu" : "Expand BizInfra menu"}
+              >
+                <ChevronIcon open={bizInfraOpen} />
+              </button>
             </div>
-            <div className="pl-4 space-y-1 border-l-2 border-gray-100 ml-5">
-              {[
-                { name: "Skillset", icon: "/bizinfra/skill2.png" },
-                { name: "Network", icon: "/bizinfra/network.png" },
-                { name: "Intel", icon: "/bizinfra/intel2.png" },
-                { name: "Capital", icon: "/bizinfra/capital.png" },
-                { name: "Reach", icon: "/bizinfra/reach.png" },
-              ].map((item) => (
-                <Link
-                  key={item.name}
-                  to={`/dashboard/bizinfra/${item.name.toLowerCase()}`}
-                  onClick={() => setIsSidebarOpen(false)}
-                  className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors
-                    ${
-                      location.pathname.includes(item.name.toLowerCase())
-                        ? "bg-blue-50 text-blue-600"
-                        : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                    }
-                  `}
-                >
-                  <img
-                    src={item.icon}
-                    alt=""
-                    className="w-4 h-4 object-contain opacity-70 group-hover:opacity-100 transition-opacity"
-                  />
-                  <span>{item.name}</span>
-                </Link>
-              ))}
+            <div
+              className={`overflow-hidden transition-all duration-200 ease-out ${
+                bizInfraOpen ? "max-h-[320px] opacity-100" : "max-h-0 opacity-70"
+              }`}
+            >
+              <div className="pl-4 space-y-1 border-l-2 border-gray-100 ml-5">
+                {[
+                  { name: "Skillset", icon: "/bizinfra/skill2.png" },
+                  { name: "Network", icon: "/bizinfra/network.png" },
+                  { name: "Intel", icon: "/bizinfra/intel2.png" },
+                  { name: "Capital", icon: "/bizinfra/capital.png" },
+                  { name: "Reach", icon: "/bizinfra/reach.png" },
+                ].map((item) => (
+                  <Link
+                    key={item.name}
+                    to={`/dashboard/bizinfra/${item.name.toLowerCase()}`}
+                    onClick={() => setIsSidebarOpen(false)}
+                    className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors
+                      ${
+                        location.pathname.includes(item.name.toLowerCase())
+                          ? "bg-blue-50 text-blue-600"
+                          : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                      }
+                    `}
+                  >
+                    <img
+                      src={item.icon}
+                      alt=""
+                      className="w-4 h-4 object-contain opacity-70 group-hover:opacity-100 transition-opacity"
+                    />
+                    <span>{item.name}</span>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
 
           {/* Portfolio Group */}
           <div className="space-y-1 pt-2">
-            <div className="px-4 py-1">
+            <div className="group flex items-center justify-between gap-2 mb-2 px-4 py-2 rounded-xl transition-colors duration-200 hover:bg-gray-100">
               <Link
                 to="/dashboard/portfolio"
-                className="flex items-center gap-3 text-gray-500 font-bold text-xs uppercase tracking-wider mb-2 hover:text-gray-800 transition-colors"
+                onClick={() => setIsSidebarOpen(false)}
+                className="flex items-center gap-3 text-gray-500 font-bold text-xs uppercase tracking-wider transition-colors duration-200 group-hover:text-gray-900"
               >
                 <PortfolioIcon /> Portfolio
               </Link>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setPortfolioOpen((o) => !o);
+                }}
+                className="p-1 rounded transition-colors duration-200 hover:bg-gray-200/80 group-hover:bg-gray-200/80"
+                aria-label={portfolioOpen ? "Collapse Portfolio menu" : "Expand Portfolio menu"}
+              >
+                <ChevronIcon open={portfolioOpen} />
+              </button>
             </div>
-            <div className="pl-4 space-y-1 border-l-2 border-gray-100 ml-5">
-              {["SaaS", "Ecommerce"].map((item) => (
-                <Link
-                  key={item}
-                  to={`/dashboard/portfolio/${item.toLowerCase()}`}
-                  onClick={() => setIsSidebarOpen(false)}
-                  className={`block px-4 py-2 text-sm font-medium rounded-lg transition-colors
-                       ${
-                         location.pathname.includes(item.toLowerCase())
-                           ? "bg-blue-50 text-blue-600"
-                           : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                       }
-                    `}
-                >
-                  {item}
-                </Link>
-              ))}
+            <div
+              className={`overflow-hidden transition-all duration-200 ease-out ${
+                portfolioOpen ? "max-h-[200px] opacity-100" : "max-h-0 opacity-70"
+              }`}
+            >
+              <div className="pl-4 space-y-1 border-l-2 border-gray-100 ml-5">
+                {["SaaS", "Ecommerce"].map((item) => (
+                  <Link
+                    key={item}
+                    to={`/dashboard/portfolio/${item.toLowerCase()}`}
+                    onClick={() => setIsSidebarOpen(false)}
+                    className={`block px-4 py-2 text-sm font-medium rounded-lg transition-colors
+                         ${
+                           location.pathname.includes(item.toLowerCase())
+                             ? "bg-blue-50 text-blue-600"
+                             : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                         }
+                      `}
+                  >
+                    {item}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </nav>
@@ -235,7 +289,7 @@ const Dashboard = () => {
           <Link
             to="/"
             onClick={() => setIsSidebarOpen(false)}
-            className="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-100 text-gray-600 transition-colors hover:text-gray-900"
+            className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-900"
           >
             <div className="w-6 flex justify-center">
               <SettingsIcon />
