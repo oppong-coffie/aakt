@@ -58,8 +58,6 @@ const LeftArrow = () => (
 );
 
 const categories = [
-  { id: "department", label: "Department" },
-  { id: "operation", label: "Operation" },
   { id: "project", label: "Project" },
   { id: "process", label: "Process" },
   { id: "block", label: "Block" },

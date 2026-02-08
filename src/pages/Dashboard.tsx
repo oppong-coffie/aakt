@@ -89,7 +89,21 @@ const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [bizInfraOpen, setBizInfraOpen] = useState(true);
   const [portfolioOpen, setPortfolioOpen] = useState(true);
+  const [saasOpen, setSaasOpen] = useState(true);
+  const [department1Open, setDepartment1Open] = useState(true);
+  const [department2Open, setDepartment2Open] = useState(true);
   const location = useLocation();
+
+  const isSaasPath = location.pathname.startsWith("/dashboard/portfolio/saas");
+  const isDepartment1Path = location.pathname.startsWith("/dashboard/portfolio/saas/department") &&
+    !location.pathname.includes("department2");
+  const isDepartment2Path = location.pathname.startsWith("/dashboard/portfolio/saas/department2");
+
+  useEffect(() => {
+    if (isSaasPath) setSaasOpen(true);
+    if (isDepartment1Path) setDepartment1Open(true);
+    if (isDepartment2Path) setDepartment2Open(true);
+  }, [isSaasPath, isDepartment1Path, isDepartment2Path]);
 
   useEffect(() => {
     const initBotpress = () => {
@@ -260,26 +274,175 @@ const Dashboard = () => {
             </div>
             <div
               className={`overflow-hidden transition-all duration-200 ease-out ${
-                portfolioOpen ? "max-h-[200px] opacity-100" : "max-h-0 opacity-70"
+                portfolioOpen ? "max-h-[420px] opacity-100" : "max-h-0 opacity-70"
               }`}
             >
               <div className="pl-4 space-y-1 border-l-2 border-gray-100 ml-5">
-                {["SaaS", "Ecommerce"].map((item) => (
-                  <Link
-                    key={item}
-                    to={`/dashboard/portfolio/${item.toLowerCase()}`}
-                    onClick={() => setIsSidebarOpen(false)}
-                    className={`block px-4 py-2 text-sm font-medium rounded-lg transition-colors
-                         ${
-                           location.pathname.includes(item.toLowerCase())
-                             ? "bg-blue-50 text-blue-600"
-                             : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                         }
-                      `}
+                {/* SaaS with nested submenu */}
+                <div className="space-y-1">
+                  <div className="group flex items-center justify-between gap-1 py-1">
+                    <Link
+                      to="/dashboard/portfolio/saas"
+                      onClick={() => setIsSidebarOpen(false)}
+                      className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${
+                        location.pathname === "/dashboard/portfolio/saas"
+                          ? "bg-blue-50 text-blue-600"
+                          : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                      }`}
+                    >
+                      SaaS
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setSaasOpen((o) => !o);
+                      }}
+                      className="p-1 rounded hover:bg-gray-200/80 transition-colors shrink-0"
+                      aria-label={saasOpen ? "Collapse SaaS menu" : "Expand SaaS menu"}
+                    >
+                      <ChevronIcon open={saasOpen} />
+                    </button>
+                  </div>
+                  <div
+                    className={`overflow-hidden transition-all duration-200 ease-out ${
+                      saasOpen ? "max-h-[420px] opacity-100" : "max-h-0 opacity-70"
+                    }`}
                   >
-                    {item}
-                  </Link>
-                ))}
+                    <div className="pl-3 space-y-0 border-l-2 border-gray-100 ml-2">
+                      {/* Department 1 with nested submenu */}
+                      <div className="space-y-0">
+                        <div className="group flex items-center justify-between gap-1 py-0.5">
+                          <Link
+                            to="/dashboard/portfolio/saas/department"
+                            onClick={() => setIsSidebarOpen(false)}
+                            className={`flex-1 py-1.5 pl-2 text-sm font-medium rounded-lg transition-colors ${
+                              location.pathname === "/dashboard/portfolio/saas/department"
+                                ? "bg-blue-50 text-blue-600"
+                                : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                            }`}
+                          >
+                            Department 1
+                          </Link>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setDepartment1Open((o) => !o);
+                            }}
+                            className="p-0.5 rounded hover:bg-gray-200/80 transition-colors shrink-0"
+                            aria-label={department1Open ? "Collapse Department 1" : "Expand Department 1"}
+                          >
+                            <ChevronIcon open={department1Open} />
+                          </button>
+                        </div>
+                        <div
+                          className={`overflow-hidden transition-all duration-200 ease-out ${
+                            department1Open ? "max-h-[140px] opacity-100" : "max-h-0 opacity-70"
+                          }`}
+                        >
+                          <div className="pl-3 border-l-2 border-gray-100 ml-2 space-y-0">
+                            {[
+                              { name: "Sales", path: "/dashboard/portfolio/saas/department/sales" },
+                              { name: "Marketing", path: "/dashboard/portfolio/saas/department/marketing" },
+                              { name: "Product", path: "/dashboard/portfolio/saas/department/product" },
+                            ].map((item) => (
+                              <Link
+                                key={item.name}
+                                to={item.path}
+                                onClick={() => setIsSidebarOpen(false)}
+                                className={`block py-1.5 pl-3 text-sm font-medium rounded-lg transition-colors ${
+                                  location.pathname === item.path
+                                    ? "bg-blue-50 text-blue-600"
+                                    : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                                }`}
+                              >
+                                {item.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      {/* Department 2 with nested submenu */}
+                      <div className="space-y-0">
+                        <div className="group flex items-center justify-between gap-1 py-0.5">
+                          <Link
+                            to="/dashboard/portfolio/saas/department2"
+                            onClick={() => setIsSidebarOpen(false)}
+                            className={`flex-1 py-1.5 pl-2 text-sm font-medium rounded-lg transition-colors ${
+                              location.pathname === "/dashboard/portfolio/saas/department2"
+                                ? "bg-blue-50 text-blue-600"
+                                : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                            }`}
+                          >
+                            Department 2
+                          </Link>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setDepartment2Open((o) => !o);
+                            }}
+                            className="p-0.5 rounded hover:bg-gray-200/80 transition-colors shrink-0"
+                            aria-label={department2Open ? "Collapse Department 2" : "Expand Department 2"}
+                          >
+                            <ChevronIcon open={department2Open} />
+                          </button>
+                        </div>
+                        <div
+                          className={`overflow-hidden transition-all duration-200 ease-out ${
+                            department2Open ? "max-h-[140px] opacity-100" : "max-h-0 opacity-70"
+                          }`}
+                        >
+                          <div className="pl-3 border-l-2 border-gray-100 ml-2 space-y-0">
+                            {[
+                              { name: "Sales", path: "/dashboard/portfolio/saas/department2/sales" },
+                              { name: "Marketing", path: "/dashboard/portfolio/saas/department2/marketing" },
+                              { name: "Product", path: "/dashboard/portfolio/saas/department2/product" },
+                            ].map((item) => (
+                              <Link
+                                key={item.name}
+                                to={item.path}
+                                onClick={() => setIsSidebarOpen(false)}
+                                className={`block py-1.5 pl-3 text-sm font-medium rounded-lg transition-colors ${
+                                  location.pathname === item.path
+                                    ? "bg-blue-50 text-blue-600"
+                                    : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                                }`}
+                              >
+                                {item.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      {/* Process */}
+                      <Link
+                        to="/dashboard/portfolio/saas/process"
+                        onClick={() => setIsSidebarOpen(false)}
+                        className={`block py-1.5 pl-2 text-sm font-medium rounded-lg transition-colors ${
+                          location.pathname.includes("/saas/process")
+                            ? "bg-blue-50 text-blue-600"
+                            : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                        }`}
+                      >
+                        Process
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                {/* Ecommerce */}
+                <Link
+                  to="/dashboard/portfolio/ecommerce"
+                  onClick={() => setIsSidebarOpen(false)}
+                  className={`block py-2 text-sm font-medium rounded-lg transition-colors ${
+                    location.pathname.includes("ecommerce")
+                      ? "bg-blue-50 text-blue-600"
+                      : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                  }`}
+                >
+                  Ecommerce
+                </Link>
               </div>
             </div>
           </div>

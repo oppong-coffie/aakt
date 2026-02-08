@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 /**
@@ -95,7 +95,7 @@ const navItems = [
 ];
 
 const Project = () => {
-  const { id } = useParams();
+  const navigate = useNavigate();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   return (
@@ -103,12 +103,12 @@ const Project = () => {
       {/* Header Area */}
       <div className="flex items-center gap-2 mb-6">
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <Link
-            to={`/dashboard/bizinfra/skillset/${id}`}
+          <button
+            onClick={() => navigate(-1)}
             className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
           >
             <LeftArrow />
-          </Link>
+          </button>
         </motion.div>
         <div className="flex items-center gap-2">
           <div className="">Project</div>

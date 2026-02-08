@@ -70,6 +70,8 @@ import Culture2 from "./pages/portfolio/questions/market-question/culture/Cultur
 import Finance1 from "./pages/portfolio/questions/market-question/finance/Finance1";
 import Finance2 from "./pages/portfolio/questions/market-question/finance/Finance2";
 import Department from "./pages/portfolio/saas/Department";
+import Department2Page from "./pages/portfolio/saas/Department2";
+import ProcessPage from "./pages/portfolio/saas/Process";
 import Sales from "./pages/portfolio/saas/Sales";
 import Marketing from "./pages/portfolio/saas/Marketing";
 import Product from "./pages/portfolio/saas/Product";
@@ -220,6 +222,11 @@ const App = () => {
             <Route path="finance1" element={<Finance1 />} />
             <Route path="finance2" element={<Finance2 />} />
             <Route path="saas/department" element={<Department />} />
+            <Route path="saas/department2" element={<Department2Page />} />
+            <Route path="saas/department2/sales" element={<Sales />} />
+            <Route path="saas/department2/marketing" element={<Marketing />} />
+            <Route path="saas/department2/product" element={<Product />} />
+            <Route path="saas/process" element={<ProcessPage />} />
             <Route path="saas/department/sales" element={<Sales />} />
             <Route path="saas/department/marketing" element={<Marketing />} />
             <Route path="saas/department/product" element={<Product />} />
