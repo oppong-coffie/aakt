@@ -55,6 +55,32 @@ const LeftArrow = () => (
   </svg>
 );
 
+const LongArrow = () => (
+  <div className="mx-6 sm:mx-8 flex items-center">
+    <svg
+      width="70"
+      height="18"
+      viewBox="0 0 80 18"
+      fill="none"
+    >
+      <path
+        d="M0 9H72"
+        stroke="#9CA3AF"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M72 3L80 9L72 15"
+        stroke="#9CA3AF"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  </div>
+);
+
+
 const base = "/dashboard/portfolio/saas/project";
 const cards = [
   { id: "phase1", label: "Phase 1", to: `${base}/phase1` },
@@ -113,7 +139,7 @@ const Project = () => {
         </motion.div>
         <div className="flex items-center gap-2">
           <div className="">Project</div>
-          <div className="font-bold text-xl ml-24">Phase 1, Phase 2, Phase 3</div>
+          <div className="font-bold text-xl ml-24">Phases</div>
         </div>
       </div>
 
@@ -137,30 +163,41 @@ const Project = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
-        {cards.map((card, index) => (
-          <Link
-            key={card.id}
-            to={card.to}
-            className="contents"
-          >
-            <motion.div
-              className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-              data-aos="fade-up"
-              data-aos-delay={index * 100}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center">
-                {/* Icon placeholder */}
-              </div>
-              <h3 className="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
-                {card.label}
-              </h3>
-            </motion.div>
-          </Link>
-        ))}
+   {/* Phases Flow */}
+<div className="flex-1 flex items-center justify-center mt-16 mb-32 w-full">
+  <div className="flex items-center justify-center flex-wrap">
+    {cards.map((card, i) => (
+      <div key={card.id} className="flex items-center">
+        {/* Phase */}
+        <motion.button
+          onClick={() => navigate(card.to)}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          className="text-3xl sm:text-4xl font-semibold text-gray-900 hover:text-gray-700 transition-colors"
+        >
+          {card.label}
+        </motion.button>
+
+        {/* Arrow between phases */}
+        {i !== cards.length - 1 && (
+          <LongArrow />
+        )}
       </div>
+    ))}
+
+    {/* Plus button after last phase */}
+    <motion.button
+      onClick={() => setIsAddModalOpen(true)}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
+      className="ml-10 w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-blue-600 hover:shadow-md transition"
+      aria-label="Add Phase"
+    >
+      <PlusIcon />
+    </motion.button>
+  </div>
+</div>
+
 
       {/* Add New Phase Modal - Allows users to extend the project lifecycle. */}
       <AnimatePresence>
@@ -198,7 +235,7 @@ const Project = () => {
       </AnimatePresence>
 
       {/* Bottom Navigation */}
-      <div className="mt-auto flex justify-center pb-6 sm:pb-10 pt-10">
+      <div className="mt-auto flex justify-center pb-1 sm:pb-10 pt-10">
         <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar max-w-full px-4 text-center">
           {navItems.map((item) => {
             const isSelected = item.id === "Skillset";

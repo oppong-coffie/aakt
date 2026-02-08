@@ -55,11 +55,6 @@ const LeftArrow = () => (
   </svg>
 );
 
-const phases = [
-  { id: 1, label: "Phase 1" },
-  { id: 2, label: "Phase 2" },
-  { id: 3, label: "Phase 3" },
-];
 
 const navItems = [
   {
@@ -93,6 +88,99 @@ const navItems = [
     path: "/dashboard/bizinfra/reach",
   },
 ];
+
+const cards = [
+  { id: "phase1", label: "Phase 1", to: `/dashboard/bizinfra/phase` },
+  { id: "phase2", label: "Phase 2", to: `/dashboard/bizinfra/phase` },
+  { id: "phase3", label: "Phase 3", to: `/dashboard/bizinfra/phase` },
+];
+
+const LongArrow = () => (
+  <div className="mx-6 sm:mx-8 flex items-center">
+    <svg
+      width="70"
+      height="18"
+      viewBox="0 0 80 18"
+      fill="none"
+    >
+      <path
+        d="M0 9H72"
+        stroke="#9CA3AF"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M72 3L80 9L72 15"
+        stroke="#9CA3AF"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  </div>
+);
+
+type PhaseCard = { id: string; label: string; to: string };
+
+function PhaseItem({
+  card,
+  isLast,
+  onGo,
+  onRename,
+  onDelete,
+}: {
+  card: PhaseCard;
+  isLast: boolean;
+  onGo: (to: string) => void;
+  onRename: (card: PhaseCard) => void;
+  onDelete: (card: PhaseCard) => void;
+}) {
+  return (
+    <div className="flex items-center">
+      <div className="relative group">
+        {/* Phase label */}
+        <button
+          type="button"
+          onClick={() => onGo(card.to)}
+          className="text-3xl sm:text-4xl font-semibold text-gray-900 hover:text-gray-700 transition-colors"
+        >
+          {card.label}
+        </button>
+
+        {/* Dropdown (shows on hover) */}
+        <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 hidden group-hover:block z-50">
+          <div className="w-32 rounded-md border border-gray-200 bg-white shadow-lg overflow-hidden">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onRename(card);
+              }}
+              className="w-full px-3 py-2 text-left text-xs font-semibold text-gray-700 hover:bg-gray-50"
+            >
+              Rename
+            </button>
+
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(card);
+              }}
+              className="w-full px-3 py-2 text-left text-xs font-semibold text-red-600 hover:bg-red-50"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Long arrow between phases */}
+      {!isLast && <LongArrow />}
+    </div>
+  );
+}
+
 
 const Project = () => {
   const navigate = useNavigate();
@@ -136,30 +224,44 @@ const Project = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
-        {phases.map((phase, index) => (
-          <Link
-            key={phase.id}
-            to="/dashboard/bizinfra/phase"
-            className="contents"
-          >
-            <motion.div
-              className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-              data-aos="fade-up"
-              data-aos-delay={index * 100}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center">
-                {/* Icon placeholder */}
-              </div>
-              <h3 className="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
-                {phase.label}
-              </h3>
-            </motion.div>
-          </Link>
-        ))}
-      </div>
+     {/* Phases Flow */}
+   <div className="flex-1 flex items-center justify-center mt-16 mb-32 w-full">
+  <div className="flex items-center justify-center flex-wrap">
+    {cards.map((card, i) => (
+      <PhaseItem
+        key={card.id}
+        card={card}
+        isLast={i === cards.length - 1}
+        onGo={(to) => navigate(to)}
+        onRename={(c) => {
+          // ✅ Example rename: open your modal or prompt
+          const newName = window.prompt("Rename phase:", c.label);
+          if (!newName) return;
+
+          // update your state / backend here
+          console.log("Rename", c.id, "=>", newName);
+        }}
+        onDelete={(c) => {
+          if (!window.confirm(`Delete ${c.label}?`)) return;
+
+          // update your state / backend here
+          console.log("Delete", c.id);
+        }}
+      />
+    ))}
+
+    {/* Plus button after Phase 3 */}
+    <button
+      type="button"
+      onClick={() => setIsAddModalOpen(true)}
+      className="ml-12 w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-blue-600 hover:shadow-md transition"
+      aria-label="Add Phase"
+    >
+      <PlusIcon />
+    </button>
+  </div>
+</div>
+
 
       {/* Add New Phase Modal - Allows users to extend the project lifecycle. */}
       <AnimatePresence>
