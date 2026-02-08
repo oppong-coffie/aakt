@@ -1,10 +1,10 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 /**
- * Department Page (BizInfra) - Displays the structure of a selected department.
- * Similar to SkillsetDetail, providing access to Operations, Projects, etc.
+ * Operation Page (BizInfra) - Displays the detailed view of a specific business operation.
+ * Shows related sub-categories like Project, Process, and Block.
  */
 
 const SearchIcon = () => (
@@ -41,26 +41,25 @@ const PlusIcon = () => (
 
 const LeftArrow = () => (
   <svg
-    width="24"
-    height="24"
+    width="20"
+    height="20"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
   >
     <path d="m12 19-7-7 7-7" />
     <path d="M19 12H5" />
   </svg>
 );
 
+const base = "/dashboard/portfolio/saas";
 const categories = [
-  { id: "department", label: "Department" },
-  { id: "operation", label: "Operation" },
-  { id: "project", label: "Project" },
-  { id: "process", label: "Process" },
-  { id: "block", label: "Block" },
+  { id: "project", label: "Project", to: `${base}/project` },
+  { id: "process", label: "Process", to: `${base}/process` },
+  { id: "block", label: "Block", to: `${base}/block` },
 ];
 
 const navItems = [
@@ -96,49 +95,43 @@ const navItems = [
   },
 ];
 
-const Department = () => {
-  const { id } = useParams();
+const Operation = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-const navigate = useNavigate();
-  // In a real app, 'id' might be the department name or ID.
-  const deptName = "Department Details";
+  const navigate = useNavigate();
+  const opName = "Operation Details";
 
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
-      <div className="flex items-center gap-2 mb-6">
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <button
-            onClick={() => navigate(-1)}
-            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
-          >
-            <LeftArrow />
-          </button>
-        </motion.div>
+      <div className="flex items-center gap-2">
+        <button
+          onClick={() => navigate("/dashboard/portfolio/saas")}
+          className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 rounded-xl transition-colors"
+        >
+          <LeftArrow />
+        </button>
         <div className="flex items-center gap-2">
-          <div className="">Department</div>
-          <div className="font-bold text-xl ml-24">{deptName}</div>
+          <div className="">Operation</div>
+          <div className="font-bold text-xl ml-24">{opName}</div>
         </div>
       </div>
 
-      <div className="flex justify-end items-center mb-8">
-        <div className="flex items-center gap-2">
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
-          >
-            <SearchIcon />
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setIsAddModalOpen(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
-          >
-            <PlusIcon />
-          </motion.button>
-        </div>
+      <div className="flex justify-end items-center gap-2 mb-8 -mt-10">
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
+        >
+          <SearchIcon />
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setIsAddModalOpen(true)}
+          className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
+        >
+          <PlusIcon />
+        </motion.button>
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
@@ -146,7 +139,7 @@ const navigate = useNavigate();
           return (
             <Link
               key={cat.id}
-              to={`/dashboard/bizinfra/skillset/${id}/${cat.id}`} // Nested routing needs care
+              to={cat.to}
               className="contents"
             >
               <motion.div
@@ -171,7 +164,7 @@ const navigate = useNavigate();
       {/* Add Modal */}
       <AnimatePresence>
         {isAddModalOpen && (
-          <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -183,7 +176,7 @@ const navigate = useNavigate();
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8"
+              className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-50 p-8"
             >
               <h3 className="text-xl font-bold text-gray-900 mb-6">
                 Add New Item
@@ -247,4 +240,4 @@ const navigate = useNavigate();
   );
 };
 
-export default Department;
+export default Operation;

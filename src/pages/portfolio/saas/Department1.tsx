@@ -5,24 +5,24 @@ import PageLayout from "../../../components/PageLayout";
 import PageHeader from "../../../components/PageHeader";
 
 /**
- * Department 2 (SaaS) - Sales, Marketing, Product.
+ * Department 1 (SaaS) - Sales, Marketing, Product.
  */
 
-const base = "/dashboard/portfolio/saas/department2";
+const base = "/dashboard/portfolio/saas/department1";
 const cards = [
   { id: "sales", title: "Sales", to: `${base}/sales` },
   { id: "marketing", title: "Marketing", to: `${base}/marketing` },
   { id: "product", title: "Product", to: `${base}/product` },
 ];
 
-export default function Department2Page() {
+export default function Department1Page() {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
     <PageLayout>
       <PageHeader
-        title="Department 2"
+        title="Department 1"
         breadcrumb="Portfolio › SaaS"
         previousPath="/dashboard/portfolio/saas"
         onSearch={() => {}}

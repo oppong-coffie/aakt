@@ -31,9 +31,16 @@ import Phase from "./pages/bizinfra/Phase";
 import Project from "./pages/bizinfra/Project";
 import Process from "./pages/bizinfra/Process";
 import Block from "./pages/bizinfra/Block";
-import BizInfraDepartment from "./pages/bizinfra/Department";
-import BizInfraOperation from "./pages/bizinfra/Operation";
+import SaasDepartment from "./pages/portfolio/saas/Department";
+import SaasOperation from "./pages/portfolio/saas/Operation";
+import SaasProject from "./pages/portfolio/saas/Project";
+import SaasPhase from "./pages/portfolio/saas/Phase";
 import Saas from "./pages/portfolio/saas/Saas";
+import Department1 from "./pages/portfolio/saas/Department1";
+import Department2Page from "./pages/portfolio/saas/Department2";
+import Sales from "./pages/portfolio/saas/Sales";
+import Marketing from "./pages/portfolio/saas/Marketing";
+import Product from "./pages/portfolio/saas/Product";
 import Question1 from "./pages/portfolio/questions/Question1";
 import PortfolioFirstpage from "./pages/portfolio/Firstpage";
 import Question2 from "./pages/portfolio/questions/Question2";
@@ -69,12 +76,8 @@ import Culture3 from "./pages/portfolio/questions/market-question/culture/Cultur
 import Culture2 from "./pages/portfolio/questions/market-question/culture/Culture2";
 import Finance1 from "./pages/portfolio/questions/market-question/finance/Finance1";
 import Finance2 from "./pages/portfolio/questions/market-question/finance/Finance2";
-import Department from "./pages/portfolio/saas/Department";
-import Department2Page from "./pages/portfolio/saas/Department2";
+
 import ProcessPage from "./pages/portfolio/saas/Process";
-import Sales from "./pages/portfolio/saas/Sales";
-import Marketing from "./pages/portfolio/saas/Marketing";
-import Product from "./pages/portfolio/saas/Product";
 import Block2 from "./pages/portfolio/saas/Block";
 import Productobject1 from "./pages/portfolio/questions/p1-questions/Productobject1";
 import Productobject4 from "./pages/portfolio/questions/p1-questions/Productobject4";
@@ -106,7 +109,7 @@ const App = () => {
         <Route path="/otp" element={<Otp />} />
         <Route path="/stage" element={<Stage />} />
         <Route path="/skills" element={<Skills />} />
-        <Route path="/step" element={<Step />} />
+         <Route path="/step" element={<Step />} />
         <Route path="/confident" element={<Confident />} />
         <Route path="/feeling" element={<Feeling />} />
 
@@ -121,14 +124,7 @@ const App = () => {
             <Route index element={<Firstpage />} />
             <Route path="skillset" element={<Skilset />} />
             <Route path="skillset/:id" element={<SkillsetDetail />} />
-            <Route
-              path="skillset/:id/department"
-              element={<BizInfraDepartment />}
-            />
-            <Route
-              path="skillset/:id/operation"
-              element={<BizInfraOperation />}
-            />
+        
             <Route path="skillset/:id/project" element={<Project />} />
             <Route path="skillset/:id/process" element={<Process />} />
             <Route path="skillset/:id/block" element={<Block />} />
@@ -142,6 +138,15 @@ const App = () => {
           <Route path="portfolio" element={<PortfolioMain />}>
             <Route index element={<PortfolioFirstpage />} />
             <Route path="saas" element={<Saas />} />
+            <Route path="saas/department" element={<SaasDepartment />} />
+            <Route path="saas/department1" element={<Department1 />} />
+            <Route path="saas/department1/sales" element={<Sales />} />
+            <Route path="saas/department1/marketing" element={<Marketing />} />
+            <Route path="saas/department1/product" element={<Product />} />
+            <Route path="saas/department2" element={<Department2Page />} />
+            <Route path="saas/department2/sales" element={<Sales />} />
+            <Route path="saas/department2/marketing" element={<Marketing />} />
+            <Route path="saas/department2/product" element={<Product />} />
             <Route path="question1" element={<Question1 />} />
             <Route path="question2" element={<Question2 />} />
             <Route path="question3" element={<Question3 />} />
@@ -221,16 +226,11 @@ const App = () => {
             <Route path="culture3" element={<Culture3 />} />
             <Route path="finance1" element={<Finance1 />} />
             <Route path="finance2" element={<Finance2 />} />
-            <Route path="saas/department" element={<Department />} />
-            <Route path="saas/department2" element={<Department2Page />} />
-            <Route path="saas/department2/sales" element={<Sales />} />
-            <Route path="saas/department2/marketing" element={<Marketing />} />
-            <Route path="saas/department2/product" element={<Product />} />
+            <Route path="saas/operation" element={<SaasOperation />} />
+            <Route path="saas/project" element={<SaasProject />} />
+            <Route path="saas/project/:phaseId" element={<SaasPhase />} />
             <Route path="saas/process" element={<ProcessPage />} />
-            <Route path="saas/department/sales" element={<Sales />} />
-            <Route path="saas/department/marketing" element={<Marketing />} />
-            <Route path="saas/department/product" element={<Product />} />
-            <Route path="saas/department/block" element={<Block2 />} />
+            <Route path="saas/block" element={<Block2 />} />
             <Route path="p1/productobject1" element={<Productobject1 />} />
             <Route path="p1/productobject2" element={<Productobject2 />} />
             <Route path="p1/productobject3" element={<Productobject3 />} />

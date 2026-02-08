@@ -1,15 +1,46 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 /**
- * Department Page (SaaS) - Lists specific departments (Sales, Marketing, Product)
- * within a SaaS business model.
+ * Department Page (BizInfra) - Displays the structure of a selected department.
+ * Similar to SkillsetDetail, providing access to Operations, Projects, etc.
  */
+
+const SearchIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="11" cy="11" r="8"></circle>
+    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+  </svg>
+);
+
+const PlusIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <line x1="12" y1="5" x2="12" y2="19"></line>
+    <line x1="5" y1="12" x2="19" y2="12"></line>
+  </svg>
+);
 
 const LeftArrow = () => (
   <svg
-    xmlns="http://www.w3.org/2000/svg"
     width="24"
     height="24"
     viewBox="0 0 24 24"
@@ -18,201 +49,202 @@ const LeftArrow = () => (
     stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    className="lucide lucide-arrow-left-icon lucide-arrow-left"
   >
     <path d="m12 19-7-7 7-7" />
     <path d="M19 12H5" />
   </svg>
 );
 
-const SearchIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-    <path
-      d="M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z"
-      stroke="currentColor"
-      strokeWidth="2"
-    />
-    <path
-      d="M21 21l-4.35-4.35"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-  </svg>
-);
+const base = "/dashboard/portfolio/saas";
+const categories = [
+  { id: "department", label: "Department", to: `${base}/department` },
+  { id: "operation", label: "Operation", to: `${base}/operation` },
+  { id: "project", label: "Project", to: `${base}/project` },
+  { id: "process", label: "Process", to: `${base}/process` },
+  { id: "block", label: "Block", to: `${base}/block` },
+];
 
-const PlusIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-    <path
-      d="M12 5v14M5 12h14"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-type Card = {
-  id: string;
-  title: string;
-  to: string;
-};
-
-const cards: Card[] = [
+const navItems = [
   {
-    id: "sales",
-    title: "Sales",
-    to: "/dashboard/portfolio/saas/department/sales",
+    id: "Skillset",
+    label: "Skillset",
+    image: "/bizinfra/skill2.png",
+    path: "/dashboard/bizinfra/skillset",
   },
   {
-    id: "marketing",
-    title: "Marketing",
-    to: "/dashboard/portfolio/saas/department/marketing",
+    id: "Network",
+    label: "Network",
+    image: "/bizinfra/network.png",
+    path: "/dashboard/bizinfra/network",
   },
   {
-    id: "product",
-    title: "Product",
-    to: "/dashboard/portfolio/saas/department/product",
+    id: "Capital",
+    label: "Capital",
+    image: "/bizinfra/capital.png",
+    path: "/dashboard/bizinfra/capital",
+  },
+  {
+    id: "Intel",
+    label: "Intel",
+    image: "/bizinfra/intel2.png",
+    path: "/dashboard/bizinfra/intel",
+  },
+  {
+    id: "Reach",
+    label: "Reach",
+    image: "/bizinfra/reach.png",
+    path: "/dashboard/bizinfra/reach",
   },
 ];
 
-export default function Department2() {
-  const [activeTab, setActiveTab] = useState("Home");
+const Department = () => {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const navigate = useNavigate();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // In a real app, 'id' might be the department name or ID.
+  const deptName = "Department Details";
 
   return (
-    <div className="min-h-screen bg-[#f3f2ed]">
-      {/* Top bar */}
-      <div className="flex items-center gap-2 px-6 pt-4 mb-6">
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => navigate(-1)}
-          className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
-        >
-          <LeftArrow />
-        </motion.button>
+    <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
+      {/* Header Area */}
+      <div className="flex items-center gap-2 mb-6">
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+          <button
+            onClick={() => navigate("/dashboard/portfolio/saas")}
+            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
+          >
+            <LeftArrow />
+          </button>
+        </motion.div>
         <div className="flex items-center gap-2">
-          <div className="">SaaS</div>
-          <div className="font-bold text-xl ml-24 text-gray-900">
-            Department 2
-          </div>
+          <div className="">Department</div>
+          <div className="font-bold text-xl ml-24">{deptName}</div>
         </div>
       </div>
 
-      <div className="flex justify-end items-center px-6 mb-8">
+      <div className="flex justify-end items-center mb-8">
         <div className="flex items-center gap-2">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            type="button"
             className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
-            aria-label="Search"
           >
             <SearchIcon />
           </motion.button>
-
-          <div className="relative">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              type="button"
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
-              aria-label="Add"
-            >
-              <PlusIcon />
-            </motion.button>
-
-            <AnimatePresence>
-              {isDropdownOpen && (
-                <>
-                  <div
-                    className="fixed inset-0 z-40"
-                    onClick={() => setIsDropdownOpen(false)}
-                  />
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                    className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 overflow-hidden"
-                  >
-                    {[
-                      { id: "department", label: "Department" },
-                      { id: "operation", label: "Operation" },
-                      { id: "project", label: "Project" },
-                      { id: "process", label: "Process" },
-                      { id: "block", label: "Block" },
-                    ].map((option) => (
-                      <button
-                        key={option.id}
-                        onClick={() => {
-                          setIsDropdownOpen(false);
-                          // Add navigation or modal logic here if needed
-                        }}
-                        className="w-full text-left px-4 py-3 text-xs font-bold text-gray-600 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-3"
-                      >
-                        <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-                        {option.label}
-                      </button>
-                    ))}
-                  </motion.div>
-                </>
-              )}
-            </AnimatePresence>
-          </div>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setIsAddModalOpen(true)}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
+          >
+            <PlusIcon />
+          </motion.button>
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="flex items-center justify-center gap-8 mb-8">
-        {["Home", "Team"].map((tab) => (
-          <motion.button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className={`relative px-2 py-1 text-sm font-medium transition-colors ${
-              activeTab === tab ? "text-gray-900" : "text-gray-500"
-            }`}
-          >
-            {tab}
-            {activeTab === tab && (
+      <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
+        {categories.map((cat, index) => {
+          return (
+            <Link
+              key={cat.id}
+              to={cat.to}
+              className="contents"
+            >
               <motion.div
-                layoutId="activeTabDeptSaaS"
-                className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-full"
-              />
-            )}
-          </motion.button>
-        ))}
+                className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
+                data-aos="fade-up"
+                data-aos-delay={index * 100}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center">
+                  {/* Icon placeholder */}
+                </div>
+                <h3 className="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
+                  {cat.label}
+                </h3>
+              </motion.div>
+            </Link>
+          );
+        })}
       </div>
 
-      {/* Center cards */}
-      <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
-        {activeTab === "Home" &&
-          cards.map((c, index) => (
-            <motion.button
-              key={c.id}
-              type="button"
-              onClick={() => navigate(c.to)}
-              className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-              data-aos="fade-up"
-              data-aos-delay={index * 100}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+      {/* Add Modal */}
+      <AnimatePresence>
+        {isAddModalOpen && (
+          <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+              onClick={() => setIsAddModalOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8"
             >
-              <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow"></div>
-              <div className="text-sm font-bold text-gray-900 text-center group-hover:text-blue-600 transition-colors">
-                {c.title}
+              <h3 className="text-xl font-bold text-gray-900 mb-6">
+                Add New Item
+              </h3>
+              <div className="space-y-4">
+                <select className="w-full p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none">
+                  <option>Select Type...</option>
+                  {categories.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.label}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  type="text"
+                  placeholder="Name"
+                  className="w-full p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none"
+                />
+                <button className="w-full py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700">
+                  Add
+                </button>
               </div>
-            </motion.button>
-          ))}
-        {activeTab === "Team" && (
-          <div className="text-gray-500 text-sm">No team members found</div>
+            </motion.div>
+          </div>
         )}
+      </AnimatePresence>
+
+      {/* Bottom Navigation */}
+      <div className="mt-auto flex justify-center pb-6 sm:pb-10 pt-10">
+        <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar max-w-full px-4 text-center">
+          {navItems.map((item) => {
+            const isSelected = item.id === "Skillset";
+            return (
+              <Link
+                key={item.id}
+                to={item.path}
+                className="flex flex-col items-center gap-2 group shrink-0"
+              >
+                <div
+                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
+                    ${isSelected ? "bg-blue-600/10 border-2 border-blue-600 ring-4 ring-blue-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
+                  `}
+                >
+                  <img
+                    src={item.image}
+                    alt={item.label}
+                    className="w-3/4 h-3/4 object-contain transform rotate-12 group-hover:rotate-0 transition-transform duration-300"
+                  />
+                </div>
+                <span
+                  className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}
+                >
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default Department;

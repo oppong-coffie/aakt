@@ -1,10 +1,10 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 /**
- * Operation Page (BizInfra) - Displays the detailed view of a specific business operation.
- * Shows related sub-categories like Project, Process, and Block.
+ * Project Page (BizInfra) - Displays the phases of a selected project.
+ * Allows users to navigate into specific phases.
  */
 
 const SearchIcon = () => (
@@ -55,11 +55,11 @@ const LeftArrow = () => (
   </svg>
 );
 
-// Op -> Proj, Proc, Block
-const categories = [
-  { id: "project", label: "Project" },
-  { id: "process", label: "Process" },
-  { id: "block", label: "Block" },
+const base = "/dashboard/portfolio/saas/project";
+const cards = [
+  { id: "phase1", label: "Phase 1", to: `${base}/phase1` },
+  { id: "phase2", label: "Phase 2", to: `${base}/phase2` },
+  { id: "phase3", label: "Phase 3", to: `${base}/phase3` },
 ];
 
 const navItems = [
@@ -95,77 +95,77 @@ const navItems = [
   },
 ];
 
-const Operation = () => {
-  const { id } = useParams();
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+const Project = () => {
   const navigate = useNavigate();
-  const opName = "Operation Details";
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
-      <div className="flex items-center gap-2">
-        <button
-          onClick={() => navigate(-1)}
-          className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 rounded-xl transition-colors"
-        >
-          <LeftArrow />
-        </button>
+      <div className="flex items-center gap-2 mb-6">
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+          <button
+            onClick={() => navigate("/dashboard/portfolio/saas")}
+            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
+          >
+            <LeftArrow />
+          </button>
+        </motion.div>
         <div className="flex items-center gap-2">
-          <div className="">Operation</div>
-          <div className="font-bold text-xl ml-24">{opName}</div>
+          <div className="">Project</div>
+          <div className="font-bold text-xl ml-24">Phase 1, Phase 2, Phase 3</div>
         </div>
       </div>
 
-      <div className="flex justify-end items-center gap-2 mb-8 -mt-10">
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
-        >
-          <SearchIcon />
-        </motion.button>
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => setIsAddModalOpen(true)}
-          className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
-        >
-          <PlusIcon />
-        </motion.button>
+      <div className="flex justify-end items-center mb-8">
+        <div className="flex items-center gap-2">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+          >
+            <SearchIcon />
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setIsAddModalOpen(true)}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
+          >
+            <PlusIcon />
+          </motion.button>
+        </div>
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
-        {categories.map((cat, index) => {
-          return (
-            <Link
-              key={cat.id}
-              to={`/dashboard/bizinfra/skillset/${id}/${cat.id}`}
-              className="contents"
+        {cards.map((card, index) => (
+          <Link
+            key={card.id}
+            to={card.to}
+            className="contents"
+          >
+            <motion.div
+              className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
+              data-aos="fade-up"
+              data-aos-delay={index * 100}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              <motion.div
-                className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-                data-aos="fade-up"
-                data-aos-delay={index * 100}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center">
-                  {/* Icon placeholder */}
-                </div>
-                <h3 className="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
-                  {cat.label}
-                </h3>
-              </motion.div>
-            </Link>
-          );
-        })}
+              <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center">
+                {/* Icon placeholder */}
+              </div>
+              <h3 className="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
+                {card.label}
+              </h3>
+            </motion.div>
+          </Link>
+        ))}
       </div>
 
-      {/* Add Modal */}
+      {/* Add New Phase Modal - Allows users to extend the project lifecycle. */}
       <AnimatePresence>
         {isAddModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -177,23 +177,15 @@ const Operation = () => {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-50 p-8"
+              className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8"
             >
               <h3 className="text-xl font-bold text-gray-900 mb-6">
-                Add New Item
+                Add New Phase
               </h3>
               <div className="space-y-4">
-                <select className="w-full p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none">
-                  <option>Select Type...</option>
-                  {categories.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.label}
-                    </option>
-                  ))}
-                </select>
                 <input
                   type="text"
-                  placeholder="Name"
+                  placeholder="Phase Name"
                   className="w-full p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none"
                 />
                 <button className="w-full py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700">
@@ -218,8 +210,8 @@ const Operation = () => {
               >
                 <div
                   className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
-                    ${isSelected ? "bg-blue-600/10 border-2 border-blue-600 ring-4 ring-blue-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
-                  `}
+                  ${isSelected ? "bg-blue-600/10 border-2 border-blue-600 ring-4 ring-blue-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
+                `}
                 >
                   <img
                     src={item.image}
@@ -241,4 +233,4 @@ const Operation = () => {
   );
 };
 
-export default Operation;
+export default Project;

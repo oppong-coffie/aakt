@@ -29,10 +29,13 @@ const Saas = () => {
   const [activeTab, setActiveTab] = useState("Home");
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const base = "/dashboard/portfolio/saas";
   const cards = [
-    { id: "dept1", label: "Department 1" },
-    { id: "dept2", label: "Department 2" },
-    { id: "process", label: "Process" },
+    { id: "department", label: "Department", to: `${base}/department` },
+    { id: "operation", label: "Operation", to: `${base}/operation` },
+    { id: "project", label: "Project", to: `${base}/project` },
+    { id: "process", label: "Process", to: `${base}/process` },
+    { id: "block", label: "Block", to: `${base}/block` },
   ];
 
   const dropdownItems = [
@@ -119,7 +122,7 @@ const Saas = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
                 className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-                onClick={() => navigate("/dashboard/portfolio/saas/department")}
+                onClick={() => navigate(card.to)}
                 data-aos="fade-up"
                 data-aos-delay={i * 100}
                 whileHover={{ scale: 1.02 }}
