@@ -64,39 +64,6 @@ interface Person {
   bio?: string;
 }
 
-const navItems = [
-  {
-    id: "Skillset",
-    label: "Skillset",
-    image: "/bizinfra/skill2.png",
-    path: "/dashboard/bizinfra/skillset",
-  },
-  {
-    id: "Network",
-    label: "Network",
-    image: "/bizinfra/network.png",
-    path: "/dashboard/bizinfra/network",
-  },
-  {
-    id: "Capital",
-    label: "Capital",
-    image: "/bizinfra/capital.png",
-    path: "/dashboard/bizinfra/capital",
-  },
-  {
-    id: "Intel",
-    label: "Intel",
-    image: "/bizinfra/intel2.png",
-    path: "/dashboard/bizinfra/intel",
-  },
-  {
-    id: "Reach",
-    label: "Reach",
-    image: "/bizinfra/reach.png",
-    path: "/dashboard/bizinfra/reach",
-  },
-];
-
 const people: Person[] = [
   {
     name: "Bessie Cooper",

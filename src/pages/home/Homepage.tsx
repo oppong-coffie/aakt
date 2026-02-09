@@ -575,7 +575,7 @@ const Homepage = () => {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      className={`bg-white rounded-4xl p-6 shadow-sm border border-gray-100 flex flex-col gap-4 min-h-[220px] w-full max-w-[280px] transition-shadow ${
+                      className={`bg-white rounded-xl p-2 shadow-sm border border-gray-100 flex flex-col gap-4 min-h-[220px] w-full max-w-[280px] transition-shadow ${
                         snapshot.isDragging
                           ? "shadow-2xl ring-2 ring-blue-500/20 rotate-1"
                           : ""

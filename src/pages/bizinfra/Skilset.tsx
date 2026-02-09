@@ -311,6 +311,9 @@ const skillsetCards = [
 const Skilset = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isPlusOpen, setIsPlusOpen] = useState(false);
+  const [cards, setCards] = useState(skillsetCards);
+
+
 
   return (
     <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">

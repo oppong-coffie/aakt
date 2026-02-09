@@ -93,6 +93,7 @@ const Dashboard = () => {
   const [saasDepartmentOpen, setSaasDepartmentOpen] = useState(false);
   const [saasOperationOpen, setSaasOperationOpen] = useState(false);
   const [saasProjectOpen, setSaasProjectOpen] = useState(false);
+  const [navCollapsed, setNavCollapsed] = useState(false);
   const location = useLocation();
 
   const isSaasPath = location.pathname.startsWith("/dashboard/portfolio/saas");
@@ -162,22 +163,33 @@ const Dashboard = () => {
       `}
       >
         {/* Logo & Close Button (Mobile) */}
-        <div className="flex items-center justify-between mb-10">
-          <div className="flex items-center gap-2">
-            <div className="bg-blue-600 text-white px-2 py-0.5 rounded text-sm font-bold">
+        <div className="flex items-center justify-between gap-3 mb-8 px-3 py-3">
+          <Link
+            to="/dashboard/home"
+            className="flex items-center gap-2 hover:opacity-85 transition-all duration-200 flex-1"
+          >
+            <div className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm font-bold tracking-wide shadow-md hover:shadow-lg hover:bg-blue-700 transition-all">
               AAKT
             </div>
-          </div>
+          </Link>
+          <button
+            type="button"
+            onClick={() => setNavCollapsed((prev) => !prev)}
+            className="p-2 rounded-lg transition-all duration-200 hover:bg-blue-100 lg:block hidden"
+            aria-label={navCollapsed ? "Expand menu" : "Collapse menu"}
+          >
+            <ChevronIcon open={!navCollapsed} />
+          </button>
           <button
             onClick={() => setIsSidebarOpen(false)}
-            className="lg:hidden p-1 hover:bg-gray-200 rounded-md"
+            className="lg:hidden p-2 hover:bg-blue-100 rounded-lg transition-colors"
           >
             <CloseIcon />
           </button>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 space-y-4">
+        <nav className={`flex-1 space-y-4 transition-all duration-300 overflow-hidden ${navCollapsed ? "max-h-0 opacity-0" : "max-h-full opacity-100"}`}>
           <Link
             to="/dashboard/home"
             onClick={() => setIsSidebarOpen(false)}

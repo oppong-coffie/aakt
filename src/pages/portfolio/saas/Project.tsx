@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 /**
@@ -88,38 +88,6 @@ const cards = [
   { id: "phase3", label: "Phase 3", to: `${base}/phase3` },
 ];
 
-const navItems = [
-  {
-    id: "Skillset",
-    label: "Skillset",
-    image: "/bizinfra/skill2.png",
-    path: "/dashboard/bizinfra/skillset",
-  },
-  {
-    id: "Network",
-    label: "Network",
-    image: "/bizinfra/network.png",
-    path: "/dashboard/bizinfra/network",
-  },
-  {
-    id: "Capital",
-    label: "Capital",
-    image: "/bizinfra/capital.png",
-    path: "/dashboard/bizinfra/capital",
-  },
-  {
-    id: "Intel",
-    label: "Intel",
-    image: "/bizinfra/intel2.png",
-    path: "/dashboard/bizinfra/intel",
-  },
-  {
-    id: "Reach",
-    label: "Reach",
-    image: "/bizinfra/reach.png",
-    path: "/dashboard/bizinfra/reach",
-  },
-];
 
 const Project = () => {
   const navigate = useNavigate();

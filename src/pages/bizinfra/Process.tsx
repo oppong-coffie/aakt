@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 /**
  * Process Page (BizInfra) - A detailed view for managing business processes.
@@ -54,40 +54,6 @@ const LeftArrowIcon = () => (
     <path d="M19 12H5" />
   </svg>
 );
-
-const navItems = [
-  {
-    id: "Skillset",
-    label: "Skillset",
-    image: "/bizinfra/skill2.png",
-    path: "/dashboard/bizinfra/skillset",
-  },
-  {
-    id: "Network",
-    label: "Network",
-    image: "/bizinfra/network.png",
-    path: "/dashboard/bizinfra/network",
-  },
-  {
-    id: "Capital",
-    label: "Capital",
-    image: "/bizinfra/capital.png",
-    path: "/dashboard/bizinfra/capital",
-  },
-  {
-    id: "Intel",
-    label: "Intel",
-    image: "/bizinfra/intel2.png",
-    path: "/dashboard/bizinfra/intel",
-  },
-  {
-    id: "Reach",
-    label: "Reach",
-    image: "/bizinfra/reach.png",
-    path: "/dashboard/bizinfra/reach",
-  },
-];
-
 const Process = () => {
   const { id } = useParams();
   const [hoveredBlock, setHoveredBlock] = useState<number | null>(null);
