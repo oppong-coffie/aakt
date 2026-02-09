@@ -311,7 +311,6 @@ const skillsetCards = [
 const Skilset = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isPlusOpen, setIsPlusOpen] = useState(false);
-  const [cards, setCards] = useState(skillsetCards);
 
 
 
