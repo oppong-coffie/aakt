@@ -87,12 +87,12 @@ const ChevronIcon = ({ open }: { open: boolean }) => (
 
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [bizInfraOpen, setBizInfraOpen] = useState(true);
-  const [portfolioOpen, setPortfolioOpen] = useState(true);
-  const [saasOpen, setSaasOpen] = useState(true);
-  const [saasDepartmentOpen, setSaasDepartmentOpen] = useState(true);
-  const [saasOperationOpen, setSaasOperationOpen] = useState(true);
-  const [saasProjectOpen, setSaasProjectOpen] = useState(true);
+  const [bizInfraOpen, setBizInfraOpen] = useState(false);
+  const [portfolioOpen, setPortfolioOpen] = useState(false);
+  const [saasOpen, setSaasOpen] = useState(false);
+  const [saasDepartmentOpen, setSaasDepartmentOpen] = useState(false);
+  const [saasOperationOpen, setSaasOperationOpen] = useState(false);
+  const [saasProjectOpen, setSaasProjectOpen] = useState(false);
   const location = useLocation();
 
   const isSaasPath = location.pathname.startsWith("/dashboard/portfolio/saas");
