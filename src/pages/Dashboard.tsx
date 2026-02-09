@@ -157,7 +157,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="flex h-screen bg-[#f0f0eb] font-sans text-gray-800 overflow-hidden">
+    <div className="flex h-screen bg-[#f0f0eb] font-sans overflow-hidden">
       {/* Mobile Toggle Button */}
       <button
         onClick={() => setIsSidebarOpen(true)}
@@ -177,7 +177,7 @@ const Dashboard = () => {
       {/* Sidebar */}
       <aside
         className={`
-        fixed inset-y-0 left-0 w-72 bg-[#f0f0eb] flex flex-col px-4 pb-8 pt-2 border-r border-gray-200/50 z-70 transform transition-all duration-700 ease-in-out
+        fixed inset-y-0 left-0 w-72 bg-[#f0f0eb] flex flex-col px-4 pb-8 pt-2 border-r text-black border-gray-200/50 z-70 transform transition-all duration-700 ease-in-out font-inter-local text-gray-600
         lg:translate-x-0 lg:static lg:h-full lg:z-50
         ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
         ${
@@ -229,14 +229,14 @@ const Dashboard = () => {
             } py-2.5 rounded-xl transition-colors duration-200 ${
               location.pathname === "/dashboard/home"
                 ? "bg-gray-200/80 shadow-sm border border-gray-300/50 text-gray-900"
-                : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                : "text-black hover:bg-gray-100 hover:text-gray-900"
             }`}
             title={navCollapsed ? "Home" : undefined}
           >
             <div className="w-6 flex justify-center">
               <HomeIcon />
             </div>
-            <span className={`font-medium text-sm ${navCollapsed ? "hidden" : ""}`}>
+            <span className={`font-medium text-black text-sm ${navCollapsed ? "hidden" : ""}`}>
               Home
             </span>
           </Link>
@@ -255,15 +255,13 @@ const Dashboard = () => {
               <Link
                 to="/dashboard/bizinfra"
                 onClick={() => setIsSidebarOpen(false)}
-                className={`flex items-center ${
-                  navCollapsed ? "justify-center" : "gap-3"
-                } text-gray-500 font-bold text-xs uppercase tracking-wider transition-colors duration-200 group-hover:text-gray-900 ${
-                  location.pathname.startsWith("/dashboard/bizinfra") ? "text-gray-900" : ""
-                }`}
-                title={navCollapsed ? "BizInfra" : undefined}
+                className={`flex items-center  text-black ${
+                  navCollapsed ? "justify-center text-black" : "gap-3 text-black"
+                } text-black font-bold text-xs uppercase tracking-wider transition-colors duration-200`}
+                title={navCollapsed ? "BizInfra text-black" : undefined}
               >
                 <BizIcon />
-                <span className={navCollapsed ? "hidden" : ""}>BizInfra</span>
+                <span className={navCollapsed ? "hidden text-black" : "text-black"}>BizInfra</span>
               </Link>
               {!navCollapsed && (
                 <button
@@ -300,11 +298,11 @@ const Dashboard = () => {
                     key={item.name}
                     to={`/dashboard/bizinfra/${item.name.toLowerCase()}`}
                     onClick={() => setIsSidebarOpen(false)}
-                    className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors
+                    className={`flex text-black items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors
                       ${
                         location.pathname.includes(item.name.toLowerCase())
-                          ? "bg-blue-50 text-blue-600"
-                          : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                          ? "bg-blue-50 text-black"
+                          : "text-black hover:bg-gray-100 hover:text-gray-700"
                       }
                     `}
                   >
@@ -313,7 +311,7 @@ const Dashboard = () => {
                       alt=""
                       className="w-4 h-4 object-contain opacity-70 group-hover:opacity-100 transition-opacity"
                     />
-                    <span>{item.name}</span>
+                    <span className="text-black">{item.name}</span>
                   </Link>
                 ))}
               </div>
@@ -336,13 +334,11 @@ const Dashboard = () => {
                 onClick={() => setIsSidebarOpen(false)}
                 className={`flex items-center ${
                   navCollapsed ? "justify-center" : "gap-3"
-                } text-gray-500 font-bold text-xs uppercase tracking-wider transition-colors duration-200 group-hover:text-gray-900 ${
-                  location.pathname.startsWith("/dashboard/portfolio") ? "text-gray-900" : ""
-                }`}
+                } text-black font-bold text-xs uppercase tracking-wider transition-colors duration-200`}
                 title={navCollapsed ? "Portfolio" : undefined}
               >
                 <PortfolioIcon />
-                <span className={navCollapsed ? "hidden" : ""}>Portfolio</span>
+                <span className={navCollapsed ? "hidden" : " text-black"}>Portfolio</span>
               </Link>
               {!navCollapsed && (
                 <button
@@ -376,11 +372,11 @@ const Dashboard = () => {
                       onClick={() => setIsSidebarOpen(false)}
                       className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${
                         location.pathname === "/dashboard/portfolio/saas"
-                          ? "bg-blue-50 text-blue-600"
-                          : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                          ? "bg-blue-50 text-black"
+                          : " text-black hover:bg-gray-100 hover:text-gray-700"
                       }`}
                     >
-                      SaaS
+                      <span className="text-black">SaaS</span> 
                     </Link>
                     <button
                       type="button"
@@ -408,11 +404,11 @@ const Dashboard = () => {
                             onClick={() => setIsSidebarOpen(false)}
                             className={`flex-1 py-1.5 pl-2 text-sm font-medium rounded-lg transition-colors ${
                               location.pathname === "/dashboard/portfolio/saas/department"
-                                ? "bg-blue-50 text-blue-600"
+                                ? "bg-blue-50 text-black"
                                 : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                             }`}
                           >
-                            Department
+                            <span className="text-black">Department</span>
                           </Link>
                           <button
                             type="button"
@@ -445,11 +441,11 @@ const Dashboard = () => {
                                 onClick={() => setIsSidebarOpen(false)}
                                 className={`block py-1.5 pl-3 text-sm font-medium rounded-lg transition-colors ${
                                   location.pathname === item.path
-                                    ? "bg-blue-50 text-blue-600"
+                                    ? "bg-blue-50"
                                     : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                                 }`}
                               >
-                                {item.name}
+                                 <span className="text-black">{item.name}</span>
                               </Link>
                             ))}
                           </div>
@@ -467,7 +463,7 @@ const Dashboard = () => {
                                 : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                             }`}
                           >
-                            Operation
+                             <span className="text-black">Operation</span>
                           </Link>
                           <button
                             type="button"
@@ -502,7 +498,7 @@ const Dashboard = () => {
                                     : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                                 }`}
                               >
-                                {item.name}
+                                 <span className="text-black">{item.name}</span>
                               </Link>
                             ))}
                           </div>
@@ -520,7 +516,7 @@ const Dashboard = () => {
                                 : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                             }`}
                           >
-                            Project
+                            <span className="text-black">Project</span>
                           </Link>
                           <button
                             type="button"
@@ -555,7 +551,7 @@ const Dashboard = () => {
                                     : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                                 }`}
                               >
-                                {item.name}
+                                 <span className="text-black">{item.name}</span>
                               </Link>
                             ))}
                           </div>
@@ -571,7 +567,7 @@ const Dashboard = () => {
                             : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                         }`}
                       >
-                        Process
+                        <span className="text-black">Process</span>
                       </Link>
                       {/* Block (direct link) */}
                       <Link
@@ -583,7 +579,7 @@ const Dashboard = () => {
                             : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                         }`}
                       >
-                        Block
+                        <span className="text-black">Block</span>
                       </Link>
                     </div>
                   </div>
@@ -598,7 +594,7 @@ const Dashboard = () => {
                       : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                   }`}
                 >
-                  Ecommerce
+                  <span className="text-black">Ecommerce</span>
                 </Link>
               </div>
             </div>
@@ -618,7 +614,7 @@ const Dashboard = () => {
               <SettingsIcon />
             </div>
             <span className={`font-medium text-sm ${navCollapsed ? "hidden" : ""}`}>
-              Settings
+              <span className="text-black">Settings</span>
             </span>
           </Link>
         </div>

@@ -551,7 +551,7 @@ const Homepage = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="relative min-h-[85vh] flex flex-col gap-12 pb-2">
+      <div className="relative min-h-[85vh] flex flex-col gap-12 pb-2 font-inter-local">
         {/* Main Workspace: Workloads Grid */}
         <Droppable
           droppableId="all-columns"
