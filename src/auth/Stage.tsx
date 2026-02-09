@@ -26,7 +26,7 @@ const Stage = () => {
   return (
     <div className="bg-[#f0f0eb] h-screen md:px-32 px-0 pt-5">
       {/* Skip Button */}
-      <div className="flex justify-end">
+      <div className="fixed top-8 right-8">
         <button
           onClick={handleSkip}
           className="px-2 py- rounded-lg border border-blue-300 text-gray-700 bg-transparent hover:bg-gray-100 transition text-sm font-medium"
@@ -116,10 +116,10 @@ const Stage = () => {
       </div>
 
       {/* Continue Button */}
-      <div className="flex justify-end">
+      <div className="fixed bottom-10 right-10">
         <button
           onClick={handleContinue}
-          className="px-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition"
+          className="px-3 py-1 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition"
         >
           Continue
         </button>

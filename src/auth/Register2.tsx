@@ -232,7 +232,7 @@ const Register2 = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!isFormValid) return;
-    navigate("/register3");
+    navigate("/otp");
   };
 
   return (

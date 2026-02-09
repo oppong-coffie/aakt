@@ -154,7 +154,7 @@ const Feeling = () => {
       <div className="fixed bottom-10 right-10">
         <button
           onClick={handleContinue}
-          className="px-2 py-1 bg-blue-400 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-500 transition"
+          className="px-3 py-1 bg-blue-400 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-500 transition"
         >
           Continue
         </button>

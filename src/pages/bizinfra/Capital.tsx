@@ -809,39 +809,7 @@ const Capital = () => {
       <CreateCampaignModal />
       <SourceDetailsModal />
 
-      <div className="mt-auto flex justify-center pb-6 pt-10">
-        <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar max-w-full px-4 text-center">
-          {navItems.map((item) => {
-            const isSelected = item.id === "Capital";
-            return (
-              <Link key={item.id} to={item.path} className="contents">
-                <motion.div
-                  className="flex flex-col items-center gap-2 group shrink-0 cursor-pointer"
-                  whileHover={{ y: -5 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <div
-                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
-                    ${isSelected ? "bg-yellow-600/10 border-2 border-yellow-600 ring-4 ring-yellow-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
-                  `}
-                  >
-                    <img
-                      src={item.image}
-                      alt={item.label}
-                      className="w-3/4 h-3/4 object-contain transform rotate-12 group-hover:rotate-0 transition-transform duration-300"
-                    />
-                  </div>
-                  <span
-                    className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}
-                  >
-                    {item.label}
-                  </span>
-                </motion.div>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
+    
     </div>
   );
 };

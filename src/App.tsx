@@ -6,8 +6,6 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import Register1 from "./auth/Register2";
 import Register2 from "./auth/Register2";
-import Register3 from "./auth/Register3";
-import Register4 from "./auth/Register3";
 import Otp from "./auth/Otp";
 import Stage from "./auth/Stage";
 import Skills from "./auth/Skills";
@@ -104,8 +102,6 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register1" element={<Register1 />} />
         <Route path="/register2" element={<Register2 />} />
-        <Route path="/register3" element={<Register3 />} />
-        <Route path="/register4" element={<Register4 />} />
         <Route path="/otp" element={<Otp />} />
         <Route path="/stage" element={<Stage />} />
         <Route path="/skills" element={<Skills />} />

@@ -67,9 +67,9 @@ const Skills = () => {
   const isValidSelection = selectedSkills.length > 0;
 
   return (
-    <div className="h-screen bg-[#f0f0eb] md:px-40 px-5">
+    <div className="md:px-40 px-5">
       {/* Skip Button */}
-      <div className="flex justify-end pt-5">
+      <div className="fixed top-8 right-8">
         <button
           onClick={handleSkip}
           className="px-2 rounded-lg border border-blue-300 text-gray-700 bg-transparent hover:bg-gray-100 transition text-sm font-medium"
@@ -114,13 +114,13 @@ const Skills = () => {
       </div>
 
       {/* Continue Button */}
-      <div className="flex justify-end">
+      <div className="fixed bottom-10 right-10">
         <button
           onClick={handleContinue}
           disabled={!isValidSelection}
-          className={`px-3 font-semibold rounded-lg shadow-lg transition ${
+          className={`px-3 py-1 font-semibold text-white rounded-lg shadow-lg transition ${
             isValidSelection
-              ? "bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
+              ? "bg-blue-600 hover:bg-blue-700 cursor-pointer"
               : "bg-[#94A6FD] cursor-not-allowed"
           }`}
         >

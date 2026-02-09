@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Reach Page - A placeholder page for the Reach module in BizInfra.
@@ -22,45 +22,13 @@ const LeftArrowIcon = () => (
   </svg>
 );
 
-const navItems = [
-  {
-    id: "Skillset",
-    label: "Skillset",
-    image: "/bizinfra/skill2.png",
-    path: "/dashboard/bizinfra/skillset",
-  },
-  {
-    id: "Network",
-    label: "Network",
-    image: "/bizinfra/network.png",
-    path: "/dashboard/bizinfra/network",
-  },
-  {
-    id: "Capital",
-    label: "Capital",
-    image: "/bizinfra/capital.png",
-    path: "/dashboard/bizinfra/capital",
-  },
-  {
-    id: "Intel",
-    label: "Intel",
-    image: "/bizinfra/intel2.png",
-    path: "/dashboard/bizinfra/intel",
-  },
-  {
-    id: "Reach",
-    label: "Reach",
-    image: "/bizinfra/reach.png",
-    path: "/dashboard/bizinfra/reach",
-  },
-];
 
 
 
 const Reach = () => {
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
       <div className="flex items-center gap-2 mb-6">
         <button
@@ -107,38 +75,7 @@ const Reach = () => {
         </motion.div>
       </div>
 
-      {/* Bottom Navigation */}
-      <div className="mt-48 flex justify-center pb-6 pt-10">
-        <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar max-w-full px-4 text-center">
-          {navItems.map((item) => {
-            const isSelected = item.id === "Reach";
-            return (
-              <Link
-                key={item.id}
-                to={item.path}
-                className="flex flex-col items-center gap-2 group shrink-0"
-              >
-                <div
-                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
-                  ${isSelected ? "bg-purple-600/10 border-2 border-purple-600 ring-4 ring-purple-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
-                `}
-                >
-                  <img
-                    src={item.image}
-                    alt={item.label}
-                    className="w-3/4 h-3/4 object-contain transform rotate-12 group-hover:rotate-0 transition-transform duration-300"
-                  />
-                </div>
-                <span
-                  className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}
-                >
-                  {item.label}
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
+    
     </div>
   );
 };

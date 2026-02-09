@@ -1,8 +1,9 @@
-import { useParams, Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 /**
- * Block Page (BizInfra) - A specialized view for managing business blocks.
- * Uses a unique notepad/paper aesthetic for documentation purposes.
+ * Reach Page - A placeholder page for the Reach module in BizInfra.
+ * Currently displays a 'Coming Soon' message.
  */
 
 const LeftArrowIcon = () => (
@@ -21,190 +22,62 @@ const LeftArrowIcon = () => (
   </svg>
 );
 
-const navItems = [
-  {
-    id: "Skillset",
-    label: "Skillset",
-    image: "/bizinfra/skill2.png",
-    path: "/dashboard/bizinfra/skillset",
-  },
-  {
-    id: "Network",
-    label: "Network",
-    image: "/bizinfra/network.png",
-    path: "/dashboard/bizinfra/network",
-  },
-  {
-    id: "Capital",
-    label: "Capital",
-    image: "/bizinfra/capital.png",
-    path: "/dashboard/bizinfra/capital",
-  },
-  {
-    id: "Intel",
-    label: "Intel",
-    image: "/bizinfra/intel2.png",
-    path: "/dashboard/bizinfra/intel",
-  },
-  {
-    id: "Reach",
-    label: "Reach",
-    image: "/bizinfra/reach.png",
-    path: "/dashboard/bizinfra/reach",
-  },
-];
 
-const Block = () => {
-  const { id } = useParams();
 
-  const skillBreadcrumb = id
-    ? id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " ")
-    : "Sales Pdt";
 
+const Reach = () => {
+  const navigate = useNavigate();
   return (
-    <div className="min-h-full bg-[#dcdcdc] p-4 sm:p-10 flex flex-col items-center">
-      {/* The Notepad Paper */}
-      <div className="w-full max-w-2xl bg-[#fffdf0] shadow-2xl rounded-sm relative min-h-[85vh] flex flex-col">
-        {/* Spiral Binder (Left Side) */}
-        <div className="absolute -left-3 top-8 bottom-8 flex flex-col justify-around z-20">
-          {[...Array(15)].map((_, i) => (
-            <div key={i} className="flex items-center gap-1">
-              <div className="w-6 h-3 bg-gradient-to-r from-gray-400 to-gray-200 rounded-full shadow-inner border border-gray-500"></div>
-              <div className="w-2 h-2 bg-gray-300 rounded-full shadow-sm"></div>
-            </div>
-          ))}
+    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
+      {/* Header Area */}
+      <div className="flex items-center gap-2 mb-6">
+        <button
+          onClick={() => navigate(-1)}
+          className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
+        >
+          <LeftArrowIcon />
+        </button>
+        <div className="flex items-center gap-2">
+          <div className="">BizInfra</div>
+          <div className="font-bold text-xl ml-24">Block</div>
         </div>
-
-        {/* Vertical Margin Line */}
-        <div className="absolute left-14 top-0 bottom-0 w-[2px] bg-red-200/60 z-10"></div>
-
-        {/* Horizontal Lines (Background Pattern) */}
-        <div
-          className="absolute inset-0 pointer-events-none z-0"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(transparent, transparent 31px, #e2e8f0 31px, #e2e8f0 32px)",
-            backgroundSize: "100% 32px",
-            marginTop: "64px",
-          }}
-        ></div>
-
-        {/* Content Area */}
-        <div className="relative z-10 flex-1 flex flex-col pt-16 px-16 sm:pl-24 sm:pr-12">
-          {/* Header/Breadcrumbs */}
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-4">
-              <Link
-                to={`/dashboard/bizinfra/skillset/${id}`}
-                className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
-                title="Go Back"
-              >
-                <LeftArrowIcon />
-              </Link>
-              <div className="flex flex-col">
-                <span className="text-[10px] uppercase font-bold text-gray-400 tracking-widest">
-                  {skillBreadcrumb}
-                </span>
-                <h1 className="text-4xl font-extrabold text-[#2d3436] font-serif leading-none italic">
-                  Blocks
-                </h1>
-              </div>
-            </div>
-          </div>
-
-          {/* Main Body */}
-          <div className="flex-1 space-y-8 mt-12">
-            <div className="max-w-prose">
-              <h2 className="text-2xl font-bold mb-4 text-[#34495e]">
-                WAITING FOR INTEGRATIONS for Blocks
-              </h2>
-              <p className="text-lg leading-[32px] text-[#2c3e50] font-medium italic">
-                Infrastructure blocks are the fundamental units of our business
-                ecosystem. They represent modular capabilities that can be
-                combined to form complex solutions.
-              </p>
-              <div className="mt-8">
-                <ul className="space-y-[32px] list-disc list-inside text-lg text-[#2c3e50] italic">
-                  <li
-                    data-aos="fade-left"
-                    data-aos-duration="3000"
-                    data-aos-delay="200"
-                  >
-                    Scalable architecture nodes
-                  </li>
-                  <li
-                    data-aos="fade-left"
-                    data-aos-duration="3000"
-                    data-aos-delay="400"
-                  >
-                    Distributed latency handlers
-                  </li>
-                  <li
-                    data-aos="fade-left"
-                    data-aos-duration="3000"
-                    data-aos-delay="600"
-                  >
-                    State persistence layers
-                  </li>
-                  <li
-                    data-aos="fade-left"
-                    data-aos-duration="3000"
-                    data-aos-delay="800"
-                  >
-                    Security validation protocols
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* Footer Navigation (Integrated into the notepad) */}
-          <div className="pt-12 pb-16">
-            <div className="border-t-2 border-dashed border-gray-200 pt-8 mb-4">
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-tighter">
-                Related Modules
-              </span>
-            </div>
-            <div className="flex items-center gap-4 sm:gap-8 overflow-x-auto no-scrollbar py-2">
-              {navItems.map((item) => {
-                const isSelected = item.id === "Skillset";
-                return (
-                  <Link
-                    key={item.id}
-                    to={item.path}
-                    className="flex flex-col items-center gap-2 group shrink-0"
-                  >
-                    <div
-                      className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
-                  ${isSelected ? "bg-blue-600/10 border-2 border-blue-600 ring-4 ring-blue-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
-                `}
-                    >
-                      <img
-                        src={item.image}
-                        alt={item.label}
-                        className="w-3/4 h-3/4 object-contain transform rotate-12 group-hover:rotate-0 transition-transform duration-300"
-                      />
-                    </div>
-                    <span
-                      className={`text-[10px] font-bold ${isSelected ? "text-blue-600 underline underline-offset-4" : "text-gray-400 group-hover:text-gray-600"}`}
-                    >
-                      {item.label}
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        {/* Paper Texture Overlay */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] rounded-sm"></div>
       </div>
 
-      {/* Page Turn Effect (optional bottom corner) */}
-      <div className="w-full max-w-2xl h-2 bg-[#ccc] rounded-b-lg shadow-inner mt-[-4px]"></div>
+      <div className="flex-1 flex flex-col items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-col items-center gap-6"
+        >
+          <div className="w-24 h-24 rounded-4xl bg-linear-to-br from-purple-600 to-purple-300 flex items-center justify-center shadow-2xl shadow-purple-500/20 rotate-12">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="m22 2-7 20-4-9-9-4Z" />
+              <path d="M22 2 11 13" />
+            </svg>
+          </div>
+          <div className="text-center space-y-2">
+            <h1 className="text-4xl font-black text-gray-900 tracking-tight">
+              Coming Soon
+            </h1>
+            <p className="text-gray-400 font-bold text-sm uppercase tracking-widest">
+              We are working on the Block integrations!
+            </p>
+          </div>
+        </motion.div>
+      </div>
+
+    
     </div>
   );
 };
 
-export default Block;
+export default Reach;

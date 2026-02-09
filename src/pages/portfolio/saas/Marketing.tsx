@@ -26,7 +26,7 @@ export default function MarketingPage() {
           onClick={() => navigate("/dashboard/portfolio/saas")}
           className="mt-4 px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
         >
-          Back to SaaS
+          Back to S
         </button>
       </div>
     </PageLayout>

@@ -31,7 +31,7 @@ const Confident = () => {
   return (
     <div className="h-screen bg-[#f0f0eb] pt-5 md:px-40 px-5">
       {/* Skip Button */}
-      <div className="flex justify-end">
+      <div className="fixed top-8 right-8">
         <button
           onClick={handleSkip}
           className="px-2 rounded-lg border border-blue-300 text-gray-700 bg-transparent hover:bg-gray-100 transition text-sm font-medium"
@@ -82,7 +82,7 @@ const Confident = () => {
       <div className="fixed bottom-10 right-10">
         <button
           onClick={handleContinue}
-          className="px-2 py-1 bg-blue-400 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-500 transition"
+          className="px-3 py-1 bg-blue-400 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-500 transition"
         >
           Continue
         </button>

@@ -302,33 +302,7 @@ const skillsetCards = [
   },
 ];
 
-const navItems = [
-  {
-    id: "Skillset",
-    label: "Skillset",
-    image: "/bizinfra/skill2.png",
-  },
-  {
-    id: "Network",
-    label: "Network",
-    image: "/bizinfra/network.png",
-  },
-  {
-    id: "Capital",
-    label: "Capital",
-    image: "/bizinfra/capital.png",
-  },
-  {
-    id: "Intel",
-    label: "Intel",
-    image: "/bizinfra/intel2.png",
-  },
-  {
-    id: "Reach",
-    label: "Reach",
-    image: "/bizinfra/reach.png",
-  },
-];
+
 
 /**
  * Skilset Page - The main landing page for the BizInfra module.
@@ -339,7 +313,7 @@ const Skilset = () => {
   const [isPlusOpen, setIsPlusOpen] = useState(false);
 
   return (
-    <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       <div className="flex items-center gap-2">
         <Link to="/dashboard/bizinfra">
           <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
@@ -379,7 +353,7 @@ const Skilset = () => {
       <AddSkillModal isOpen={isPlusOpen} onClose={() => setIsPlusOpen(false)} />
 
       {/* Top Cards Grid */}
-      <div className="flex flex-wrap items-center justify-center mb-12 lg:mb-20 w-full flex-1 overflow-y-auto no-scrollbar">
+      <div className="flex flex-wrap items-center justify-center w-full flex-1 overflow-y-auto no-scrollbar">
         {skillsetCards.map((card, index) => (
           <Link
             key={index}
@@ -408,52 +382,7 @@ const Skilset = () => {
         ))}
       </div>
 
-      {/* Bottom Navigation */}
-      <div className="mt-auto flex justify-center pb-6 sm:pb-10">
-        <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar max-w-full px-4">
-          {navItems.map((item) => {
-            const isSelected = item.id === "Skillset";
-            const path =
-              item.id === "Skillset"
-                ? "/dashboard/bizinfra/skillset"
-                : item.id === "Network"
-                  ? "/dashboard/bizinfra/network"
-                  : item.id === "Capital"
-                    ? "/dashboard/bizinfra/capital"
-                    : item.id === "Intel"
-                      ? "/dashboard/bizinfra/intel"
-                      : item.id === "Reach"
-                        ? "/dashboard/bizinfra/reach"
-                        : "#";
-            return (
-              <Link key={item.id} to={path} className="contents">
-                <motion.div
-                  className="flex flex-col items-center gap-2 group shrink-0 cursor-pointer"
-                  whileHover={{ y: -5 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <div
-                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
-                    ${isSelected ? "bg-blue-600/10 border-2 border-blue-600 ring-4 ring-blue-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
-                  `}
-                  >
-                    <img
-                      src={item.image}
-                      alt={item.label}
-                      className="w-3/4 h-3/4 object-contain transform rotate-12 group-hover:rotate-0 transition-transform duration-300"
-                    />
-                  </div>
-                  <span
-                    className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}
-                  >
-                    {item.label}
-                  </span>
-                </motion.div>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
+   
     </div>
   );
 };

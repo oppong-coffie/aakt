@@ -17,7 +17,7 @@ const Step = () => {
   return (
     <div className="h-screen bg-[#f0f0eb] md:px-40 px-5">
       {/* Skip Button */}
-      <div className="flex justify-end pt-5">
+      <div className="fixed top-8 right-8">
         <button
           onClick={handleSkip}
           className="px-2 rounded-lg border border-blue-300 text-gray-700 bg-transparent hover:bg-gray-100 transition text-sm font-medium"
@@ -42,10 +42,10 @@ const Step = () => {
       </div>
 
       {/* Continue Button */}
-      <div className="flex justify-end mt-32">
+      <div className="fixed bottom-10 right-10">
         <button
           onClick={handleContinue}
-          className="px-3 bg-blue-600/50 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-600 transition"
+          className="px-3 py-1 bg-blue-600/50 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-600 transition"
           style={answer.trim() ? { backgroundColor: "#2563eb" } : {}}
         >
           Continue
