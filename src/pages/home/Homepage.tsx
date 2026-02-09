@@ -612,7 +612,7 @@ const Homepage = () => {
                           <div
                             {...provided.droppableProps}
                             ref={provided.innerRef}
-                            className={`flex-1 flex flex-col gap-1 min-h-[50px] rounded-xl transition-colors ${
+                            className={`flex-1 flex flex-col gap-1 rounded-xl transition-colors ${
                               snapshot.isDraggingOver ? "bg-blue-50/50" : ""
                             }`}
                           >
@@ -669,7 +669,7 @@ const Homepage = () => {
                 onClick={addWorkload}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="bg-white px-8 py-4 rounded-3xl shadow-sm border border-gray-100 flex items-center gap-3 text-gray-800 font-bold text-sm hover:shadow-md transition-all h-[56px] shrink-0 self-start mt-2"
+                className="bg-white px-8 py-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-3 text-gray-800 font-bold text-sm hover:shadow-md transition-all h-[56px] shrink-0 self-start mt-2"
               >
                 <PlusIcon className="text-gray-400" />
                 <span>Add new workload</span>

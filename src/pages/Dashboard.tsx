@@ -85,6 +85,26 @@ const ChevronIcon = ({ open }: { open: boolean }) => (
   </svg>
 );
 
+const SidebarToggleIcon = ({ collapsed }: { collapsed: boolean }) => (
+  <svg
+    width="22"
+    height="22"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.75"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={`text-gray-600 transition-transform duration-300 ${
+      collapsed ? "rotate-180" : ""
+    }`}
+  >
+    <circle cx="12" cy="12" r="9" className="stroke-gray-300" />
+    <polyline points="11 8 7 12 11 16" />
+    <line x1="16.5" y1="12" x2="7" y2="12" />
+  </svg>
+);
+
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [bizInfraOpen, setBizInfraOpen] = useState(false);
@@ -157,28 +177,35 @@ const Dashboard = () => {
       {/* Sidebar */}
       <aside
         className={`
-        fixed inset-y-0 left-0 w-72 bg-[#f0f0eb] flex flex-col px-4 pb-8 pt-2 border-r border-gray-200/50 z-70 transition-transform duration-300 transform
+        fixed inset-y-0 left-0 w-72 bg-[#f0f0eb] flex flex-col px-4 pb-8 pt-2 border-r border-gray-200/50 z-70 transform transition-all duration-700 ease-in-out
         lg:translate-x-0 lg:static lg:h-full lg:z-50
         ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
+        ${
+          navCollapsed
+            ? "lg:w-20 lg:px-2 lg:pb-6 lg:pt-2 lg:opacity-100 lg:translate-x-0"
+            : "lg:w-72 lg:opacity-100"
+        }
       `}
       >
         {/* Logo & Close Button (Mobile) */}
         <div className="flex items-center justify-between gap-3 mb-8 px-3 py-3">
-          <Link
-            to="/dashboard/home"
-            className="flex items-center gap-2 hover:opacity-85 transition-all duration-200 flex-1"
-          >
-            <div className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm font-bold tracking-wide shadow-md hover:shadow-lg hover:bg-blue-700 transition-all">
-              AAKT
-            </div>
-          </Link>
+          {!navCollapsed && (
+            <Link
+              to="/dashboard/home"
+              className="flex items-center gap-2 hover:opacity-85 transition-all duration-200 flex-1"
+            >
+              <div className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm font-bold tracking-wide shadow-md hover:shadow-lg hover:bg-blue-700 transition-all">
+                AAKT
+              </div>
+            </Link>
+          )}
           <button
             type="button"
             onClick={() => setNavCollapsed((prev) => !prev)}
             className="p-2 rounded-lg transition-all duration-200 hover:bg-blue-100 lg:block hidden"
-            aria-label={navCollapsed ? "Expand menu" : "Collapse menu"}
+            aria-label={navCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
-            <ChevronIcon open={!navCollapsed} />
+            <SidebarToggleIcon collapsed={navCollapsed} />
           </button>
           <button
             onClick={() => setIsSidebarOpen(false)}
@@ -189,47 +216,76 @@ const Dashboard = () => {
         </div>
 
         {/* Navigation */}
-        <nav className={`flex-1 space-y-4 transition-all duration-300 overflow-hidden ${navCollapsed ? "max-h-0 opacity-0" : "max-h-full opacity-100"}`}>
+        <nav
+          className={`flex-1 space-y-4 transition-all duration-300 overflow-hidden ${
+            navCollapsed ? "px-1" : ""
+          }`}
+        >
           <Link
             to="/dashboard/home"
             onClick={() => setIsSidebarOpen(false)}
-            className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-colors duration-200 ${
+            className={`flex items-center ${
+              navCollapsed ? "px-2" : "gap-3 px-4"
+            } py-2.5 rounded-xl transition-colors duration-200 ${
               location.pathname === "/dashboard/home"
                 ? "bg-gray-200/80 shadow-sm border border-gray-300/50 text-gray-900"
                 : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
             }`}
+            title={navCollapsed ? "Home" : undefined}
           >
             <div className="w-6 flex justify-center">
               <HomeIcon />
             </div>
-            <span className="font-medium text-sm">Home</span>
+            <span className={`font-medium text-sm ${navCollapsed ? "hidden" : ""}`}>
+              Home
+            </span>
           </Link>
 
           {/* BizInfra Group */}
           <div className="space-y-1">
-            <div className="group flex items-center justify-between gap-2 mb-2 px-4 py-2 rounded-xl transition-colors duration-200 hover:bg-gray-100">
+            <div
+              className={`group flex items-center justify-between gap-2 mb-2 ${
+                navCollapsed ? "px-2" : "px-4"
+              } py-2 rounded-xl transition-colors duration-200 ${
+                location.pathname.startsWith("/dashboard/bizinfra")
+                  ? "bg-gray-200/80 shadow-sm border border-gray-300/50 text-gray-900"
+                  : "hover:bg-gray-100"
+              }`}
+            >
               <Link
                 to="/dashboard/bizinfra"
                 onClick={() => setIsSidebarOpen(false)}
-                className="flex items-center gap-3 text-gray-500 font-bold text-xs uppercase tracking-wider transition-colors duration-200 group-hover:text-gray-900"
+                className={`flex items-center ${
+                  navCollapsed ? "justify-center" : "gap-3"
+                } text-gray-500 font-bold text-xs uppercase tracking-wider transition-colors duration-200 group-hover:text-gray-900 ${
+                  location.pathname.startsWith("/dashboard/bizinfra") ? "text-gray-900" : ""
+                }`}
+                title={navCollapsed ? "BizInfra" : undefined}
               >
-                <BizIcon /> BizInfra
+                <BizIcon />
+                <span className={navCollapsed ? "hidden" : ""}>BizInfra</span>
               </Link>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setBizInfraOpen((o) => !o);
-                }}
-                className="p-1 rounded transition-colors duration-200 hover:bg-gray-200/80 group-hover:bg-gray-200/80"
-                aria-label={bizInfraOpen ? "Collapse BizInfra menu" : "Expand BizInfra menu"}
-              >
-                <ChevronIcon open={bizInfraOpen} />
-              </button>
+              {!navCollapsed && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setBizInfraOpen((o) => !o);
+                  }}
+                  className="p-1 rounded transition-colors duration-200 hover:bg-gray-200/80 group-hover:bg-gray-200/80"
+                  aria-label={bizInfraOpen ? "Collapse BizInfra menu" : "Expand BizInfra menu"}
+                >
+                  <ChevronIcon open={bizInfraOpen} />
+                </button>
+              )}
             </div>
             <div
               className={`overflow-hidden transition-all duration-200 ease-out ${
-                bizInfraOpen ? "max-h-[320px] opacity-100" : "max-h-0 opacity-70"
+                navCollapsed
+                  ? "hidden"
+                  : bizInfraOpen
+                    ? "max-h-[320px] opacity-100"
+                    : "max-h-0 opacity-70"
               }`}
             >
               <div className="pl-4 space-y-1 border-l-2 border-gray-100 ml-5">
@@ -266,29 +322,49 @@ const Dashboard = () => {
 
           {/* Portfolio Group */}
           <div className="space-y-1 pt-2">
-            <div className="group flex items-center justify-between gap-2 mb-2 px-4 py-2 rounded-xl transition-colors duration-200 hover:bg-gray-100">
+            <div
+              className={`group flex items-center justify-between gap-2 mb-2 ${
+                navCollapsed ? "px-2" : "px-4"
+              } py-2 rounded-xl transition-colors duration-200 ${
+                location.pathname.startsWith("/dashboard/portfolio")
+                  ? "bg-gray-200/80 shadow-sm border border-gray-300/50 text-gray-900"
+                  : "hover:bg-gray-100"
+              }`}
+            >
               <Link
                 to="/dashboard/portfolio"
                 onClick={() => setIsSidebarOpen(false)}
-                className="flex items-center gap-3 text-gray-500 font-bold text-xs uppercase tracking-wider transition-colors duration-200 group-hover:text-gray-900"
+                className={`flex items-center ${
+                  navCollapsed ? "justify-center" : "gap-3"
+                } text-gray-500 font-bold text-xs uppercase tracking-wider transition-colors duration-200 group-hover:text-gray-900 ${
+                  location.pathname.startsWith("/dashboard/portfolio") ? "text-gray-900" : ""
+                }`}
+                title={navCollapsed ? "Portfolio" : undefined}
               >
-                <PortfolioIcon /> Portfolio
+                <PortfolioIcon />
+                <span className={navCollapsed ? "hidden" : ""}>Portfolio</span>
               </Link>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setPortfolioOpen((o) => !o);
-                }}
-                className="p-1 rounded transition-colors duration-200 hover:bg-gray-200/80 group-hover:bg-gray-200/80"
-                aria-label={portfolioOpen ? "Collapse Portfolio menu" : "Expand Portfolio menu"}
-              >
-                <ChevronIcon open={portfolioOpen} />
-              </button>
+              {!navCollapsed && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPortfolioOpen((o) => !o);
+                  }}
+                  className="p-1 rounded transition-colors duration-200 hover:bg-gray-200/80 group-hover:bg-gray-200/80"
+                  aria-label={portfolioOpen ? "Collapse Portfolio menu" : "Expand Portfolio menu"}
+                >
+                  <ChevronIcon open={portfolioOpen} />
+                </button>
+              )}
             </div>
             <div
               className={`overflow-hidden transition-all duration-200 ease-out ${
-                portfolioOpen ? "max-h-[420px] opacity-100" : "max-h-0 opacity-70"
+                navCollapsed
+                  ? "hidden"
+                  : portfolioOpen
+                    ? "max-h-[420px] opacity-100"
+                    : "max-h-0 opacity-70"
               }`}
             >
               <div className="pl-4 space-y-1 border-l-2 border-gray-100 ml-5">
@@ -533,18 +609,24 @@ const Dashboard = () => {
           <Link
             to="/"
             onClick={() => setIsSidebarOpen(false)}
-            className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-600 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-900"
+            className={`flex items-center ${
+              navCollapsed ? "justify-center h-11" : "gap-3 px-4 py-2.5"
+            } rounded-xl text-gray-600 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-900`}
+            title={navCollapsed ? "Settings" : undefined}
           >
             <div className="w-6 flex justify-center">
               <SettingsIcon />
             </div>
-            <span className="font-medium text-sm">Settings</span>
+            <span className={`font-medium text-sm ${navCollapsed ? "hidden" : ""}`}>
+              Settings
+            </span>
           </Link>
         </div>
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 h-full overflow-y-auto no-scrollbar">
+      <main className="flex-1 h-full overflow-y-auto no-scrollbar relative">
+      
         {/* Scrollable Content */}
         <div className="px-4 py-8">
           <Outlet />
