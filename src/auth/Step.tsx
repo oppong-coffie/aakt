@@ -15,7 +15,7 @@ const Step = () => {
   };
 
   return (
-    <div className="h-screen bg-[#f0f0eb] md:px-40 px-5">
+    <div className="h-screen">
       {/* Skip Button */}
       <div className="fixed top-8 right-8">
         <button
@@ -26,7 +26,7 @@ const Step = () => {
         </button>
       </div>
 
-      <div className="mt-36 mb-12 flex justify-center">
+      <div className="mt-3 mb-32 flex justify-center">
         <h2 className="text-2xl font-bold text-gray-900 leading-relaxed">
           What is currently between you and your next step or growth?
         </h2>
