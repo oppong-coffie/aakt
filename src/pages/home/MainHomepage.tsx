@@ -130,20 +130,18 @@ const MainHomepage = () => {
   return (
     <div className="">
       {/* Header */}
-      <header className="h-20 sm:px-8 px-4 flex items-center justify-between shrink-0 gap-4">
+      <header className="sm:px-8 px-4 flex items-center justify-between gap-4">
         <div className="font-bold text-lg sm:text-xl">Home</div>
 
         {/* Search Bar - Trigger */}
         <div
           onClick={() => setIsSearchOpen(true)}
-          className="relative flex-1 max-w-xs cursor-pointer"
+          className="relative cursor-pointer"
         >
-          <div className="absolute inset-y-0 left-0 pl-3 pr-3 flex items-center pointer-events-none">
+          <div className="absolute inset-y-1 right-2 flex items-center pointer-events-none">
             <SearchIcon />
           </div>
-          <div className="block w-full pl-9 pr-3 py-2 border border-gray-300 rounded-xl text-gray-400 text-xs sm:text-sm transition-all hover:border-gray-300 truncate">
-            Search anything...
-          </div>
+        
         </div>
       </header>
 
