@@ -116,7 +116,7 @@ export default function PhasePage() {
       </header>
 
       <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
-        {categories.map((cat, index) => (
+        {categories.map((cat) => (
           <Link key={cat.id} to={cat.to} className="contents">
             <motion.div
               className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"

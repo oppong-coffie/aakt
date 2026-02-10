@@ -105,7 +105,7 @@ const Phase = () => {
       </header>
 
       <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
-        {categories.map((cat, index) => (
+        {categories.map((cat) => (
           <Link
             key={cat.id}
             to={`/dashboard/bizinfra/skillset/phase/${cat.id}`} // Linking to Process/Block pages

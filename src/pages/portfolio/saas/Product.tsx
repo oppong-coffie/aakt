@@ -146,7 +146,7 @@ export default function Product() {
 
       <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
         {activeTab === "Home" &&
-          cards.map((c, index) => (
+          cards.map((c) => (
             <motion.button
               key={c.id}
               type="button"

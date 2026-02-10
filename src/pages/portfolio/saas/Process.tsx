@@ -150,7 +150,7 @@ const Process = () => {
             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
               People
             </span>
-            {people.map((person, index) => (
+            {people.map((person) => (
               <div
                 key={person.name}
                 className="relative group flex items-center"

@@ -651,7 +651,11 @@ const Homepage = () => {
 
                       {/* Add Task Button */}
                       <button
-                        onClick={() => addTask(workload.id)}
+                        onClick={() => {
+                          const taskText = window.prompt("New task:");
+                          if (!taskText) return;
+                          addTask(workload.id, taskText);
+                        }}
                         className="flex items-center gap-2 text-gray-800 hover:text-blue-600 transition-colors text-sm font-semibold px-1 mt-2 group"
                       >
                         <PlusIcon
