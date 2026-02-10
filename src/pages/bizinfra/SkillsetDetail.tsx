@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import Breadcrumbs from "./Breadcrumbs";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -158,23 +159,31 @@ const SkillsetDetail = () => {
   const skillName = id
     ? id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " ")
     : "Skillset";
+  const skillPath = id
+    ? `/dashboard/bizinfra/skillset/${id}`
+    : "/dashboard/bizinfra/skillset";
 
   return (
-    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
       {/* Header Area */}
-      <div className="flex items-center gap-2 mb-6">
-        <Link to="/dashboard/bizinfra/skillset">
-          <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
-            <LeftArrow />
+      <header className="flex items-center justify-between">
+        <div className="flex gap-2">
+          <div className="flex items-center gap-2">
+            <Link to="/dashboard/bizinfra">
+              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
+                <LeftArrow />
+              </div>
+            </Link>
           </div>
-        </Link>
-        <div className="flex items-center gap-2">
-          <div className="">Skillset</div>
-          <div className="font-bold text-xl ml-24">{skillName}</div>
+          <Breadcrumbs
+            items={[
+              { label: "BizInfra", to: "/dashboard/bizinfra" },
+              { label: "Skillset", to: "/dashboard/bizinfra/skillset" },
+              { label: skillName, to: skillPath },
+            ]}
+          />
         </div>
-      </div>
 
-      <div className="flex justify-end items-center mb-8">
         <div className="flex items-center gap-2">
           <motion.div
             whileHover={{ scale: 1.1 }}
@@ -188,12 +197,12 @@ const SkillsetDetail = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsPlusOpen(true)}
-            className="w-10 h-10 rounded-xl cursor-pointer hover:text-white hover:bg-blue-600 transition-colors flex items-center justify-center text-gray-400"
+            className="w-10 h-10 rounded-xl cursor-pointer hover:text-blue-600 hover:bg-white transition-colors flex items-center justify-center text-gray-400"
           >
             <PlusIcon />
           </motion.div>
         </div>
-      </div>
+      </header>
 
       {/* Categories Grid - Displays links to deeper levels like Department, Project, etc. */}
       <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
@@ -206,8 +215,8 @@ const SkillsetDetail = () => {
             >
               <motion.div
                 className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all"
-                data-aos="fade-up"
-                data-aos-delay={index * 100}
+               
+               
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -312,3 +321,4 @@ const SkillsetDetail = () => {
 };
 
 export default SkillsetDetail;
+

@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Breadcrumbs from "./Breadcrumbs";
 
 /**
  * SearchIcon component - renders a standard search magnifying glass SVG.
@@ -89,7 +90,6 @@ const SearchModal = ({
     return () => window.removeEventListener("keydown", handleEsc);
   }, [onClose]);
 
-  
   return (
     <AnimatePresence>
       {isOpen && (
@@ -302,8 +302,6 @@ const skillsetCards = [
   },
 ];
 
-
-
 /**
  * Skilset Page - The main landing page for the BizInfra module.
  * Displays a grid of skills and provides search/add functionality.
@@ -312,21 +310,26 @@ const Skilset = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isPlusOpen, setIsPlusOpen] = useState(false);
 
-
-
   return (
-    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
-      <div className="flex items-center gap-2">
-        <Link to="/dashboard/bizinfra">
-          <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
-            <LeftArrow />
+    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
+      <header className="flex items-center justify-between">
+        <div className="flex gap-2">
+          <div className="flex items-center gap-2">
+            <Link to="/dashboard/bizinfra">
+              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
+                <LeftArrow />
+              </div>
+            </Link>
           </div>
-        </Link>
-        <div className="">BizInfra</div>
-        <div className="font-bold text-xl ml-24">Skillset</div>
-      </div>
-      {/* Search Bar - Trigger */}
-      <div className="flex justify-end items-center mb-8">
+          <Breadcrumbs
+            items={[
+              { label: "BizInfra", to: "/dashboard/bizinfra" },
+              { label: "Skillset", to: "/dashboard/bizinfra/skillset" },
+            ]}
+          />
+        </div>
+
+        {/* Search Bar - Trigger */}
         <div className="flex items-center gap-2">
           <motion.div
             whileHover={{ scale: 1.1 }}
@@ -340,12 +343,12 @@ const Skilset = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsPlusOpen(true)}
-            className="w-10 h-10 rounded-xl cursor-pointer hover:text-white hover:bg-blue-600 transition-colors flex items-center justify-center text-gray-400"
+            className="w-10 h-10 rounded-xl cursor-pointer hover:text-blue-600 hover:bg-white transition-colors flex items-center justify-center text-gray-400"
           >
             <PlusIcon />
           </motion.div>
         </div>
-      </div>
+      </header>
 
       <SearchModal
         isOpen={isSearchOpen}
@@ -364,8 +367,8 @@ const Skilset = () => {
           >
             <motion.div
               className="flex flex-col items-center gap- w-60 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-              data-aos="fade-up"
-              data-aos-delay={index * 100}
+             
+             
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -383,10 +386,9 @@ const Skilset = () => {
           </Link>
         ))}
       </div>
-
-   
     </div>
   );
 };
 
 export default Skilset;
+

@@ -1,6 +1,7 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Breadcrumbs from "../../../components/Breadcrumbs";
 
 /**
  * Product Page (SaaS) - Displays product-related cards like Roadmap and Features.
@@ -74,26 +75,34 @@ const cards: Card[] = [
 export default function Product() {
   const [activeTab, setActiveTab] = useState("Home");
   const navigate = useNavigate();
+  const location = useLocation();
+  const isDept2 = location.pathname.includes("/department2/");
+  const deptLabel = isDept2 ? "Department 2" : "Department 1";
+  const deptPath = isDept2
+    ? "/dashboard/portfolio/saas/department2"
+    : "/dashboard/portfolio/saas/department1";
 
   return (
     <div className="min-h-screen bg-[#f3f2ed]">
-      {/* Top bar */}
-      <div className="flex items-center gap-2 px-6 pt-4 mb-6">
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => navigate(-1)}
-          className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
-        >
-          <BackIcon />
-        </motion.button>
-        <div className="flex items-center gap-2">
-          <div className="">Department 2</div>
-          <div className="font-bold text-xl ml-24 text-gray-900">Product</div>
+      <header className="flex items-center justify-between px-6 pt-4 mb-6">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <Link to={deptPath}>
+              <div className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors">
+                <BackIcon />
+              </div>
+            </Link>
+          </div>
+          <Breadcrumbs
+            items={[
+              { label: "Portfolio", to: "/dashboard/portfolio" },
+              { label: "SaaS", to: "/dashboard/portfolio/saas" },
+              { label: deptLabel, to: deptPath },
+              { label: "Product", to: location.pathname },
+            ]}
+          />
         </div>
-      </div>
 
-      <div className="flex justify-end items-center px-6 mb-8">
         <div className="flex items-center gap-2">
           <motion.button
             whileHover={{ scale: 1.1 }}
@@ -105,12 +114,12 @@ export default function Product() {
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
           >
             <PlusIcon />
           </motion.button>
         </div>
-      </div>
+      </header>
 
       {/* Tabs */}
       <div className="flex items-center justify-center gap-8 mb-8">
@@ -143,8 +152,8 @@ export default function Product() {
               type="button"
               onClick={() => navigate(c.to)}
               className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-              data-aos="fade-up"
-              data-aos-delay={index * 100}
+             
+             
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -161,3 +170,4 @@ export default function Product() {
     </div>
   );
 }
+

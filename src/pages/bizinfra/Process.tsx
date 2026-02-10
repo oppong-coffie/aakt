@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import Breadcrumbs from "./Breadcrumbs";
 
 /**
  * Process Page (BizInfra) - A detailed view for managing business processes.
@@ -62,6 +63,12 @@ const Process = () => {
   const skillBreadcrumb = id
     ? id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " ")
     : "Business management";
+  const skillPath = id
+    ? `/dashboard/bizinfra/skillset/${id}`
+    : "/dashboard/bizinfra/skillset";
+  const processPath = id
+    ? `/dashboard/bizinfra/skillset/${id}/process`
+    : "/dashboard/bizinfra/skillset";
 
   const people = [
     { name: "Felix", seed: "Felix" },
@@ -69,29 +76,38 @@ const Process = () => {
     { name: "Jace", seed: "Jace" },
   ];
 
-  const navigate = useNavigate();
-
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => navigate(-1)}
-            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
-          >
-            <LeftArrowIcon />
-          </button>
+      <header className="flex items-center justify-between mb-6">
+        <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
-            <div className="">{skillBreadcrumb}</div>
-            <div className="font-bold text-xl ml-24">Process</div>
+            <Link to="/dashboard/bizinfra">
+              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
+                <LeftArrowIcon />
+              </div>
+            </Link>
           </div>
+          <Breadcrumbs
+            items={[
+              { label: "BizInfra", to: "/dashboard/bizinfra" },
+              { label: "Skillset", to: "/dashboard/bizinfra/skillset" },
+              { label: skillBreadcrumb, to: skillPath },
+              { label: "Process", to: processPath },
+            ]}
+          />
         </div>
 
-        <button className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors">
-          <SearchIcon />
-        </button>
-      </div>
+        <div className="flex items-center gap-2">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+          >
+            <SearchIcon />
+          </motion.button>
+        </div>
+      </header>
 
       <div className="flex flex-1 gap-6">
         {/* Left Sidebar (Blocks & People) */}
@@ -106,9 +122,9 @@ const Process = () => {
                 className="relative group flex items-center"
                 onMouseEnter={() => setHoveredBlock(i)}
                 onMouseLeave={() => setHoveredBlock(null)}
-                data-aos="fade-right"
-                data-aos-duration="2500"
-                data-aos-delay={i * 150}
+               
+               
+               
               >
                 <div className="w-10 h-10 bg-gray-300 rounded-lg shrink-0 cursor-pointer hover:bg-gray-400 transition-colors"></div>
 
@@ -151,9 +167,9 @@ const Process = () => {
                 className="relative group flex items-center"
                 onMouseEnter={() => setHoveredPerson(person.name)}
                 onMouseLeave={() => setHoveredPerson(null)}
-                data-aos="fade-right"
-                data-aos-duration="3000"
-                data-aos-delay={index * 300}
+               
+               
+               
               >
                 <img
                   src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${person.seed}`}
@@ -211,3 +227,4 @@ const Process = () => {
 };
 
 export default Process;
+

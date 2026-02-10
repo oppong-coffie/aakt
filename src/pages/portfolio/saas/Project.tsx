@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import Breadcrumbs from "../../../components/Breadcrumbs";
 
 /**
  * Project Page (BizInfra) - Displays the phases of a selected project.
@@ -96,22 +97,24 @@ const Project = () => {
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
-      <div className="flex items-center gap-2 mb-6">
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <button
-            onClick={() => navigate("/dashboard/portfolio/saas")}
-            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
-          >
-            <LeftArrow />
-          </button>
-        </motion.div>
-        <div className="flex items-center gap-2">
-          <div className="">Project</div>
-          <div className="font-bold text-xl ml-24">Phases</div>
+      <header className="flex items-center justify-between mb-6">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <Link to="/dashboard/portfolio/saas">
+              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
+                <LeftArrow />
+              </div>
+            </Link>
+          </div>
+          <Breadcrumbs
+            items={[
+              { label: "Portfolio", to: "/dashboard/portfolio" },
+              { label: "SaaS", to: "/dashboard/portfolio/saas" },
+              { label: "Project", to: "/dashboard/portfolio/saas/project" },
+            ]}
+          />
         </div>
-      </div>
 
-      <div className="flex justify-end items-center mb-8">
         <div className="flex items-center gap-2">
           <motion.button
             whileHover={{ scale: 1.1 }}
@@ -124,12 +127,12 @@ const Project = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsAddModalOpen(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
           >
             <PlusIcon />
           </motion.button>
         </div>
-      </div>
+      </header>
 
    {/* Phases Flow */}
 <div className="flex-1 flex items-center justify-center mt-16 mb-32 w-full">

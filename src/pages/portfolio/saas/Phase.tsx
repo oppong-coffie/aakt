@@ -1,6 +1,7 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Breadcrumbs from "../../../components/Breadcrumbs";
 
 /**
  * Phase Page (SaaS) - Phase 1, 2, or 3 under Project: shows Process, Block.
@@ -68,52 +69,59 @@ const phaseLabels: Record<string, string> = {
 
 export default function PhasePage() {
   const { phaseId } = useParams<{ phaseId: string }>();
-  const navigate = useNavigate();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const phaseLabel = (phaseId && phaseLabels[phaseId]) || "Phase";
 
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
-      <div className="flex items-center gap-2 mb-6">
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <button
-            onClick={() => navigate("/dashboard/portfolio/saas/project")}
-            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
-          >
-            <LeftArrow />
-          </button>
-        </motion.div>
-        <div className="flex items-center gap-2">
-          <div className="">{phaseLabel}</div>
-          <div className="font-bold text-xl ml-24">Process, Block</div>
+      <header className="flex items-center justify-between mb-6">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <Link to="/dashboard/portfolio/saas/project">
+              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
+                <LeftArrow />
+              </div>
+            </Link>
+          </div>
+          <Breadcrumbs
+            items={[
+              { label: "Portfolio", to: "/dashboard/portfolio" },
+              { label: "SaaS", to: "/dashboard/portfolio/saas" },
+              { label: "Project", to: "/dashboard/portfolio/saas/project" },
+              {
+                label: phaseLabel,
+                to: `/dashboard/portfolio/saas/project/${phaseId ?? ""}`,
+              },
+            ]}
+          />
         </div>
-      </div>
 
-      <div className="flex justify-end items-center mb-8 -mt-10">
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
-        >
-          <SearchIcon />
-        </motion.button>
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => setIsAddModalOpen(true)}
-          className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
-        >
-          <PlusIcon />
-        </motion.button>
-      </div>
+        <div className="flex items-center gap-2">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+          >
+            <SearchIcon />
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setIsAddModalOpen(true)}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+          >
+            <PlusIcon />
+          </motion.button>
+        </div>
+      </header>
 
       <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
         {categories.map((cat, index) => (
           <Link key={cat.id} to={cat.to} className="contents">
             <motion.div
               className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-              data-aos="fade-up"
-              data-aos-delay={index * 100}
+             
+             
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -160,3 +168,4 @@ export default function PhasePage() {
     </div>
   );
 }
+

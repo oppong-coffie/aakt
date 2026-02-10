@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Breadcrumbs from "./Breadcrumbs";
 
 /**
  * Capital Page - Manages fundraising campaigns and capital sources.
@@ -544,27 +545,26 @@ const Capital = () => {
     </AnimatePresence>
   );
 
-  const navigate = useNavigate();
-
   return (
-    <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
+    <div className="flex flex-col h-full bg-[#f0f0eb] p-x4 sm:px-8 relative overflow-hidden">
       {/* Header Area */}
-      <div className="flex items-center gap-2 mb-6">
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <button
-            onClick={() => navigate(-1)}  
-            className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
-          >
-            <LeftArrowIcon />
-          </button>
-        </motion.div>
-        <div className="flex items-center gap-2">
-          <div className="">BizInfra</div>
-          <div className="font-bold text-xl ml-24">Capital</div>
+      <header className="flex items-center justify-between mb-6">
+        <div className="flex gap-2">
+          <div className="flex items-center gap-2">
+            <Link to="/dashboard/bizinfra">
+              <div className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors">
+                <LeftArrowIcon />
+              </div>
+            </Link>
+          </div>
+          <Breadcrumbs
+            items={[
+              { label: "BizInfra", to: "/dashboard/bizinfra" },
+              { label: "Capital", to: "/dashboard/bizinfra/capital" },
+            ]}
+          />
         </div>
-      </div>
 
-      <div className="flex justify-end items-center mb-8">
         <div className="flex items-center gap-2">
           <motion.button
             whileHover={{ scale: 1.1 }}
@@ -577,10 +577,15 @@ const Capital = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsAddModalOpen(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
           >
             <PlusIcon />
           </motion.button>
+        </div>
+      </header>
+
+      <div className="flex justify-end items-center mb-8">
+        <div className="flex items-center gap-2">
           <button
             onClick={() => setViewMode(viewMode === "list" ? "card" : "list")}
             className="px-4 py-2 bg-white rounded-xl flex items-center gap-2 shadow-sm border border-gray-100 text-xs font-bold text-gray-700 transition-colors hover:bg-gray-50"
@@ -623,9 +628,9 @@ const Capital = () => {
                       key={i}
                       onClick={() => setSelectedSource(item)}
                       className="grid grid-cols-3 px-8 py-4 hover:bg-white rounded-2xl transition-colors cursor-pointer group"
-                      data-aos="fade-up"
-                      data-aos-duration="2500"
-                      data-aos-delay={i * 200}
+                     
+                     
+                     
                       whileHover={{
                         scale: 1.01,
                         backgroundColor: "rgba(255, 255, 255, 1)",
@@ -658,9 +663,9 @@ const Capital = () => {
                     key={i}
                     onClick={() => setSelectedSource(item)}
                     className="bg-white p-6 rounded-4xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group cursor-pointer relative overflow-hidden"
-                    data-aos="fade-up"
-                    data-aos-duration="2500"
-                    data-aos-delay={i * 200}
+                   
+                   
+                   
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -735,9 +740,9 @@ const Capital = () => {
               >
                 <motion.div
                   className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-                  data-aos="fade-up"
-                  data-aos-duration="3000"
-                  data-aos-delay={i * 300}
+                 
+                 
+                 
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -782,3 +787,4 @@ const Capital = () => {
 };
 
 export default Capital;
+

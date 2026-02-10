@@ -31,7 +31,7 @@ const Finish = () => {
       {/* Header & Progress */}
       <div
         className="flex flex-col sm:flex-row justify-between items-end gap-6"
-        data-aos="fade-down"
+       
       >
         <div className="flex-1">
           <Link
@@ -70,7 +70,7 @@ const Finish = () => {
         {/* Main Form Sections */}
         <div className="lg:col-span-2 flex flex-col gap-8">
           {/* Card 1: Profile Mastery */}
-          <section data-aos="fade-up" data-aos-delay="100">
+          <section>
             <div className="bg-white rounded-4xl p-8 sm:p-10 shadow-sm border border-gray-100 flex flex-col gap-8 transition-all hover:shadow-md">
               <div className="flex items-center gap-4 border-b border-gray-50 pb-6">
                 <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 text-xl">
@@ -126,7 +126,7 @@ const Finish = () => {
           </section>
 
           {/* Card 2: Workspace Logic */}
-          <section data-aos="fade-up" data-aos-delay="200">
+          <section>
             <div className="bg-white rounded-4xl p-8 sm:p-10 shadow-sm border border-gray-100 flex flex-col gap-8 transition-all hover:shadow-md">
               <div className="flex items-center gap-4 border-b border-gray-50 pb-6">
                 <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 text-xl">
@@ -181,8 +181,8 @@ const Finish = () => {
           {/* Account Status */}
           <div
             className="bg-linear-to-br from-gray-900 to-gray-800 rounded-4xl p-8 text-white shadow-xl"
-            data-aos="fade-left"
-            data-aos-delay="300"
+           
+           
           >
             <h3 className="text-sm font-bold uppercase tracking-widest text-gray-400 mb-6">
               Account Status
@@ -216,8 +216,8 @@ const Finish = () => {
           {/* Quick Help */}
           <div
             className="bg-white rounded-3xl p-6 border border-gray-100 flex flex-col gap-4"
-            data-aos="fade-left"
-            data-aos-delay="400"
+           
+           
           >
             <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-orange-500">
               💡
@@ -241,3 +241,4 @@ const Finish = () => {
 };
 
 export default Finish;
+

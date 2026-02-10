@@ -1,7 +1,4 @@
 import { MemoryRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import Register1 from "./auth/Register2";
@@ -86,14 +83,6 @@ import Productobject2 from "./pages/portfolio/questions/p1-questions/Productobje
 import Productobject3 from "./pages/portfolio/questions/p1-questions/Productobject3";
 
 const App = () => {
-  useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      once: true,
-      easing: "ease-in-out",
-    });
-  }, []);
-
   return (
     <MemoryRouter>
       <Routes>

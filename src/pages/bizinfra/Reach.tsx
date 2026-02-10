@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Breadcrumbs from "./Breadcrumbs";
 
 /**
  * Reach Page - A placeholder page for the Reach module in BizInfra.
@@ -26,22 +27,27 @@ const LeftArrowIcon = () => (
 
 
 const Reach = () => {
-  const navigate = useNavigate();
   return (
-    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
       {/* Header Area */}
-      <div className="flex items-center gap-2 mb-6">
-        <button
-          onClick={() => navigate(-1)}
-          className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
-        >
-          <LeftArrowIcon />
-        </button>
-        <div className="flex items-center gap-2">
-          <div className="">BizInfra</div>
-          <div className="font-bold text-xl ml-24">Reach</div>
+      <header className="flex items-center justify-between mb-6">
+        <div className="flex gap-2">
+          <div className="flex items-center gap-2">
+            <Link to="/dashboard/bizinfra">
+              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
+                <LeftArrowIcon />
+              </div>
+            </Link>
+          </div>
+          <Breadcrumbs
+            items={[
+              { label: "BizInfra", to: "/dashboard/bizinfra" },
+              { label: "Reach", to: "/dashboard/bizinfra/reach" },
+            ]}
+          />
         </div>
-      </div>
+        <div className="flex items-center gap-2"></div>
+      </header>
 
       <div className="flex-1 flex flex-col items-center justify-center">
         <motion.div

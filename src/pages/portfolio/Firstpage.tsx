@@ -260,8 +260,8 @@ const PortfolioMain = () => {
               <Link to="saas" className="contents">
                 <motion.div
                   className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all"
-                  data-aos="fade-up"
-                  data-aos-delay="100"
+                 
+                 
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -273,8 +273,8 @@ const PortfolioMain = () => {
               </Link>
               <motion.div
                 className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all"
-                data-aos="fade-up"
-                data-aos-delay="200"
+               
+               
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -296,3 +296,4 @@ const PortfolioMain = () => {
 };
 
 export default PortfolioMain;
+

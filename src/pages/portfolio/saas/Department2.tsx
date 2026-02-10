@@ -22,9 +22,11 @@ export default function Department2Page() {
   return (
     <PageLayout>
       <PageHeader
-        title="Department 2"
-        breadcrumb="Portfolio › SaaS"
-        previousPath="/dashboard/portfolio/saas"
+        breadcrumbs={[
+          { label: "Portfolio", to: "/dashboard/portfolio" },
+          { label: "SaaS", to: "/dashboard/portfolio/saas" },
+          { label: "Department 2", to: "/dashboard/portfolio/saas/department2" },
+        ]}
         onSearch={() => {}}
         onAdd={() => setIsDropdownOpen(!isDropdownOpen)}
       />

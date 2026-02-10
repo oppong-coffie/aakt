@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import PageLayout from "../../../components/PageLayout";
 import PageHeader from "../../../components/PageHeader";
 
@@ -8,13 +8,22 @@ import PageHeader from "../../../components/PageHeader";
 
 export default function MarketingPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isDept2 = location.pathname.includes("/department2/");
+  const deptLabel = isDept2 ? "Department 2" : "Department 1";
+  const deptPath = isDept2
+    ? "/dashboard/portfolio/saas/department2"
+    : "/dashboard/portfolio/saas/department1";
 
   return (
     <PageLayout>
       <PageHeader
-        title="Marketing"
-        breadcrumb="Portfolio › SaaS"
-        previousPath="/dashboard/portfolio/saas"
+        breadcrumbs={[
+          { label: "Portfolio", to: "/dashboard/portfolio" },
+          { label: "SaaS", to: "/dashboard/portfolio/saas" },
+          { label: deptLabel, to: deptPath },
+          { label: "Marketing", to: location.pathname },
+        ]}
         onSearch={() => {}}
         onAdd={() => {}}
       />
@@ -26,7 +35,7 @@ export default function MarketingPage() {
           onClick={() => navigate("/dashboard/portfolio/saas")}
           className="mt-4 px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
         >
-          Back to S
+          Back to SaaS
         </button>
       </div>
     </PageLayout>

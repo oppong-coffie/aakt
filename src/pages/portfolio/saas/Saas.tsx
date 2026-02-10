@@ -49,9 +49,10 @@ const Saas = () => {
   return (
     <PageLayout>
       <PageHeader
-        title="SaaS"
-        breadcrumb="Portfolio"
-        previousPath="/dashboard/portfolio"
+        breadcrumbs={[
+          { label: "Portfolio", to: "/dashboard/portfolio" },
+          { label: "SaaS", to: "/dashboard/portfolio/saas" },
+        ]}
         onSearch={() => console.log("Search clicked")}
         onAdd={() => setIsDropdownOpen(!isDropdownOpen)}
         extraActions={
@@ -123,8 +124,8 @@ const Saas = () => {
                 transition={{ delay: i * 0.1 }}
                 className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
                 onClick={() => navigate(card.to)}
-                data-aos="fade-up"
-                data-aos-delay={i * 100}
+               
+               
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -147,3 +148,4 @@ const Saas = () => {
 };
 
 export default Saas;
+

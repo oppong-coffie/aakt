@@ -41,13 +41,13 @@ const navItems = [
  */
 const Main = () => {
   return (
-    <div className="">
+    <div className="relative">
       <main className="flex-1 overflow-x-scroll">
         <Outlet />
       </main>
-            {/* Bottom Navigation */}
-      <div className="mt-auto flex justify-center pb-6 pt-10">
-        <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar max-w-full px-4 text-center">
+      {/* Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 flex justify-center pb-6 pt-4 bg-[#f0f0eb]/90 backdrop-blur-md">
+        <div className="flex items-center gap-3 sm:gap-6 no-scrollbar max-w-full px-4 text-center">
           {navItems.map((item) => {
             const isSelected = item.id === "Intel";
             return (
@@ -58,7 +58,7 @@ const Main = () => {
                   whileTap={{ scale: 0.95 }}
                 >
                   <div
-                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative transition-all duration-300
                         ${isSelected ? "bg-yellow-600/10 border-2 border-yellow-600 ring-4 ring-yellow-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
                       `}
                   >

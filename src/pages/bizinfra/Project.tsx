@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import Breadcrumbs from "./Breadcrumbs";
 
 /**
  * Project Page (BizInfra) - Displays the phases of a selected project.
@@ -153,27 +154,40 @@ function PhaseItem({
 
 const Project = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const skillName = id
+    ? id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " ")
+    : "Skillset";
+  const skillPath = id
+    ? `/dashboard/bizinfra/skillset/${id}`
+    : "/dashboard/bizinfra/skillset";
+  const projectPath = id
+    ? `/dashboard/bizinfra/skillset/${id}/project`
+    : "/dashboard/bizinfra/skillset";
 
   return (
-    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
       {/* Header Area */}
-      <div className="flex items-center gap-2 mb-6">
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <button
-            onClick={() => navigate(-1)}
-            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
-          >
-            <LeftArrow />
-          </button>
-        </motion.div>
-        <div className="flex items-center gap-2">
-          <div className="">Project</div>
-          <div className="font-bold text-xl ml-24">Phases</div>
+      <header className="flex items-center justify-between mb-6">
+        <div className="flex gap-2">
+          <div className="flex items-center gap-2">
+            <Link to="/dashboard/bizinfra">
+              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
+                <LeftArrow />
+              </div>
+            </Link>
+          </div>
+          <Breadcrumbs
+            items={[
+              { label: "BizInfra", to: "/dashboard/bizinfra" },
+              { label: "Skillset", to: "/dashboard/bizinfra/skillset" },
+              { label: skillName, to: skillPath },
+              { label: "Project", to: projectPath },
+            ]}
+          />
         </div>
-      </div>
 
-      <div className="flex justify-end items-center mb-8">
         <div className="flex items-center gap-2">
           <motion.button
             whileHover={{ scale: 1.1 }}
@@ -186,12 +200,12 @@ const Project = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsAddModalOpen(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
           >
             <PlusIcon />
           </motion.button>
         </div>
-      </div>
+      </header>
 
      {/* Phases Flow */}
    <div className="flex-1 flex items-center justify-center w-full">

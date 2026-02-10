@@ -36,8 +36,8 @@
 
 :root {
   font-family:
-    "InterLocal",
     "Inter",
+    "InterLocal",
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
@@ -64,6 +64,14 @@
 
 body {
   margin: 0;
+  font-family: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
 }
 
 div,

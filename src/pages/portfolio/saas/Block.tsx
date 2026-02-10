@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Breadcrumbs from "../../../components/Breadcrumbs";
 
 /**
  * Block Page (SaaS) - A detailed view for managing business blocks within a SaaS context.
@@ -89,14 +90,8 @@ const navItems = [
 ];
 
 const Block = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
   const [hoveredBlock, setHoveredBlock] = useState<number | null>(null);
   const [hoveredPerson, setHoveredPerson] = useState<string | null>(null);
-
-  const skillBreadcrumb = id
-    ? id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " ")
-    : "Sales Pdt";
 
   const people = [
     { name: "Adam fatal", seed: "Adam" },
@@ -107,29 +102,33 @@ const Block = () => {
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
-      <div className="flex justify-between items-center mb-6 relative z-10">
+      <header className="flex items-center justify-between mb-6 relative z-10">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <Link to="/dashboard/portfolio/saas">
+              <div className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors">
+                <LeftArrowIcon />
+              </div>
+            </Link>
+          </div>
+          <Breadcrumbs
+            items={[
+              { label: "Portfolio", to: "/dashboard/portfolio" },
+              { label: "SaaS", to: "/dashboard/portfolio/saas" },
+              { label: "Block", to: "/dashboard/portfolio/saas/block" },
+            ]}
+          />
+        </div>
         <div className="flex items-center gap-2">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => navigate(-1)}
-            className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
           >
-            <LeftArrowIcon />
+            <SearchIcon />
           </motion.button>
-          <div className="flex items-center gap-2">
-            <div className="">{skillBreadcrumb}</div>
-            <div className="font-bold text-xl ml-24 text-gray-900">Block</div>
-          </div>
         </div>
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
-        >
-          <SearchIcon />
-        </motion.button>
-      </div>
+      </header>
 
       <div className="flex flex-1 gap-6">
         {/* Left Sidebar */}

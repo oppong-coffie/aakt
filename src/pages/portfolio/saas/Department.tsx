@@ -1,6 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Breadcrumbs from "../../../components/Breadcrumbs";
 
 /**
  * Department Page (BizInfra) - Displays the structure of a selected department.
@@ -66,29 +67,27 @@ const categories = [
 
 const Department = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const navigate = useNavigate();
-  // In a real app, 'id' might be the department name or ID.
-  const deptName = "Department Details";
-
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
-      <div className="flex items-center gap-2 mb-6">
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-          <button
-            onClick={() => navigate("/dashboard/portfolio/saas")}
-            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors"
-          >
-            <LeftArrow />
-          </button>
-        </motion.div>
-        <div className="flex items-center gap-2">
-          <div className="">Department</div>
-          <div className="font-bold text-xl ml-24">{deptName}</div>
+      <header className="flex items-center justify-between mb-6">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <Link to="/dashboard/portfolio/saas">
+              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
+                <LeftArrow />
+              </div>
+            </Link>
+          </div>
+          <Breadcrumbs
+            items={[
+              { label: "Portfolio", to: "/dashboard/portfolio" },
+              { label: "SaaS", to: "/dashboard/portfolio/saas" },
+              { label: "Department", to: "/dashboard/portfolio/saas/department" },
+            ]}
+          />
         </div>
-      </div>
 
-      <div className="flex justify-end items-center mb-8">
         <div className="flex items-center gap-2">
           <motion.button
             whileHover={{ scale: 1.1 }}
@@ -101,12 +100,12 @@ const Department = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsAddModalOpen(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
           >
             <PlusIcon />
           </motion.button>
         </div>
-      </div>
+      </header>
 
       <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
         {categories.map((cat, index) => {
@@ -118,8 +117,8 @@ const Department = () => {
             >
               <motion.div
                 className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-                data-aos="fade-up"
-                data-aos-delay={index * 100}
+               
+               
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -184,3 +183,4 @@ const Department = () => {
 };
 
 export default Department;
+

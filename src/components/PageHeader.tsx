@@ -1,16 +1,19 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
+import Breadcrumbs from "./Breadcrumbs";
 
 /**
  * PageHeaderProps - Interface for the PageHeader component.
  */
 interface PageHeaderProps {
-  /** The main title shown in the header (aligned with ml-24). */
-  title: string;
-  /** The breadcrumb text shown to the left of the title. */
-  breadcrumb: string;
-  /** Optional manual override for the back button destination. */
+  /** Breadcrumb items shown under the back arrow. */
+  breadcrumbs?: { label: string; to: string }[];
+  /** Legacy: top breadcrumb label. */
+  breadcrumb?: string;
+  /** Legacy: page title used as trailing breadcrumb. */
+  title?: string;
+  /** Legacy: destination for the top breadcrumb/back arrow. */
   previousPath?: string;
   /** Callback for when the search icon is clicked. */
   onSearch?: () => void;
@@ -74,64 +77,79 @@ const LeftArrowIcon = () => (
 );
 
 const PageHeader: React.FC<PageHeaderProps> = ({
-  title,
+  breadcrumbs,
   breadcrumb,
+  title,
   previousPath,
   onSearch,
   onAdd,
   extraActions,
 }) => {
-  const navigate = useNavigate();
-
-  const handleBack = () => {
-    if (previousPath) {
-      navigate(previousPath);
-    } else {
-      navigate(-1);
-    }
-  };
+  const location = useLocation();
+  const computedBreadcrumbs =
+    breadcrumbs && breadcrumbs.length > 0
+      ? breadcrumbs
+      : [
+          ...(breadcrumb
+            ? [
+                {
+                  label: breadcrumb,
+                  to: previousPath ?? "/dashboard",
+                },
+              ]
+            : []),
+          ...(title
+            ? [
+                {
+                  label: title,
+                  to: location.pathname,
+                },
+              ]
+            : []),
+        ];
+  const backTo = computedBreadcrumbs[0]?.to;
 
   return (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
-      {/* Left Side: Back Button & Title */}
-      <div className="flex items-center gap-2">
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={handleBack}
-          className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
-        >
-          <LeftArrowIcon />
-        </motion.button>
+    <header className="flex items-center justify-between mb-6">
+      <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
-          <div className="text-gray-900">{breadcrumb}</div>
-          <h2 className="text-xl font-bold ml-24 text-gray-900">{title}</h2>
+          {backTo && (
+            <Link to={backTo}>
+              <div className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors">
+                <LeftArrowIcon />
+              </div>
+            </Link>
+          )}
         </div>
+        <Breadcrumbs items={computedBreadcrumbs} />
       </div>
 
-      {/* Right Side: Actions */}
-      <div className="flex items-center gap-3 ml-auto sm:ml-0">
+      <div className="flex items-center gap-2">
         {onSearch && (
-          <button
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={onSearch}
             className="w-10 h-10 rounded-xl cursor-pointer hover:text-blue-600 hover:bg-white transition-colors flex items-center justify-center text-gray-400"
           >
             <SearchIcon />
-          </button>
+          </motion.div>
         )}
 
         {extraActions}
 
         {onAdd && (
-          <button
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={onAdd}
-            className="w-10 h-10 rounded-xl cursor-pointer hover:text-white hover:bg-blue-600 transition-colors flex items-center justify-center text-gray-400"
+            className="w-10 h-10 rounded-xl cursor-pointer hover:text-blue-600 hover:bg-white transition-colors flex items-center justify-center text-gray-400"
           >
             <PlusIcon />
-          </button>
+          </motion.div>
         )}
       </div>
-    </div>
+    </header>
   );
 };
 

@@ -184,8 +184,8 @@ const PortfolioPage = () => {
             <motion.div
               key={index}
               className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-              data-aos="fade-up"
-              data-aos-delay={index * 100}
+             
+             
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -204,3 +204,4 @@ const PortfolioPage = () => {
 };
 
 export default PortfolioPage;
+

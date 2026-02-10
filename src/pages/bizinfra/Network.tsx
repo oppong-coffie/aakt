@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Breadcrumbs from "./Breadcrumbs";
 
 /**
  * Network Page - Displays a directory of connections with multiple view modes.
@@ -174,8 +175,8 @@ const NetworkTree = ({
             transition={{ delay: i * 0.1 }}
             className="absolute flex items-center gap-3 z-30 cursor-pointer"
             onClick={() => onSelectPerson(person)}
-            data-aos="fade-in"
-            data-aos-duration="3000"
+           
+           
           >
             <div className="w-10 h-10 rounded-full border-2 border-white shadow-md overflow-hidden bg-white hover:scale-110 transition-transform">
               <img
@@ -238,9 +239,9 @@ const ListView = ({
                 transition={{ delay: i * 0.03 }}
                 className="group hover:bg-blue-50/30 transition-colors cursor-pointer border-b border-gray-50 last:border-0"
                 onClick={() => onSelectPerson(person)}
-                data-aos="fade-right"
-                data-aos-duration="3000"
-                data-aos-delay={i * 50}
+               
+               
+               
               >
                 <td className="px-8 py-4">
                   <div className="flex items-center gap-4">
@@ -305,8 +306,6 @@ const Network = () => {
   >("initial");
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
 
-  const navigate = useNavigate(); 
-  
   /**
    * Modal component to display detailed information about a selected connection.
    */
@@ -540,34 +539,46 @@ const Network = () => {
   );
 
   return (
-    <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
+    <div className="flex flex-col h-full bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
       {/* Header Area */}
-      <div className="flex items-center gap-2 mb-6 relative z-10">
-        <button
-          onClick={() => navigate(-1)}
-          className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
-        >
-          <LeftArrowIcon />
-        </button>
-        <div className="flex items-center gap-2">
-          <div className="">BizInfra</div>
-          <div className="font-bold text-xl ml-24">Network</div>
+      <header className="flex items-center justify-between mb-6 relative z-10">
+        <div className="flex gap-2">
+          <div className="flex items-center gap-2">
+            <Link to="/dashboard/bizinfra">
+              <div className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors">
+                <LeftArrowIcon />
+              </div>
+            </Link>
+          </div>
+          <Breadcrumbs
+            items={[
+              { label: "BizInfra", to: "/dashboard/bizinfra" },
+              { label: "Network", to: "/dashboard/bizinfra/network" },
+            ]}
+          />
         </div>
-      </div>
+
+        <div className="flex items-center gap-2">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+          >
+            <SearchIcon />
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setIsAddModalOpen(true)}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+          >
+            <PlusIcon />
+          </motion.button>
+        </div>
+      </header>
 
       <div className="flex justify-end items-center mb-8 relative z-10">
         <div className="flex items-center gap-2 relative">
-          <button className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors">
-            <SearchIcon />
-          </button>
-          <button
-            onClick={() => setIsAddModalOpen(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
-          >
-            <PlusIcon />
-          </button>
-          <div className="h-8 w-px bg-gray-200 mx-1"></div>
-
           <div className="relative">
             <button
               onClick={() => setIsViewDropdownOpen(!isViewDropdownOpen)}
@@ -689,8 +700,8 @@ const Network = () => {
             {/* Example Campaign Card */}
             <div
               className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
-              data-aos="fade-up"
-              data-aos-duration="3000"
+             
+             
             >
               <div className="flex justify-between items-start mb-4">
                 <span className="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-md">
@@ -726,9 +737,9 @@ const Network = () => {
                 transition={{ delay: i * 0.05 }}
                 className="flex flex-col items-center group cursor-pointer"
                 onClick={() => setSelectedPerson(person)}
-                data-aos="fade-up"
-                data-aos-duration="3000"
-                data-aos-delay={i * 100}
+               
+               
+               
               >
                 <div className="w-full aspect-square bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-4 group-hover:shadow-md transition-shadow relative overflow-hidden">
                   <div className="absolute inset-0 bg-linear-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -764,3 +775,4 @@ const Network = () => {
 };
 
 export default Network;
+
