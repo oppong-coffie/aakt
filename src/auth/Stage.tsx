@@ -2,6 +2,22 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
+const ArrowLeftIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M19 12H5M12 19l-7-7 7-7" />
+  </svg>
+);
+
 const stages = [
   { id: "pre-concept", label: "Pre-Concept", x: "10%", y: "85%" },
   { id: "concept", label: "Concept", x: "30%", y: "80.60%" },
@@ -25,6 +41,17 @@ const Stage = () => {
 
   return (
     <div className="bg-[#f0f0eb] h-screen md:px-32 px-0 pt-5">
+      {/* Back Button */}
+      <div className="fixed top-8 left-8">
+        <button
+          onClick={() => navigate(-1)}
+          className="w-8 h-8 flex items-center justify-center rounded-lg hover:text-white hover:bg-blue-600 transition-colors"
+          aria-label="Go back"
+        >
+          <ArrowLeftIcon />
+        </button>
+      </div>
+
       {/* Skip Button */}
       <div className="fixed top-8 right-8">
         <button

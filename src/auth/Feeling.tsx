@@ -1,6 +1,22 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
+const ArrowLeftIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M19 12H5M12 19l-7-7 7-7" />
+  </svg>
+);
+
 const feelingsList = [
   {
     left: "Excited",
@@ -67,6 +83,17 @@ const Feeling = () => {
 
   return (
     <div className="h-screen bg-[#f0f0eb] relative flex flex-col items-center px-4 overflow-hidden">
+      {/* Back Button */}
+      <div className="fixed top-8 left-8">
+        <button
+          onClick={() => navigate(-1)}
+          className="w-8 h-8 flex items-center justify-center rounded-lg hover:text-white hover:bg-blue-600 transition-colors"
+          aria-label="Go back"
+        >
+          <ArrowLeftIcon />
+        </button>
+      </div>
+
       {/* Skip Button */}
       <div className="fixed top-8 right-8">
         <button

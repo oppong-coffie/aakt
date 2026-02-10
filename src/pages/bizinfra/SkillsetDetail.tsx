@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import Breadcrumbs from "./Breadcrumbs";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 /**
@@ -155,6 +155,8 @@ const SkillsetDetail = () => {
   const { id } = useParams();
   const [isPlusOpen, setIsPlusOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const plusButtonRef = useRef<HTMLDivElement | null>(null);
+  const plusMenuRef = useRef<HTMLDivElement | null>(null);
 
   const skillName = id
     ? id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " ")
@@ -162,6 +164,22 @@ const SkillsetDetail = () => {
   const skillPath = id
     ? `/dashboard/bizinfra/skillset/${id}`
     : "/dashboard/bizinfra/skillset";
+
+  useEffect(() => {
+    if (!isPlusOpen) return;
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (
+        plusMenuRef.current?.contains(target) ||
+        plusButtonRef.current?.contains(target)
+      ) {
+        return;
+      }
+      setIsPlusOpen(false);
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [isPlusOpen]);
 
   return (
     <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
@@ -184,7 +202,7 @@ const SkillsetDetail = () => {
           />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 relative">
           <motion.div
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -194,19 +212,39 @@ const SkillsetDetail = () => {
             <SearchIcon />
           </motion.div>
           <motion.div
+            ref={plusButtonRef}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => setIsPlusOpen(true)}
+            onClick={() => setIsPlusOpen((open) => !open)}
             className="w-10 h-10 rounded-xl cursor-pointer hover:text-blue-600 hover:bg-white transition-colors flex items-center justify-center text-gray-400"
           >
             <PlusIcon />
           </motion.div>
+
+          {isPlusOpen && (
+            <div
+              ref={plusMenuRef}
+              className="absolute right-0 top-12 w-44 rounded-xl border border-gray-100 bg-white shadow-lg overflow-hidden z-50"
+            >
+              {categories.map((cat) => (
+                <Link
+                  key={cat.id}
+                  to={`/dashboard/bizinfra/skillset/${id}/${cat.id}`}
+                  onClick={() => setIsPlusOpen(false)}
+                  className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-black hover:bg-gray-50 transition-colors"
+                >
+                  <PlusIcon />
+                  {cat.label}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </header>
 
       {/* Categories Grid - Displays links to deeper levels like Department, Project, etc. */}
       <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
-        {categories.map((cat, index) => {
+        {categories.map((cat) => {
           return (
             <Link
               key={cat.id}
@@ -223,8 +261,8 @@ const SkillsetDetail = () => {
                 <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center">
                   {/* Icon placeholder */}
                 </div>
-                <h3 className="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
-                  {cat.label}
+                <h3 className="text-base font-bold  group-hover:text-blue-600 transition-colors">
+                  <span className="text-black">{cat.label}</span> 
                 </h3>
               </motion.div>
             </Link>
@@ -232,86 +270,6 @@ const SkillsetDetail = () => {
         })}
       </div>
 
-      {/* Add New Item Modal - Allows users to create new departments, projects, etc. */}
-      <AnimatePresence>
-        {isPlusOpen && (
-          <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/20 backdrop-blur-sm"
-              onClick={() => setIsPlusOpen(false)}
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white w-full max-w-md rounded-2xl shadow-2xl relative z-101 overflow-hidden"
-            >
-              <div className="p-6 pb-2 flex items-center justify-between">
-                <h3 className="text-lg font-bold text-gray-900">
-                  Add New Item
-                </h3>
-                <button
-                  onClick={() => setIsPlusOpen(false)}
-                  className="w-10 h-10 flex items-center justify-center bg-gray-100 text-gray-500 rounded-full hover:bg-gray-200 transition-colors"
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                  </svg>
-                </button>
-              </div>
-
-              <div className="p-6 pt-2 space-y-4">
-                <select className="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg focus:border-blue-400 outline-none transition-all text-sm text-gray-800 placeholder-gray-300 font-medium">
-                  <option>Select Type...</option>
-                  {categories.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.label}
-                    </option>
-                  ))}
-                </select>
-                <input
-                  type="text"
-                  placeholder="Name"
-                  className="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg focus:border-blue-400 outline-none transition-all text-sm text-gray-800 placeholder-gray-300 font-medium"
-                />
-
-                <div className="w-full aspect-2/1 bg-gray-50/50 border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-gray-100/50 transition-colors mt-2">
-                  <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 font-bold">
-                    <PlusIcon />
-                  </div>
-                  <span className="text-[10px] font-bold text-gray-400">
-                    Add Item Media
-                  </span>
-                </div>
-
-                <div className="pt-2">
-                  <button
-                    onClick={() => setIsPlusOpen(false)}
-                    className="w-full py-2.5 bg-blue-600 text-white rounded-lg text-sm font-bold shadow-sm hover:bg-blue-700 transition-colors"
-                  >
-                    Add New Item
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-    
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}

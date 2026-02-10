@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Breadcrumbs from "./Breadcrumbs";
 
@@ -163,121 +163,6 @@ const SearchModal = ({
     </AnimatePresence>
   );
 };
-/**
- * AddSkillModal component - provides a form to add a new skill to the BizInfra module.
- * @param isOpen - boolean to control visibility
- * @param onClose - function to handle modal closure
- */
-const AddSkillModal = ({
-  isOpen,
-  onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Adding skill:", { title, description });
-    onClose();
-    setTitle("");
-    setDescription("");
-  };
-
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-black/20 backdrop-blur-xs z-100"
-          />
-          <div className="fixed inset-0 flex items-center justify-center p-4 z-100 pointer-events-none">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden flex flex-col pointer-events-auto"
-            >
-              {/* Modal Header */}
-              <div className="p-6 pb-2 flex items-center justify-between">
-                <h3 className="text-lg font-bold text-gray-900">
-                  Add New Skills
-                </h3>
-                <button
-                  onClick={onClose}
-                  className="w-10 h-10 flex items-center justify-center bg-gray-100 text-gray-500 rounded-full hover:bg-gray-200 transition-colors"
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                  </svg>
-                </button>
-              </div>
-
-              <form onSubmit={handleSubmit} className="p-6 pt-2 space-y-4">
-                <div>
-                  <input
-                    type="text"
-                    required
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    className="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg focus:border-blue-400 outline-none transition-all text-sm text-gray-800 placeholder-gray-300 font-medium"
-                    placeholder="Skill Name"
-                  />
-                </div>
-
-                <div>
-                  <textarea
-                    required
-                    rows={4}
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    className="w-full px-4 py-2 bg-white border border-gray-200 rounded-lg focus:border-blue-400 outline-none transition-all text-sm text-gray-800 placeholder-gray-300 font-medium resize-none"
-                    placeholder="Description"
-                  />
-                </div>
-
-                {/* Image Placeholder Area */}
-                <div className="w-full aspect-2/1 bg-gray-50/50 border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-gray-100/50 transition-colors">
-                  <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 font-bold">
-                    <PlusIcon />
-                  </div>
-                  <span className="text-[10px] font-bold text-gray-400">
-                    Add Product Image
-                  </span>
-                </div>
-
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    className="w-full py-2.5 bg-blue-200 text-white rounded-lg text-sm font-bold shadow-xs hover:bg-blue-300 transition-colors"
-                  >
-                    Add New Connection
-                  </button>
-                </div>
-              </form>
-            </motion.div>
-          </div>
-        </>
-      )}
-    </AnimatePresence>
-  );
-};
 
 const skillsetCards = [
   {
@@ -302,6 +187,12 @@ const skillsetCards = [
   },
 ];
 
+const addOptions = [
+  { id: "process", label: "Process" },
+  { id: "project", label: "Project" },
+  { id: "block", label: "Block" },
+];
+
 /**
  * Skilset Page - The main landing page for the BizInfra module.
  * Displays a grid of skills and provides search/add functionality.
@@ -309,6 +200,24 @@ const skillsetCards = [
 const Skilset = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isPlusOpen, setIsPlusOpen] = useState(false);
+  const plusButtonRef = useRef<HTMLDivElement | null>(null);
+  const plusMenuRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!isPlusOpen) return;
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (
+        plusMenuRef.current?.contains(target) ||
+        plusButtonRef.current?.contains(target)
+      ) {
+        return;
+      }
+      setIsPlusOpen(false);
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [isPlusOpen]);
 
   return (
     <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
@@ -330,7 +239,7 @@ const Skilset = () => {
         </div>
 
         {/* Search Bar - Trigger */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 relative">
           <motion.div
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -340,13 +249,33 @@ const Skilset = () => {
             <SearchIcon />
           </motion.div>
           <motion.div
+            ref={plusButtonRef}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => setIsPlusOpen(true)}
+            onClick={() => setIsPlusOpen((open) => !open)}
             className="w-10 h-10 rounded-xl cursor-pointer hover:text-blue-600 hover:bg-white transition-colors flex items-center justify-center text-gray-400"
           >
             <PlusIcon />
           </motion.div>
+
+          {isPlusOpen && (
+            <div
+              ref={plusMenuRef}
+              className="absolute right-0 top-12 w-44 rounded-xl border border-gray-100 bg-white shadow-lg overflow-hidden z-50"
+            >
+              {addOptions.map((option) => (
+                <Link
+                  key={option.id}
+                  to={`/dashboard/bizinfra/skillset/${option.id}`}
+                  onClick={() => setIsPlusOpen(false)}
+                  className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-black hover:bg-gray-50 transition-colors"
+                >
+                  <PlusIcon />
+                  {option.label}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </header>
 
@@ -354,8 +283,6 @@ const Skilset = () => {
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
       />
-
-      <AddSkillModal isOpen={isPlusOpen} onClose={() => setIsPlusOpen(false)} />
 
       {/* Top Cards Grid */}
       <div className="flex flex-wrap items-center justify-center w-full flex-1 overflow-y-auto no-scrollbar">

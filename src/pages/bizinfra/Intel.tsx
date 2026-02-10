@@ -56,39 +56,6 @@ const LeftArrowIcon = () => (
   </svg>
 );
 
-const navItems = [
-  {
-    id: "Skillset",
-    label: "Skillset",
-    image: "/bizinfra/skill2.png",
-    path: "/dashboard/bizinfra/skillset",
-  },
-  {
-    id: "Network",
-    label: "Network",
-    image: "/bizinfra/network.png",
-    path: "/dashboard/bizinfra/network",
-  },
-  {
-    id: "Capital",
-    label: "Capital",
-    image: "/bizinfra/capital.png",
-    path: "/dashboard/bizinfra/capital",
-  },
-  {
-    id: "Intel",
-    label: "Intel",
-    image: "/bizinfra/intel2.png",
-    path: "/dashboard/bizinfra/intel",
-  },
-  {
-    id: "Reach",
-    label: "Reach",
-    image: "/bizinfra/reach.png",
-    path: "/dashboard/bizinfra/reach",
-  },
-];
-
 const categories = [
   { id: "project", label: "Project" },
   { id: "process", label: "Process" },
@@ -300,7 +267,7 @@ const Intel = () => {
       </header>
 
       <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
-        {categories.map((cat, index) => (
+        {categories.map((cat) => (
           <Link
             key={cat.id}
             to={`/dashboard/bizinfra/skillset/${id}/${cat.id}`}

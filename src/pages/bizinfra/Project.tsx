@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Breadcrumbs from "./Breadcrumbs";
 
 /**
@@ -63,6 +63,12 @@ const cards = [
   { id: "phase1", label: "Phase 1", to: `/dashboard/bizinfra/phase` },
   { id: "phase2", label: "Phase 2", to: `/dashboard/bizinfra/phase` },
   { id: "phase3", label: "Phase 3", to: `/dashboard/bizinfra/phase` },
+];
+
+const addOptions = [
+  { id: "process", label: "Process" },
+  { id: "project", label: "Project" },
+  { id: "block", label: "Block" },
 ];
 
 const LongArrow = () => (
@@ -155,7 +161,9 @@ function PhaseItem({
 const Project = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isPlusOpen, setIsPlusOpen] = useState(false);
+  const plusButtonRef = useRef<HTMLButtonElement | null>(null);
+  const plusMenuRef = useRef<HTMLDivElement | null>(null);
   const skillName = id
     ? id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " ")
     : "Skillset";
@@ -165,6 +173,22 @@ const Project = () => {
   const projectPath = id
     ? `/dashboard/bizinfra/skillset/${id}/project`
     : "/dashboard/bizinfra/skillset";
+
+  useEffect(() => {
+    if (!isPlusOpen) return;
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as Node;
+      if (
+        plusMenuRef.current?.contains(target) ||
+        plusButtonRef.current?.contains(target)
+      ) {
+        return;
+      }
+      setIsPlusOpen(false);
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [isPlusOpen]);
 
   return (
     <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
@@ -188,7 +212,7 @@ const Project = () => {
           />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 relative">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -197,13 +221,33 @@ const Project = () => {
             <SearchIcon />
           </motion.button>
           <motion.button
+            ref={plusButtonRef}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => setIsAddModalOpen(true)}
+            onClick={() => setIsPlusOpen((open) => !open)}
             className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
           >
             <PlusIcon />
           </motion.button>
+
+          {isPlusOpen && (
+            <div
+              ref={plusMenuRef}
+              className="absolute right-0 top-12 w-44 rounded-xl border border-gray-100 bg-white shadow-lg overflow-hidden z-50"
+            >
+              {addOptions.map((option) => (
+                <Link
+                  key={option.id}
+                  to={`/dashboard/bizinfra/skillset/${id}/${option.id}`}
+                  onClick={() => setIsPlusOpen(false)}
+                  className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-black hover:bg-gray-50 transition-colors"
+                >
+                  <PlusIcon />
+                  {option.label}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </header>
 
@@ -236,7 +280,7 @@ const Project = () => {
     {/* Plus button after Phase 3 */}
     <button
       type="button"
-      onClick={() => setIsAddModalOpen(true)}
+      onClick={() => setIsPlusOpen(true)}
       className="ml-12 w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-blue-600 hover:shadow-md transition"
       aria-label="Add Phase"
     >
@@ -244,43 +288,6 @@ const Project = () => {
     </button>
   </div>
 </div>
-
-
-      {/* Add New Phase Modal - Allows users to extend the project lifecycle. */}
-      <AnimatePresence>
-        {isAddModalOpen && (
-          <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/20 backdrop-blur-sm"
-              onClick={() => setIsAddModalOpen(false)}
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8"
-            >
-              <h3 className="text-xl font-bold text-gray-900 mb-6">
-                Add New Phase
-              </h3>
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="Phase Name"
-                  className="w-full p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none"
-                />
-                <button className="w-full py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700">
-                  Add
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
     
     </div>
   );

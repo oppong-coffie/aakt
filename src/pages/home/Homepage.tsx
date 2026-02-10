@@ -430,9 +430,8 @@ const Homepage = () => {
   // --- ACTIONS: TASKS ---
 
   /** Add a new task to a specific workload column */
-  const addTask = (workloadId: string) => {
-    const taskText = prompt("Enter task title:");
-    if (!taskText) return;
+  const addTask = (workloadId: string, taskText: string) => {
+    if (!taskText.trim()) return;
 
     setWorkloads(
       workloads.map((w) => {
@@ -441,7 +440,11 @@ const Homepage = () => {
             ...w,
             tasks: [
               ...w.tasks,
-              { id: Date.now().toString(), text: taskText, completed: false },
+              {
+                id: Date.now().toString(),
+                text: taskText.trim(),
+                completed: false,
+              },
             ],
           };
         }
