@@ -349,6 +349,12 @@ const Homepage = () => {
   /** Tasks moved out of active workloads */
   const [archivedTasks, setArchivedTasks] = useState<any[]>([]);
 
+  /** State for inline task addition */
+  const [addingToWorkloadId, setAddingToWorkloadId] = useState<string | null>(
+    null,
+  );
+  const [newTaskText, setNewTaskText] = useState("");
+
   // --- DRAG AND DROP HANDLER ---
 
   /**
@@ -639,11 +645,44 @@ const Homepage = () => {
                                     }
                                   />
                                 ))
-                              : !snapshot.isDraggingOver && (
+                              : !snapshot.isDraggingOver &&
+                                addingToWorkloadId !== workload.id && (
                                   <span className="text-gray-400 text-sm px-1 italic py-2">
                                     No tasks yet
                                   </span>
                                 )}
+
+                            {/* Inline Add Task Input */}
+                            {addingToWorkloadId === workload.id && (
+                              <div className="px-1 py-1">
+                                <input
+                                  autoFocus
+                                  className="w-full bg-white border border-blue-300 rounded px-2 py-1.5 text-sm font-medium outline-none shadow-sm"
+                                  placeholder="Type task name..."
+                                  value={newTaskText}
+                                  onChange={(e) =>
+                                    setNewTaskText(e.target.value)
+                                  }
+                                  onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                      addTask(workload.id, newTaskText);
+                                      setNewTaskText("");
+                                      setAddingToWorkloadId(null);
+                                    } else if (e.key === "Escape") {
+                                      setAddingToWorkloadId(null);
+                                      setNewTaskText("");
+                                    }
+                                  }}
+                                  onBlur={() => {
+                                    if (newTaskText.trim()) {
+                                      addTask(workload.id, newTaskText);
+                                    }
+                                    setNewTaskText("");
+                                    setAddingToWorkloadId(null);
+                                  }}
+                                />
+                              </div>
+                            )}
                             {provided.placeholder}
                           </div>
                         )}
@@ -652,9 +691,7 @@ const Homepage = () => {
                       {/* Add Task Button */}
                       <button
                         onClick={() => {
-                          const taskText = window.prompt("New task:");
-                          if (!taskText) return;
-                          addTask(workload.id, taskText);
+                          setAddingToWorkloadId(workload.id);
                         }}
                         className="flex items-center gap-2 text-gray-800 hover:text-blue-600 transition-colors text-sm font-semibold px-1 mt-2 group"
                       >
@@ -725,9 +762,7 @@ const Homepage = () => {
 
         {/* Footer Banner: Finish Account Setup */}
         <div className="mt-12 w-full">
-          <motion.div
-            className="bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-sm border border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-6"
-          >
+          <motion.div className="bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-sm border border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-6">
             <div className="text-center sm:text-left">
               <h3 className="text-xl font-bold text-gray-900 mb-2">
                 Finish setting up your account
