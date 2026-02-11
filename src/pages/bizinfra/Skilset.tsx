@@ -2,6 +2,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  type DropResult,
+} from "@hello-pangea/dnd";
 
 /**
  * SearchIcon component - renders a standard search magnifying glass SVG.
@@ -165,29 +171,6 @@ const SearchModal = ({
   );
 };
 
-const skillsetCards = [
-  {
-    title: "Python",
-    description:
-      "I want to open a new Company that's sells fresh cloves to big companies all over the world, How can i start the planning?",
-  },
-  {
-    title: "Business Management",
-    description:
-      "I want to open a new Company that's sells fresh cloves to big companies all over the world, How can i start the planning?",
-  },
-  {
-    title: "Backend Developer",
-    description:
-      "I want to open a new Company that's sells fresh cloves to big companies all over the world, How can i start the planning?",
-  },
-  {
-    title: "Product Designer",
-    description:
-      "I want to open a new Company that's sells fresh cloves to big companies all over the world, How can i start the planning?",
-  },
-];
-
 const addOptions = [
   { id: "process", label: "Process" },
   { id: "project", label: "Project" },
@@ -203,6 +186,41 @@ const Skilset = () => {
   const [isPlusOpen, setIsPlusOpen] = useState(false);
   const plusButtonRef = useRef<HTMLDivElement | null>(null);
   const plusMenuRef = useRef<HTMLDivElement | null>(null);
+
+  const [cards, setCards] = useState([
+    {
+      id: "python",
+      title: "Python",
+      description:
+        "I want to open a new Company that's sells fresh cloves to big companies all over the world, How can i start the planning?",
+    },
+    {
+      id: "business-management",
+      title: "Business Management",
+      description:
+        "I want to open a new Company that's sells fresh cloves to big companies all over the world, How can i start the planning?",
+    },
+    {
+      id: "backend-developer",
+      title: "Backend Developer",
+      description:
+        "I want to open a new Company that's sells fresh cloves to big companies all over the world, How can i start the planning?",
+    },
+    {
+      id: "product-designer",
+      title: "Product Designer",
+      description:
+        "I want to open a new Company that's sells fresh cloves to big companies all over the world, How can i start the planning?",
+    },
+  ]);
+
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) return;
+    const items = Array.from(cards);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    setCards(items);
+  };
 
   useEffect(() => {
     if (!isPlusOpen) return;
@@ -287,30 +305,57 @@ const Skilset = () => {
 
       {/* Top Cards Grid */}
       <div className="flex flex-wrap items-center justify-center w-full flex-1 overflow-y-auto no-scrollbar">
-        {skillsetCards.map((card, index) => (
-          <Link
-            key={index}
-            to={`/dashboard/bizinfra/skillset/${card.title.toLowerCase().replace(/\s+/g, "-")}`}
-            className="contents"
-          >
-            <motion.div
-              className="flex flex-col items-center gap- w-60 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              {/* White Placeholder Box */}
-              <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex flex-col items-center justify-center relative overflow-hidden">
-                {/* Optional: Add a subtle overlay or just let the bg change handle it */}
-              </div>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="skillset-cards" direction="horizontal">
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className="flex flex-wrap items-center justify-center w-full"
+              >
+                {cards.map((card, index) => (
+                  <Draggable key={card.id} draggableId={card.id} index={index}>
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className={`transition-all ${
+                          snapshot.isDragging ? "z-50" : ""
+                        }`}
+                      >
+                        <Link
+                          to={`/dashboard/bizinfra/skillset/${card.title.toLowerCase().replace(/\s+/g, "-")}`}
+                          className="block"
+                        >
+                          <motion.div
+                            className={`flex flex-col items-center gap- w-60 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold ${
+                              snapshot.isDragging ? "bg-white shadow-lg" : ""
+                            }`}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            {/* White Placeholder Box */}
+                            <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex flex-col items-center justify-center relative overflow-hidden">
+                              {/* Optional: Add a subtle overlay or just let the bg change handle it */}
+                            </div>
 
-              {/* Content */}
-              <h3 className="text-lg sm:text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-                {card.title}
-              </h3>
-              {/* Description removed as per request */}
-            </motion.div>
-          </Link>
-        ))}
+                            {/* Content */}
+                            <h3 className="text-lg sm:text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                              {card.title}
+                            </h3>
+                            {/* Description removed as per request */}
+                          </motion.div>
+                        </Link>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
     </div>
   );

@@ -31,11 +31,6 @@ import SaasOperation from "./pages/portfolio/saas/Operation";
 import SaasProject from "./pages/portfolio/saas/Project";
 import SaasPhase from "./pages/portfolio/saas/Phase";
 import Saas from "./pages/portfolio/saas/Saas";
-import Department1 from "./pages/portfolio/saas/Department1";
-import Department2Page from "./pages/portfolio/saas/Department2";
-import Sales from "./pages/portfolio/saas/Sales";
-import Marketing from "./pages/portfolio/saas/Marketing";
-import Product from "./pages/portfolio/saas/Product";
 import Question1 from "./pages/portfolio/questions/Question1";
 import PortfolioFirstpage from "./pages/portfolio/Firstpage";
 import Question2 from "./pages/portfolio/questions/Question2";
@@ -124,14 +119,6 @@ const App = () => {
             <Route index element={<PortfolioFirstpage />} />
             <Route path="saas" element={<Saas />} />
             <Route path="saas/department" element={<SaasDepartment />} />
-            <Route path="saas/department1" element={<Department1 />} />
-            <Route path="saas/department1/sales" element={<Sales />} />
-            <Route path="saas/department1/marketing" element={<Marketing />} />
-            <Route path="saas/department1/product" element={<Product />} />
-            <Route path="saas/department2" element={<Department2Page />} />
-            <Route path="saas/department2/sales" element={<Sales />} />
-            <Route path="saas/department2/marketing" element={<Marketing />} />
-            <Route path="saas/department2/product" element={<Product />} />
             <Route path="question1" element={<Question1 />} />
             <Route path="question2" element={<Question2 />} />
             <Route path="question3" element={<Question3 />} />

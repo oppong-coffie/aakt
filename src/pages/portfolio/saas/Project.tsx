@@ -2,6 +2,12 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Breadcrumbs from "../../../components/Breadcrumbs";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  type DropResult,
+} from "@hello-pangea/dnd";
 
 /**
  * Project Page (BizInfra) - Displays the phases of a selected project.
@@ -77,16 +83,23 @@ const LongArrow = () => (
 );
 
 const base = "/dashboard/portfolio/saas/project";
-const cards = [
-  { id: "phase1", label: "Phase 1", to: `${base}/phase1` },
-  { id: "phase2", label: "Phase 2", to: `${base}/phase2` },
-  { id: "phase3", label: "Phase 3", to: `${base}/phase3` },
-];
 
 const Project = () => {
   const navigate = useNavigate();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [cards, setCards] = useState([
+    { id: "phase1", label: "Phase 1", to: `${base}/phase1` },
+    { id: "phase2", label: "Phase 2", to: `${base}/phase2` },
+    { id: "phase3", label: "Phase 3", to: `${base}/phase3` },
+  ]);
 
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) return;
+    const items = Array.from(cards);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    setCards(items);
+  };
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
@@ -129,35 +142,57 @@ const Project = () => {
 
       {/* Phases Flow */}
       <div className="flex-1 flex items-center justify-center mt-16 mb-32 w-full">
-        <div className="flex items-center justify-center flex-wrap">
-          {cards.map((card, i) => (
-            <div key={card.id} className="flex items-center">
-              {/* Phase */}
-              <motion.button
-                onClick={() => navigate(card.to)}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="text-3xl sm:text-4xl font-semibold text-gray-900 hover:text-gray-700 transition-colors"
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="project-phases" direction="horizontal">
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className="flex items-center justify-center flex-wrap"
               >
-                {card.label}
-              </motion.button>
+                {cards.map((card, i) => (
+                  <Draggable key={card.id} draggableId={card.id} index={i}>
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className={`flex items-center transition-all ${
+                          snapshot.isDragging ? "z-50 opacity-50" : ""
+                        }`}
+                      >
+                        {/* Phase */}
+                        <motion.button
+                          onClick={() => navigate(card.to)}
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.97 }}
+                          className="text-3xl sm:text-4xl font-semibold text-gray-900 hover:text-gray-700 transition-colors"
+                        >
+                          {card.label}
+                        </motion.button>
 
-              {/* Arrow between phases */}
-              {i !== cards.length - 1 && <LongArrow />}
-            </div>
-          ))}
+                        {/* Arrow between phases - Only show if not last item in the list */}
+                        {i !== cards.length - 1 && <LongArrow />}
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
 
-          {/* Plus button after last phase */}
-          <motion.button
-            onClick={() => setIsAddModalOpen(true)}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            className="ml-10 w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-blue-600 hover:shadow-md transition"
-            aria-label="Add Phase"
-          >
-            <PlusIcon />
-          </motion.button>
-        </div>
+                {/* Plus button after last phase */}
+                <motion.button
+                  onClick={() => setIsAddModalOpen(true)}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="ml-10 w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-blue-600 hover:shadow-md transition"
+                  aria-label="Add Phase"
+                >
+                  <PlusIcon />
+                </motion.button>
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
 
       {/* Add New Phase Modal - Allows users to extend the project lifecycle. */}

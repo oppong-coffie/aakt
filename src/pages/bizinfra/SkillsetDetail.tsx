@@ -2,6 +2,12 @@ import { useParams, Link } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  type DropResult,
+} from "@hello-pangea/dnd";
 
 /**
  * SkillsetDetail Component - Displays the specific categories (Department, Operation, etc.)
@@ -57,12 +63,6 @@ const LeftArrow = () => (
     <path d="M19 12H5" />
   </svg>
 );
-
-const categories = [
-  { id: "project", label: "Project" },
-  { id: "process", label: "Process" },
-  { id: "block", label: "Block" },
-];
 
 const SearchModal = ({
   isOpen,
@@ -149,12 +149,116 @@ const SearchModal = ({
   );
 };
 
+const CreationModeModal = ({
+  isOpen,
+  onClose,
+  onSelect,
+  categoryLabel,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onSelect: (mode: "blank" | "template") => void;
+  categoryLabel: string;
+}) => {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8"
+          >
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                New {categoryLabel}
+              </h3>
+              <p className="text-gray-500 text-sm">
+                How would you like to start?
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                onClick={() => onSelect("blank")}
+                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-blue-600 hover:text-white transition-all group"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:bg-blue-500 transition-colors">
+                  <PlusIcon />
+                </div>
+                <span className="font-bold">Blank</span>
+              </button>
+
+              <button
+                onClick={() => onSelect("template")}
+                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-blue-600 hover:text-white transition-all group"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:bg-blue-500 transition-colors">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
+                    <path d="M8 7h6" />
+                    <path d="M8 11h8" />
+                  </svg>
+                </div>
+                <span className="font-bold">Template</span>
+              </button>
+            </div>
+
+            <button
+              onClick={onClose}
+              className="w-full mt-6 py-3 text-gray-400 font-medium hover:text-gray-600 transition-colors"
+            >
+              Cancel
+            </button>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+
 const SkillsetDetail = () => {
   const { id } = useParams();
   const [isPlusOpen, setIsPlusOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<{
+    id: string;
+    label: string;
+  } | null>(null);
   const plusButtonRef = useRef<HTMLDivElement | null>(null);
   const plusMenuRef = useRef<HTMLDivElement | null>(null);
+
+  const [categories, setCategories] = useState([
+    { id: "project", label: "Project" },
+    { id: "process", label: "Process" },
+    { id: "block", label: "Block" },
+  ]);
+
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) return;
+    const items = Array.from(categories);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    setCategories(items);
+  };
 
   const skillName = id
     ? id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " ")
@@ -178,6 +282,19 @@ const SkillsetDetail = () => {
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, [isPlusOpen]);
+
+  const handleModeSelect = (mode: "blank" | "template") => {
+    if (selectedCategory) {
+      // Example: Navigate to a creation page with mode and category info
+      console.log(
+        `Creating new ${selectedCategory.label} in ${mode} mode for skill ${id}`,
+      );
+      // You would typically use a navigation hook here, e.g., navigate(...)
+      // For now, just close the modal
+    }
+    setIsCreationModalOpen(false);
+    setSelectedCategory(null);
+  };
 
   return (
     <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
@@ -225,15 +342,18 @@ const SkillsetDetail = () => {
               className="absolute right-0 top-12 w-44 rounded-xl border border-gray-100 bg-white shadow-lg overflow-hidden z-50"
             >
               {categories.map((cat) => (
-                <Link
+                <button
                   key={cat.id}
-                  to={`/dashboard/bizinfra/skillset/${id}/${cat.id}`}
-                  onClick={() => setIsPlusOpen(false)}
-                  className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-black hover:bg-gray-50 transition-colors"
+                  onClick={() => {
+                    setSelectedCategory(cat);
+                    setIsCreationModalOpen(true);
+                    setIsPlusOpen(false);
+                  }}
+                  className="w-full flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-black hover:bg-gray-50 transition-colors"
                 >
                   <PlusIcon />
                   {cat.label}
-                </Link>
+                </button>
               ))}
             </div>
           )}
@@ -242,33 +362,65 @@ const SkillsetDetail = () => {
 
       {/* Categories Grid - Displays links to deeper levels like Department, Project, etc. */}
       <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
-        {categories.map((cat) => {
-          return (
-            <Link
-              key={cat.id}
-              to={`/dashboard/bizinfra/skillset/${id}/${cat.id}`}
-              className="contents"
-            >
-              <motion.div
-                className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="skillset-detail-cards" direction="horizontal">
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className="flex flex-wrap items-center justify-center gap-6 w-full"
               >
-                <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center">
-                  {/* Icon placeholder */}
-                </div>
-                <h3 className="text-base font-bold  group-hover:text-blue-600 transition-colors">
-                  <span className="text-black">{cat.label}</span>
-                </h3>
-              </motion.div>
-            </Link>
-          );
-        })}
+                {categories.map((cat, index) => (
+                  <Draggable key={cat.id} draggableId={cat.id} index={index}>
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className={`transition-all ${
+                          snapshot.isDragging ? "z-50" : ""
+                        }`}
+                      >
+                        <Link
+                          to={`/dashboard/bizinfra/skillset/${id}/${cat.id}`}
+                          className="block"
+                        >
+                          <motion.div
+                            className={`flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all ${
+                              snapshot.isDragging ? "bg-white shadow-lg" : ""
+                            }`}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center">
+                              {/* Icon placeholder */}
+                            </div>
+                            <h3 className="text-base font-bold  group-hover:text-blue-600 transition-colors">
+                              <span className="text-black">{cat.label}</span>
+                            </h3>
+                          </motion.div>
+                        </Link>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
 
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
+      />
+
+      <CreationModeModal
+        isOpen={isCreationModalOpen}
+        onClose={() => setIsCreationModalOpen(false)}
+        onSelect={handleModeSelect}
+        categoryLabel={selectedCategory?.label || ""}
       />
     </div>
   );

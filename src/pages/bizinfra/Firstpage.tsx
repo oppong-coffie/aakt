@@ -3,44 +3,17 @@ import { Link } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  type DropResult,
+} from "@hello-pangea/dnd";
 
 /**
  * BizInfra First Page - The entry point for the Business Infrastructure module.
  * Displays large cards representing different sectors like Skillset, Network, and Capital.
  */
-
-const cards = [
-  {
-    id: "Skillset",
-    label: "Skillset",
-    image: "/bizinfra/skill2.png",
-    link: "skillset",
-  },
-  {
-    id: "Network",
-    label: "Network",
-    image: "/bizinfra/network.png",
-    link: "network",
-  },
-  {
-    id: "Capital",
-    label: "Capital",
-    image: "/bizinfra/capital.png",
-    link: "capital",
-  },
-  {
-    id: "Intel",
-    label: "Intel",
-    image: "/bizinfra/intel2.png",
-    link: "intel",
-  },
-  {
-    id: "Reach",
-    label: "Reach",
-    image: "/bizinfra/reach.png",
-    link: "reach",
-  },
-];
 
 const SearchIcon = () => (
   <svg
@@ -178,6 +151,46 @@ const SearchModal = ({
 
 const Firstpage = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [cards, setCards] = useState([
+    {
+      id: "Skillset",
+      label: "Skillset",
+      image: "/bizinfra/skill2.png",
+      link: "skillset",
+    },
+    {
+      id: "Network",
+      label: "Network",
+      image: "/bizinfra/network.png",
+      link: "network",
+    },
+    {
+      id: "Capital",
+      label: "Capital",
+      image: "/bizinfra/capital.png",
+      link: "capital",
+    },
+    {
+      id: "Intel",
+      label: "Intel",
+      image: "/bizinfra/intel2.png",
+      link: "intel",
+    },
+    {
+      id: "Reach",
+      label: "Reach",
+      image: "/bizinfra/reach.png",
+      link: "reach",
+    },
+  ]);
+
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) return;
+    const items = Array.from(cards);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    setCards(items);
+  };
 
   return (
     <div className="">
@@ -210,32 +223,74 @@ const Firstpage = () => {
 
       {/* cards */}
       <div className="h-[calc(100vh-150px)] w-full flex flex-col justify-center items-center">
-        <div className="grid grid-cols-5 gap-6 px-4">
-          {cards.map((card) => (
-            <Link to={card.link} key={card.id}>
-              <div className="flex flex-col items-center group cursor-pointer">
-                {/* Card Container */}
-                <div className="w-full aspect-square bg-gray-100/50 rounded-xl shadow-sm border border-gray-200/50 flex items-center justify-center relative overflow-hidden transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md">
-                  {/* Image Shape */}
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="bizinfra-cards" direction="horizontal">
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className="grid grid-cols-5 gap-6 px-4"
+              >
+                {cards.map((card, index) => (
+                  <Draggable key={card.id} draggableId={card.id} index={index}>
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className={`transition-all ${
+                          snapshot.isDragging ? "z-50" : ""
+                        }`}
+                      >
+                        <Link to={card.link} className="block">
+                          <div
+                            className={`flex flex-col items-center group cursor-pointer transition-all ${
+                              snapshot.isDragging ? "scale-105" : ""
+                            }`}
+                          >
+                            {/* Card Container */}
+                            <div
+                              className={`w-full aspect-square bg-gray-100/50 rounded-xl shadow-sm border border-gray-200/50 flex items-center justify-center relative overflow-hidden transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md ${
+                                snapshot.isDragging ? "bg-white shadow-xl" : ""
+                              }`}
+                            >
+                              {/* Image Shape */}
+                              <img
+                                src={card.image}
+                                alt={card.label}
+                                draggable={false}
+                                className={`object-cover w-3/4 relative transform transition-transform duration-500 ${
+                                  snapshot.isDragging
+                                    ? "rotate-0"
+                                    : "rotate-12 group-hover:rotate-0"
+                                }`}
+                              />
 
-                  <img
-                    src={card.image}
-                    alt={card.label}
-                    className="object-cover w-3/4 relative transform rotate-12 group-hover:rotate-0 transition-transform duration-500"
-                  />
+                              {/* Inner Shine/Overlay if needed for depth */}
+                              <div className="absolute inset-0 bg-linear-to-tr from-black/10 via-transparent to-white/20 pointer-events-none"></div>
+                            </div>
 
-                  {/* Inner Shine/Overlay if needed for depth */}
-                  <div className="absolute inset-0 bg-linear-to-tr from-black/10 via-transparent to-white/20 pointer-events-none"></div>
-                </div>
-
-                {/* Label */}
-                <span className="mt-4 text-sm font-semibold text-gray-800">
-                  {card.label}
-                </span>
+                            {/* Label */}
+                            <span
+                              className={`mt-4 text-sm font-semibold transition-colors ${
+                                snapshot.isDragging
+                                  ? "text-blue-600"
+                                  : "text-gray-800"
+                              }`}
+                            >
+                              {card.label}
+                            </span>
+                          </div>
+                        </Link>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
               </div>
-            </Link>
-          ))}
-        </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
 
       {/* search modal */}
