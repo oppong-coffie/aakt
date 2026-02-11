@@ -172,14 +172,23 @@ const base = "/dashboard/portfolio/saas/project";
 const Project = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("Home");
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
-  const [newPhaseName, setNewPhaseName] = useState("");
+  const [selectedType, setSelectedType] = useState<{
+    id: string;
+    label: string;
+  } | null>(null);
   const [cards, setCards] = useState([
     { id: "phase1", label: "Phase 1", to: `${base}/phase1` },
     { id: "phase2", label: "Phase 2", to: `${base}/phase2` },
     { id: "phase3", label: "Phase 3", to: `${base}/phase3` },
   ]);
+
+  const dropdownItems = [
+    { id: "project", label: "Project" },
+    { id: "process", label: "Process" },
+    { id: "block", label: "Block" },
+  ];
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -190,9 +199,13 @@ const Project = () => {
   };
 
   const handleModeSelect = (mode: "blank" | "template") => {
-    console.log(`Creating new phase ${newPhaseName} in ${mode} mode`);
+    if (selectedType) {
+      console.log(
+        `Creating new ${selectedType.label} in ${mode} mode for Project`,
+      );
+    }
     setIsCreationModalOpen(false);
-    setNewPhaseName("");
+    setSelectedType(null);
   };
 
   return (
@@ -202,7 +215,7 @@ const Project = () => {
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
             <Link to="/dashboard/portfolio/saas">
-              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-black hover:bg-white rounded-xl transition-colors">
+              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 rounded-xl transition-colors">
                 <LeftArrow />
               </div>
             </Link>
@@ -216,22 +229,58 @@ const Project = () => {
           />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 relative">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-black hover:bg-white transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
           >
             <SearchIcon />
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => setIsAddModalOpen(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-black hover:bg-white transition-colors"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors relative z-50"
           >
             <PlusIcon />
           </motion.button>
+
+          <AnimatePresence>
+            {isDropdownOpen && (
+              <>
+                <div
+                  className="fixed inset-0 z-40"
+                  onClick={() => setIsDropdownOpen(false)}
+                />
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                  className="absolute right-0 top-12 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 py-3 overflow-hidden"
+                >
+                  {dropdownItems.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        setSelectedType(item);
+                        setIsCreationModalOpen(true);
+                        setIsDropdownOpen(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 transition-colors text-left group"
+                    >
+                      <span className="text-gray-400 group-hover:text-blue-600 transition-colors font-bold uppercase">
+                        <PlusIcon />
+                      </span>
+                      <span className="text-xs font-bold text-gray-700 tracking-tight uppercase">
+                        {item.label}
+                      </span>
+                    </button>
+                  ))}
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
         </div>
       </header>
 
@@ -300,7 +349,10 @@ const Project = () => {
 
                     {/* Plus button after last phase */}
                     <motion.button
-                      onClick={() => setIsAddModalOpen(true)}
+                      onClick={() => {
+                        setSelectedType({ id: "phase", label: "Phase" });
+                        setIsCreationModalOpen(true);
+                      }}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
                       className="ml-10 w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-black hover:shadow-md transition"
@@ -319,55 +371,11 @@ const Project = () => {
         )}
       </div>
 
-      {/* Add New Phase Modal - Allows users to extend the project lifecycle. */}
-      <AnimatePresence>
-        {isAddModalOpen && (
-          <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/20 backdrop-blur-sm"
-              onClick={() => setIsAddModalOpen(false)}
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8"
-            >
-              <h3 className="text-xl font-bold text-gray-900 mb-6 font-['Inter']">
-                Add New Phase
-              </h3>
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="Phase Name"
-                  value={newPhaseName}
-                  onChange={(e) => setNewPhaseName(e.target.value)}
-                  className="w-full p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none font-['Inter']"
-                />
-                <button
-                  disabled={!newPhaseName}
-                  onClick={() => {
-                    setIsCreationModalOpen(true);
-                    setIsAddModalOpen(false);
-                  }}
-                  className="w-full py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-black transition-colors disabled:bg-gray-300 font-['Inter']"
-                >
-                  Continue
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
       <CreationModeModal
         isOpen={isCreationModalOpen}
         onClose={() => setIsCreationModalOpen(false)}
         onSelect={handleModeSelect}
-        categoryLabel={newPhaseName || "Phase"}
+        categoryLabel={selectedType?.label || "Project"}
       />
     </div>
   );

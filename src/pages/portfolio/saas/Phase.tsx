@@ -61,6 +61,91 @@ const LeftArrow = () => (
   </svg>
 );
 
+const CreationModeModal = ({
+  isOpen,
+  onClose,
+  onSelect,
+  categoryLabel,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onSelect: (mode: "blank" | "template") => void;
+  categoryLabel: string;
+}) => {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8"
+          >
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-2 font-['Inter']">
+                New {categoryLabel}
+              </h3>
+              <p className="text-gray-500 text-sm">
+                How would you like to start?
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                onClick={() => onSelect("blank")}
+                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-black hover:text-white transition-all group"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:bg-gray-800 transition-colors">
+                  <PlusIcon />
+                </div>
+                <span className="font-bold">Blank</span>
+              </button>
+
+              <button
+                onClick={() => onSelect("template")}
+                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-black hover:text-white transition-all group"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:bg-gray-800 transition-colors">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
+                    <path d="M8 7h6" />
+                    <path d="M8 11h8" />
+                  </svg>
+                </div>
+                <span className="font-bold">Template</span>
+              </button>
+            </div>
+
+            <button
+              onClick={onClose}
+              className="w-full mt-6 py-3 text-gray-400 font-medium hover:text-gray-600 transition-colors"
+            >
+              Cancel
+            </button>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+
 const base = "/dashboard/portfolio/saas";
 
 const phaseLabels: Record<string, string> = {
@@ -72,11 +157,22 @@ const phaseLabels: Record<string, string> = {
 export default function PhasePage() {
   const { phaseId } = useParams<{ phaseId: string }>();
   const [activeTab, setActiveTab] = useState("Home");
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
+  const [selectedType, setSelectedType] = useState<{
+    id: string;
+    label: string;
+  } | null>(null);
   const [cards, setCards] = useState([
     { id: "process", label: "Process", to: `${base}/process` },
     { id: "block", label: "Block", to: `${base}/block` },
   ]);
+
+  const dropdownItems = [
+    { id: "project", label: "Project" },
+    { id: "process", label: "Process" },
+    { id: "block", label: "Block" },
+  ];
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
@@ -90,6 +186,16 @@ export default function PhasePage() {
     setCards(reorderedCards);
   };
 
+  const handleModeSelect = (mode: "blank" | "template") => {
+    if (selectedType) {
+      console.log(
+        `Creating new ${selectedType.label} in ${mode} mode for Phase`,
+      );
+    }
+    setIsCreationModalOpen(false);
+    setSelectedType(null);
+  };
+
   const phaseLabel = (phaseId && phaseLabels[phaseId]) || "Phase";
 
   return (
@@ -98,7 +204,7 @@ export default function PhasePage() {
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
             <Link to="/dashboard/portfolio/saas/project">
-              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
+              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 rounded-xl transition-colors">
                 <LeftArrow />
               </div>
             </Link>
@@ -116,22 +222,58 @@ export default function PhasePage() {
           />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 relative">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
           >
             <SearchIcon />
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => setIsAddModalOpen(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors relative z-50"
           >
             <PlusIcon />
           </motion.button>
+
+          <AnimatePresence>
+            {isDropdownOpen && (
+              <>
+                <div
+                  className="fixed inset-0 z-40"
+                  onClick={() => setIsDropdownOpen(false)}
+                />
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                  className="absolute right-0 top-12 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 py-3 overflow-hidden"
+                >
+                  {dropdownItems.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        setSelectedType(item);
+                        setIsCreationModalOpen(true);
+                        setIsDropdownOpen(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 transition-colors text-left group"
+                    >
+                      <span className="text-gray-400 group-hover:text-blue-600 transition-colors font-bold uppercase">
+                        <PlusIcon />
+                      </span>
+                      <span className="text-xs font-bold text-gray-700 tracking-tight uppercase">
+                        {item.label}
+                      </span>
+                    </button>
+                  ))}
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
         </div>
       </header>
 
@@ -208,39 +350,12 @@ export default function PhasePage() {
         )}
       </div>
 
-      <AnimatePresence>
-        {isAddModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/20 backdrop-blur-sm"
-              onClick={() => setIsAddModalOpen(false)}
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-50 p-8"
-            >
-              <h3 className="text-xl font-bold text-gray-900 mb-6">
-                Add New Item
-              </h3>
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="Name"
-                  className="w-full p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none"
-                />
-                <button className="w-full py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700">
-                  Add
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+      <CreationModeModal
+        isOpen={isCreationModalOpen}
+        onClose={() => setIsCreationModalOpen(false)}
+        onSelect={handleModeSelect}
+        categoryLabel={selectedType?.label || "Item"}
+      />
     </div>
   );
 }
