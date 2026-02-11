@@ -196,7 +196,7 @@ const Operation = () => {
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
       {/* Header Area */}
       <header className="flex items-center justify-between mb-6">
-        <div className="flex flex-col gap-2">
+        <div className="flex gap-2">
           <div className="flex items-center gap-2">
             <Link to="/dashboard/portfolio/saas">
               <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">

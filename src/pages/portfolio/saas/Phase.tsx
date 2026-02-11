@@ -71,6 +71,7 @@ const phaseLabels: Record<string, string> = {
 
 export default function PhasePage() {
   const { phaseId } = useParams<{ phaseId: string }>();
+  const [activeTab, setActiveTab] = useState("Home");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [cards, setCards] = useState([
     { id: "process", label: "Process", to: `${base}/process` },
@@ -92,9 +93,9 @@ export default function PhasePage() {
   const phaseLabel = (phaseId && phaseLabels[phaseId]) || "Phase";
 
   return (
-    <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
+    <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden font-['Inter']">
       <header className="flex items-center justify-between mb-6">
-        <div className="flex flex-col gap-2">
+        <div className="flex gap-2">
           <div className="flex items-center gap-2">
             <Link to="/dashboard/portfolio/saas/project">
               <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
@@ -134,49 +135,77 @@ export default function PhasePage() {
         </div>
       </header>
 
-      <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="phase-cards" direction="horizontal">
-            {(provided) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                className="flex flex-wrap items-center justify-center gap-6 w-full"
-              >
-                {cards.map((cat, index) => (
-                  <Draggable key={cat.id} draggableId={cat.id} index={index}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        className={`transition-all ${
-                          snapshot.isDragging ? "z-50" : ""
-                        }`}
-                      >
-                        <Link to={cat.to} className="contents">
-                          <motion.div
-                            className={`flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold ${
-                              snapshot.isDragging ? "bg-white shadow-lg" : ""
-                            }`}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                          >
-                            <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center" />
-                            <h3 className="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
-                              {cat.label}
-                            </h3>
-                          </motion.div>
-                        </Link>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
+      {/* Tabs */}
+      <div className="flex items-center justify-center gap-8 mb-8">
+        {["Home", "Team"].map((tab) => (
+          <motion.button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={`relative px-2 py-1 text-sm font-medium transition-colors ${
+              activeTab === tab ? "text-gray-900" : "text-gray-500"
+            }`}
+          >
+            {tab}
+            {activeTab === tab && (
+              <motion.div
+                layoutId="activeTabPhase"
+                className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-full"
+              />
             )}
-          </Droppable>
-        </DragDropContext>
+          </motion.button>
+        ))}
+      </div>
+
+      <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
+        {activeTab === "Home" && (
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="phase-cards" direction="horizontal">
+              {(provided) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="flex flex-wrap items-center justify-center gap-6 w-full"
+                >
+                  {cards.map((cat, index) => (
+                    <Draggable key={cat.id} draggableId={cat.id} index={index}>
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className={`transition-all ${
+                            snapshot.isDragging ? "z-50" : ""
+                          }`}
+                        >
+                          <Link to={cat.to} className="contents">
+                            <motion.div
+                              className={`flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold ${
+                                snapshot.isDragging ? "bg-white shadow-lg" : ""
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center" />
+                              <h3 className="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
+                                {cat.label}
+                              </h3>
+                            </motion.div>
+                          </Link>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        )}
+        {activeTab === "Team" && (
+          <div className="text-gray-500 text-sm">No team members found</div>
+        )}
       </div>
 
       <AnimatePresence>

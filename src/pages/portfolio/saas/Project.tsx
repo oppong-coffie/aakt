@@ -171,6 +171,7 @@ const base = "/dashboard/portfolio/saas/project";
 
 const Project = () => {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("Home");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
   const [newPhaseName, setNewPhaseName] = useState("");
@@ -198,7 +199,7 @@ const Project = () => {
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden font-['Inter']">
       {/* Header Area */}
       <header className="flex items-center justify-between mb-6">
-        <div className="flex flex-col gap-2">
+        <div className="flex gap-2">
           <div className="flex items-center gap-2">
             <Link to="/dashboard/portfolio/saas">
               <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-black hover:bg-white rounded-xl transition-colors">
@@ -234,59 +235,88 @@ const Project = () => {
         </div>
       </header>
 
-      {/* Phases Flow */}
-      <div className="flex-1 flex items-center justify-center mt-16 mb-32 w-full">
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="project-phases" direction="horizontal">
-            {(provided) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                className="flex items-center justify-center flex-wrap"
-              >
-                {cards.map((card, i) => (
-                  <Draggable key={card.id} draggableId={card.id} index={i}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        className={`flex items-center transition-all ${
-                          snapshot.isDragging ? "z-50 opacity-50" : ""
-                        }`}
-                      >
-                        {/* Phase */}
-                        <motion.button
-                          onClick={() => navigate(card.to)}
-                          whileHover={{ scale: 1.03 }}
-                          whileTap={{ scale: 0.97 }}
-                          className="text-3xl sm:text-4xl font-semibold text-gray-900 hover:text-black transition-colors"
-                        >
-                          {card.label}
-                        </motion.button>
-
-                        {/* Arrow between phases - Only show if not last item in the list */}
-                        {i !== cards.length - 1 && <LongArrow />}
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-
-                {/* Plus button after last phase */}
-                <motion.button
-                  onClick={() => setIsAddModalOpen(true)}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="ml-10 w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-black hover:shadow-md transition"
-                  aria-label="Add Phase"
-                >
-                  <PlusIcon />
-                </motion.button>
-              </div>
+      {/* Tabs */}
+      <div className="flex items-center justify-center gap-8 mb-8">
+        {["Home", "Team"].map((tab) => (
+          <motion.button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={`relative px-2 py-1 text-sm font-medium transition-colors ${
+              activeTab === tab ? "text-gray-900" : "text-gray-500"
+            }`}
+          >
+            {tab}
+            {activeTab === tab && (
+              <motion.div
+                layoutId="activeTabProject"
+                className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-full"
+              />
             )}
-          </Droppable>
-        </DragDropContext>
+          </motion.button>
+        ))}
+      </div>
+
+      <div className="flex-1 flex flex-col items-center justify-center w-full">
+        {activeTab === "Home" && (
+          <div className="flex items-center justify-center w-full">
+            <DragDropContext onDragEnd={onDragEnd}>
+              <Droppable droppableId="project-phases" direction="horizontal">
+                {(provided) => (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    className="flex items-center justify-center flex-wrap"
+                  >
+                    {cards.map((card, i) => (
+                      <Draggable key={card.id} draggableId={card.id} index={i}>
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className={`flex items-center transition-all ${
+                              snapshot.isDragging ? "z-50 opacity-50" : ""
+                            }`}
+                          >
+                            {/* Phase */}
+                            <motion.button
+                              onClick={() => navigate(card.to)}
+                              whileHover={{ scale: 1.03 }}
+                              whileTap={{ scale: 0.97 }}
+                              className="text-3xl sm:text-4xl font-semibold text-gray-900 hover:text-black transition-colors"
+                            >
+                              {card.label}
+                            </motion.button>
+
+                            {/* Arrow between phases - Only show if not last item in the list */}
+                            {i !== cards.length - 1 && <LongArrow />}
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+
+                    {/* Plus button after last phase */}
+                    <motion.button
+                      onClick={() => setIsAddModalOpen(true)}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="ml-10 w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-black hover:shadow-md transition"
+                      aria-label="Add Phase"
+                    >
+                      <PlusIcon />
+                    </motion.button>
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+          </div>
+        )}
+        {activeTab === "Team" && (
+          <div className="text-gray-500 text-sm">No team members found</div>
+        )}
       </div>
 
       {/* Add New Phase Modal - Allows users to extend the project lifecycle. */}
@@ -306,7 +336,7 @@ const Project = () => {
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8"
             >
-              <h3 className="text-xl font-bold text-gray-900 mb-6">
+              <h3 className="text-xl font-bold text-gray-900 mb-6 font-['Inter']">
                 Add New Phase
               </h3>
               <div className="space-y-4">
@@ -315,7 +345,7 @@ const Project = () => {
                   placeholder="Phase Name"
                   value={newPhaseName}
                   onChange={(e) => setNewPhaseName(e.target.value)}
-                  className="w-full p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none"
+                  className="w-full p-3 rounded-xl border border-gray-200 bg-gray-50 outline-none font-['Inter']"
                 />
                 <button
                   disabled={!newPhaseName}
@@ -323,7 +353,7 @@ const Project = () => {
                     setIsCreationModalOpen(true);
                     setIsAddModalOpen(false);
                   }}
-                  className="w-full py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-black transition-colors disabled:bg-gray-300"
+                  className="w-full py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-black transition-colors disabled:bg-gray-300 font-['Inter']"
                 >
                   Continue
                 </button>

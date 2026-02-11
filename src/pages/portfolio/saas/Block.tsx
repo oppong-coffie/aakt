@@ -40,6 +40,91 @@ const PlusIcon = () => (
   </svg>
 );
 
+const CreationModeModal = ({
+  isOpen,
+  onClose,
+  onSelect,
+  categoryLabel,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onSelect: (mode: "blank" | "template") => void;
+  categoryLabel: string;
+}) => {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8"
+          >
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-2 font-['Inter']">
+                New {categoryLabel}
+              </h3>
+              <p className="text-gray-500 text-sm">
+                How would you like to start?
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                onClick={() => onSelect("blank")}
+                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-black hover:text-white transition-all group"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:bg-gray-800 transition-colors">
+                  <PlusIcon />
+                </div>
+                <span className="font-bold">Blank</span>
+              </button>
+
+              <button
+                onClick={() => onSelect("template")}
+                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-black hover:text-white transition-all group"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:bg-gray-800 transition-colors">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
+                    <path d="M8 7h6" />
+                    <path d="M8 11h8" />
+                  </svg>
+                </div>
+                <span className="font-bold">Template</span>
+              </button>
+            </div>
+
+            <button
+              onClick={onClose}
+              className="w-full mt-6 py-3 text-gray-400 font-medium hover:text-gray-600 transition-colors"
+            >
+              Cancel
+            </button>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+
 const LeftArrowIcon = () => (
   <svg
     width="20"
@@ -56,53 +141,41 @@ const LeftArrowIcon = () => (
   </svg>
 );
 
-const navItems = [
-  {
-    id: "Department",
-    label: "Department",
-    image: "/bizinfra/skill2.png",
-    path: "/dashboard/portfolio/saas/department",
-  },
-  {
-    id: "Operation",
-    label: "Operation",
-    image: "/bizinfra/intel2.png",
-    path: "/dashboard/portfolio/saas/operation",
-  },
-  {
-    id: "Project",
-    label: "Project",
-    image: "/bizinfra/network.png",
-    path: "/dashboard/portfolio/saas/project",
-  },
-  {
-    id: "Process",
-    label: "Process",
-    image: "/bizinfra/capital.png",
-    path: "/dashboard/portfolio/saas/process",
-  },
-  {
-    id: "Block",
-    label: "Block",
-    image: "/bizinfra/reach.png",
-    path: "/dashboard/portfolio/saas/block",
-  },
-];
-
 const Block = () => {
   const [hoveredBlock, setHoveredBlock] = useState<number | null>(null);
   const [hoveredPerson, setHoveredPerson] = useState<string | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
+  const [selectedType, setSelectedType] = useState<{
+    id: string;
+    label: string;
+  } | null>(null);
+
   const people = [
     { name: "Adam fatal", seed: "Adam" },
     { name: "Aneka", seed: "Aneka" },
     { name: "Jace", seed: "Jace" },
   ];
 
+  const dropdownItems = [
+    { id: "project", label: "Project" },
+    { id: "process", label: "Process" },
+    { id: "block", label: "Block" },
+  ];
+
+  const handleModeSelect = (mode: "blank" | "template") => {
+    if (selectedType) {
+      console.log(`Creating ${selectedType.label} in ${mode} mode`);
+    }
+    setIsCreationModalOpen(false);
+    setSelectedType(null);
+  };
+
   return (
-    <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
+    <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden font-['Inter']">
       {/* Header Area */}
       <header className="flex items-center justify-between mb-6 relative z-10">
-        <div className="flex flex-col gap-2">
+        <div className="flex gap-2">
           <div className="flex items-center gap-2">
             <Link to="/dashboard/portfolio/saas">
               <div className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors">
@@ -118,7 +191,7 @@ const Block = () => {
             ]}
           />
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 relative">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -126,6 +199,50 @@ const Block = () => {
           >
             <SearchIcon />
           </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors relative z-50"
+          >
+            <PlusIcon />
+          </motion.button>
+
+          <AnimatePresence>
+            {isDropdownOpen && (
+              <>
+                <div
+                  className="fixed inset-0 z-40"
+                  onClick={() => setIsDropdownOpen(false)}
+                />
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                  className="absolute right-0 top-12 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 py-3 overflow-hidden"
+                >
+                  {dropdownItems.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        setSelectedType(item);
+                        setIsCreationModalOpen(true);
+                        setIsDropdownOpen(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 transition-colors text-left group"
+                    >
+                      <span className="text-gray-400 group-hover:text-blue-600 transition-colors font-bold uppercase">
+                        <PlusIcon />
+                      </span>
+                      <span className="text-xs font-bold text-gray-700 tracking-tight uppercase">
+                        {item.label}
+                      </span>
+                    </button>
+                  ))}
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
         </div>
       </header>
 
@@ -171,6 +288,10 @@ const Block = () => {
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
+              onClick={() => {
+                setSelectedType({ id: "block", label: "Block" });
+                setIsCreationModalOpen(true);
+              }}
               className="w-10 h-10 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center text-blue-600 hover:bg-white transition-colors shrink-0"
             >
               <PlusIcon />
@@ -234,42 +355,15 @@ const Block = () => {
               Block
             </h1>
           </div>
-          <div className="flex-1"></div>
-          <div className="flex justify-center pb-10">
-            <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar max-w-full px-4 text-center">
-              {navItems.map((item) => {
-                const isSelected = item.id === "Block";
-                return (
-                  <Link key={item.id} to={item.path} className="contents">
-                    <motion.div
-                      className="flex flex-col items-center gap-2 group shrink-0 cursor-pointer"
-                      whileHover={{ y: -5 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <div
-                        className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300
-                      ${isSelected ? "bg-blue-600/10 border-2 border-blue-600 ring-4 ring-blue-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
-                    `}
-                      >
-                        <img
-                          src={item.image}
-                          alt={item.label}
-                          className={`w-full h-full object-cover ${isSelected ? "" : "opacity-50"}`}
-                        />
-                      </div>
-                      <span
-                        className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}
-                      >
-                        {item.label}
-                      </span>
-                    </motion.div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
         </div>
       </div>
+
+      <CreationModeModal
+        isOpen={isCreationModalOpen}
+        onClose={() => setIsCreationModalOpen(false)}
+        onSelect={handleModeSelect}
+        categoryLabel={selectedType?.label || "Block"}
+      />
     </div>
   );
 };
