@@ -120,8 +120,6 @@ export default function PhasePage() {
           <Link key={cat.id} to={cat.to} className="contents">
             <motion.div
               className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-             
-             
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -150,7 +148,9 @@ export default function PhasePage() {
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-50 p-8"
             >
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Add New Item</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-6">
+                Add New Item
+              </h3>
               <div className="space-y-4">
                 <input
                   type="text"
@@ -168,4 +168,3 @@ export default function PhasePage() {
     </div>
   );
 }
-

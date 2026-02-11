@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import Breadcrumbs from "./Breadcrumbs";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 /**
  * Process Page (BizInfra) - A detailed view for managing business processes.
@@ -77,10 +77,10 @@ const Process = () => {
   ];
 
   return (
-    <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
+    <div className="flex flex-col h-full bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
       {/* Header Area */}
       <header className="flex items-center justify-between mb-6">
-        <div className="flex flex-col gap-2">
+        <div className="flex gap-2">
           <div className="flex items-center gap-2">
             <Link to="/dashboard/bizinfra">
               <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
@@ -122,9 +122,6 @@ const Process = () => {
                 className="relative group flex items-center"
                 onMouseEnter={() => setHoveredBlock(i)}
                 onMouseLeave={() => setHoveredBlock(null)}
-               
-               
-               
               >
                 <div className="w-10 h-10 bg-gray-300 rounded-lg shrink-0 cursor-pointer hover:bg-gray-400 transition-colors"></div>
 
@@ -167,9 +164,6 @@ const Process = () => {
                 className="relative group flex items-center"
                 onMouseEnter={() => setHoveredPerson(person.name)}
                 onMouseLeave={() => setHoveredPerson(null)}
-               
-               
-               
               >
                 <img
                   src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${person.seed}`}
@@ -218,8 +212,6 @@ const Process = () => {
 
           {/* Placeholder for process content logic later */}
           <div className="flex-1"></div>
-
-      
         </div>
       </div>
     </div>
@@ -227,4 +219,3 @@ const Process = () => {
 };
 
 export default Process;
-

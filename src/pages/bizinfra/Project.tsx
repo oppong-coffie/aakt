@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import Breadcrumbs from "./Breadcrumbs";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 /**
  * Project Page (BizInfra) - Displays the phases of a selected project.
@@ -56,15 +56,6 @@ const LeftArrow = () => (
   </svg>
 );
 
-
-
-
-const cards = [
-  { id: "phase1", label: "Phase 1", to: `/dashboard/bizinfra/phase` },
-  { id: "phase2", label: "Phase 2", to: `/dashboard/bizinfra/phase` },
-  { id: "phase3", label: "Phase 3", to: `/dashboard/bizinfra/phase` },
-];
-
 const addOptions = [
   { id: "process", label: "Process" },
   { id: "project", label: "Project" },
@@ -73,12 +64,7 @@ const addOptions = [
 
 const LongArrow = () => (
   <div className="mx-6 sm:mx-8 flex items-center">
-    <svg
-      width="70"
-      height="18"
-      viewBox="0 0 80 18"
-      fill="none"
-    >
+    <svg width="70" height="18" viewBox="0 0 80 18" fill="none">
       <path
         d="M0 9H72"
         stroke="#9CA3AF"
@@ -157,10 +143,28 @@ function PhaseItem({
   );
 }
 
-
 const Project = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const cards = [
+    {
+      id: "phase1",
+      label: "Phase 1",
+      to: `/dashboard/bizinfra/skillset/${id}/project/phase1`,
+    },
+    {
+      id: "phase2",
+      label: "Phase 2",
+      to: `/dashboard/bizinfra/skillset/${id}/project/phase2`,
+    },
+    {
+      id: "phase3",
+      label: "Phase 3",
+      to: `/dashboard/bizinfra/skillset/${id}/project/phase3`,
+    },
+  ];
+
   const [isPlusOpen, setIsPlusOpen] = useState(false);
   const plusButtonRef = useRef<HTMLButtonElement | null>(null);
   const plusMenuRef = useRef<HTMLDivElement | null>(null);
@@ -251,44 +255,43 @@ const Project = () => {
         </div>
       </header>
 
-     {/* Phases Flow */}
-   <div className="flex-1 flex items-center justify-center w-full">
-  <div className="flex items-center justify-center flex-wrap">
-    {cards.map((card, i) => (
-      <PhaseItem
-        key={card.id}
-        card={card}
-        isLast={i === cards.length - 1}
-        onGo={(to) => navigate(to)}
-        onRename={(c) => {
-          // ✅ Example rename: open your modal or prompt
-          const newName = window.prompt("Rename phase:", c.label);
-          if (!newName) return;
+      {/* Phases Flow */}
+      <div className="flex-1 flex items-center justify-center w-full">
+        <div className="flex items-center justify-center flex-wrap">
+          {cards.map((card, i) => (
+            <PhaseItem
+              key={card.id}
+              card={card}
+              isLast={i === cards.length - 1}
+              onGo={(to) => navigate(to)}
+              onRename={(c) => {
+                // ✅ Example rename: open your modal or prompt
+                const newName = window.prompt("Rename phase:", c.label);
+                if (!newName) return;
 
-          // update your state / backend here
-          console.log("Rename", c.id, "=>", newName);
-        }}
-        onDelete={(c) => {
-          if (!window.confirm(`Delete ${c.label}?`)) return;
+                // update your state / backend here
+                console.log("Rename", c.id, "=>", newName);
+              }}
+              onDelete={(c) => {
+                if (!window.confirm(`Delete ${c.label}?`)) return;
 
-          // update your state / backend here
-          console.log("Delete", c.id);
-        }}
-      />
-    ))}
+                // update your state / backend here
+                console.log("Delete", c.id);
+              }}
+            />
+          ))}
 
-    {/* Plus button after Phase 3 */}
-    <button
-      type="button"
-      onClick={() => setIsPlusOpen(true)}
-      className="ml-12 w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-blue-600 hover:shadow-md transition"
-      aria-label="Add Phase"
-    >
-      <PlusIcon />
-    </button>
-  </div>
-</div>
-    
+          {/* Plus button after Phase 3 */}
+          <button
+            type="button"
+            onClick={() => setIsPlusOpen(true)}
+            className="ml-12 w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-blue-600 hover:shadow-md transition"
+            aria-label="Add Phase"
+          >
+            <PlusIcon />
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

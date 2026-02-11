@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import Breadcrumbs from "./Breadcrumbs";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 /**
  * Reach Page - A placeholder page for the Reach module in BizInfra.
@@ -22,9 +22,6 @@ const LeftArrowIcon = () => (
     <path d="M19 12H5" />
   </svg>
 );
-
-
-
 
 const Reach = () => {
   return (
@@ -80,8 +77,6 @@ const Reach = () => {
           </div>
         </motion.div>
       </div>
-
-    
     </div>
   );
 };

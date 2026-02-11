@@ -94,7 +94,7 @@ const App = () => {
         <Route path="/otp" element={<Otp />} />
         <Route path="/stage" element={<Stage />} />
         <Route path="/skills" element={<Skills />} />
-         <Route path="/step" element={<Step />} />
+        <Route path="/step" element={<Step />} />
         <Route path="/confident" element={<Confident />} />
         <Route path="/feeling" element={<Feeling />} />
 
@@ -109,15 +109,15 @@ const App = () => {
             <Route index element={<Firstpage />} />
             <Route path="skillset" element={<Skilset />} />
             <Route path="skillset/:id" element={<SkillsetDetail />} />
-        
+
             <Route path="skillset/:id/project" element={<Project />} />
+            <Route path="skillset/:id/project/:phaseId" element={<Phase />} />
             <Route path="skillset/:id/process" element={<Process />} />
             <Route path="skillset/:id/block" element={<Block />} />
             <Route path="network" element={<Network />} />
             <Route path="capital" element={<Capital />} />
             <Route path="intel" element={<Intel />} />
             <Route path="reach" element={<Reach />} />
-            <Route path="phase" element={<Phase />} />
           </Route>
 
           <Route path="portfolio" element={<PortfolioMain />}>

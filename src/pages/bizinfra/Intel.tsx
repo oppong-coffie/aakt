@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import Breadcrumbs from "./Breadcrumbs";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 /**
  * Intel Page - Provides categorized intelligence and strategic planning views.
@@ -275,8 +275,6 @@ const Intel = () => {
           >
             <motion.div
               className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-             
-             
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -292,11 +290,8 @@ const Intel = () => {
       </div>
 
       <AddIntelModal />
-
-   
     </div>
   );
 };
 
 export default Intel;
-

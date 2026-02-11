@@ -58,17 +58,17 @@ const cards: Card[] = [
   {
     id: "product-roadmap",
     title: "Product Roadmap",
-    to: "/portfolio/saas/department-2/product/roadmap",
+    to: "/dashboard/portfolio/saas/department2/product/roadmap",
   },
   {
     id: "features",
     title: "Features",
-    to: "/portfolio/saas/department-2/product/features",
+    to: "/dashboard/portfolio/saas/department2/product/features",
   },
   {
     id: "user-research",
     title: "User Research",
-    to: "/portfolio/saas/department-2/product/user-research",
+    to: "/dashboard/portfolio/saas/department2/product/user-research",
   },
 ];
 
@@ -152,8 +152,6 @@ export default function Product() {
               type="button"
               onClick={() => navigate(c.to)}
               className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-             
-             
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -170,4 +168,3 @@ export default function Product() {
     </div>
   );
 }
-

@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Breadcrumbs from "./Breadcrumbs";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 /**
  * Capital Page - Manages fundraising campaigns and capital sources.
@@ -628,9 +628,6 @@ const Capital = () => {
                       key={i}
                       onClick={() => setSelectedSource(item)}
                       className="grid grid-cols-3 px-8 py-4 hover:bg-white rounded-2xl transition-colors cursor-pointer group"
-                     
-                     
-                     
                       whileHover={{
                         scale: 1.01,
                         backgroundColor: "rgba(255, 255, 255, 1)",
@@ -663,9 +660,6 @@ const Capital = () => {
                     key={i}
                     onClick={() => setSelectedSource(item)}
                     className="bg-white p-6 rounded-4xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group cursor-pointer relative overflow-hidden"
-                   
-                   
-                   
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -740,9 +734,6 @@ const Capital = () => {
               >
                 <motion.div
                   className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-                 
-                 
-                 
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -780,11 +771,8 @@ const Capital = () => {
       <AddCapitalModal />
       <CreateCampaignModal />
       <SourceDetailsModal />
-
-    
     </div>
   );
 };
 
 export default Capital;
-

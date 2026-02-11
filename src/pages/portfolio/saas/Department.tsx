@@ -83,7 +83,10 @@ const Department = () => {
             items={[
               { label: "Portfolio", to: "/dashboard/portfolio" },
               { label: "SaaS", to: "/dashboard/portfolio/saas" },
-              { label: "Department", to: "/dashboard/portfolio/saas/department" },
+              {
+                label: "Department",
+                to: "/dashboard/portfolio/saas/department",
+              },
             ]}
           />
         </div>
@@ -110,15 +113,9 @@ const Department = () => {
       <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
         {categories.map((cat) => {
           return (
-            <Link
-              key={cat.id}
-              to={cat.to}
-              className="contents"
-            >
+            <Link key={cat.id} to={cat.to} className="contents">
               <motion.div
                 className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-               
-               
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -176,11 +173,8 @@ const Department = () => {
           </div>
         )}
       </AnimatePresence>
-
-    
     </div>
   );
 };
 
 export default Department;
-

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 /**
  * Portfolio Page - Displays a category-specific view (e.g., SaaS, Ecommerce)
@@ -92,7 +93,7 @@ const PortfolioPage = () => {
     <div className="flex flex-col h-full bg-[#f0f0eb] p-8">
       {/* Header */}
       <header className="flex items-center justify-between mb-16">
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -101,7 +102,12 @@ const PortfolioPage = () => {
           >
             <BackIcon />
           </motion.button>
-          <h1 className="text-2xl font-bold text-black">{title}</h1>
+          <Breadcrumbs
+            items={[
+              { label: "Portfolio", to: "/dashboard/portfolio" },
+              { label: title, to: `/dashboard/portfolio/${category}` },
+            ]}
+          />
         </div>
 
         <div className="flex items-center gap-4 relative">
@@ -184,8 +190,6 @@ const PortfolioPage = () => {
             <motion.div
               key={index}
               className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-             
-             
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -204,4 +208,3 @@ const PortfolioPage = () => {
 };
 
 export default PortfolioPage;
-

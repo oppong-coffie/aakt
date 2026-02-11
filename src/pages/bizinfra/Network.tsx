@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Breadcrumbs from "./Breadcrumbs";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 /**
  * Network Page - Displays a directory of connections with multiple view modes.
@@ -175,8 +175,6 @@ const NetworkTree = ({
             transition={{ delay: i * 0.1 }}
             className="absolute flex items-center gap-3 z-30 cursor-pointer"
             onClick={() => onSelectPerson(person)}
-           
-           
           >
             <div className="w-10 h-10 rounded-full border-2 border-white shadow-md overflow-hidden bg-white hover:scale-110 transition-transform">
               <img
@@ -239,9 +237,6 @@ const ListView = ({
                 transition={{ delay: i * 0.03 }}
                 className="group hover:bg-blue-50/30 transition-colors cursor-pointer border-b border-gray-50 last:border-0"
                 onClick={() => onSelectPerson(person)}
-               
-               
-               
               >
                 <td className="px-8 py-4">
                   <div className="flex items-center gap-4">
@@ -698,11 +693,7 @@ const Network = () => {
               </span>
             </div>
             {/* Example Campaign Card */}
-            <div
-              className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
-             
-             
-            >
+            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex justify-between items-start mb-4">
                 <span className="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-md">
                   Active
@@ -737,9 +728,6 @@ const Network = () => {
                 transition={{ delay: i * 0.05 }}
                 className="flex flex-col items-center group cursor-pointer"
                 onClick={() => setSelectedPerson(person)}
-               
-               
-               
               >
                 <div className="w-full aspect-square bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-4 group-hover:shadow-md transition-shadow relative overflow-hidden">
                   <div className="absolute inset-0 bg-linear-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -769,10 +757,8 @@ const Network = () => {
 
       <AddConnectionModal />
       <PersonDetailsModal />
-
     </div>
   );
 };
 
 export default Network;
-

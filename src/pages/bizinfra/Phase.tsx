@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import Breadcrumbs from "./Breadcrumbs";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 /**
  * Phase Page (BizInfra) - Displays details and sub-components (Process, Block)
@@ -61,9 +61,31 @@ const categories = [
   { id: "block", label: "Block" },
 ];
 
+const phaseLabels: Record<string, string> = {
+  phase1: "Phase 1",
+  phase2: "Phase 2",
+  phase3: "Phase 3",
+};
 
 const Phase = () => {
+  const { id, phaseId } = useParams();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  const skillName = id
+    ? id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " ")
+    : "Skillset";
+  const skillPath = id
+    ? `/dashboard/bizinfra/skillset/${id}`
+    : "/dashboard/bizinfra/skillset";
+  const projectPath = id
+    ? `/dashboard/bizinfra/skillset/${id}/project`
+    : "/dashboard/bizinfra/skillset";
+  const phaseLabel =
+    (phaseId && phaseLabels[phaseId as keyof typeof phaseLabels]) || "Phase";
+  const phasePath =
+    id && phaseId
+      ? `/dashboard/bizinfra/skillset/${id}/project/${phaseId}`
+      : "/dashboard/bizinfra/skillset";
 
   return (
     <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
@@ -71,7 +93,7 @@ const Phase = () => {
       <header className="flex items-center justify-between mb-6">
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
-            <Link to="/dashboard/bizinfra">
+            <Link to={projectPath}>
               <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
                 <LeftArrow />
               </div>
@@ -80,7 +102,10 @@ const Phase = () => {
           <Breadcrumbs
             items={[
               { label: "BizInfra", to: "/dashboard/bizinfra" },
-              { label: "Phase", to: "/dashboard/bizinfra/phase" },
+              { label: "Skillset", to: "/dashboard/bizinfra/skillset" },
+              { label: skillName, to: skillPath },
+              { label: "Project", to: projectPath },
+              { label: phaseLabel, to: phasePath },
             ]}
           />
         </div>
@@ -108,13 +133,11 @@ const Phase = () => {
         {categories.map((cat) => (
           <Link
             key={cat.id}
-            to={`/dashboard/bizinfra/skillset/phase/${cat.id}`} // Linking to Process/Block pages
+            to={`/dashboard/bizinfra/skillset/${id}/${cat.id}`} // Linking to correct Process/Block pages
             className="contents"
           >
             <motion.div
               className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-             
-             
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -171,11 +194,8 @@ const Phase = () => {
           </div>
         )}
       </AnimatePresence>
-
-    
     </div>
   );
 };
 
 export default Phase;
-

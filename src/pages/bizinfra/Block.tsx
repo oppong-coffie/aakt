@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useParams, Link } from "react-router-dom";
-import Breadcrumbs from "./Breadcrumbs";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 /**
  * Reach Page - A placeholder page for the Reach module in BizInfra.
@@ -23,9 +23,6 @@ const LeftArrowIcon = () => (
   </svg>
 );
 
-
-
-
 const Reach = () => {
   const { id } = useParams();
   const skillName = id
@@ -38,10 +35,10 @@ const Reach = () => {
     ? `/dashboard/bizinfra/skillset/${id}/block`
     : "/dashboard/bizinfra/skillset";
   return (
-    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
       {/* Header Area */}
       <header className="flex items-center justify-between mb-6">
-        <div className="flex flex-col gap-2">
+        <div className="flex gap-2">
           <div className="flex items-center gap-2">
             <Link to="/dashboard/bizinfra">
               <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
@@ -92,8 +89,6 @@ const Reach = () => {
           </div>
         </motion.div>
       </div>
-
-    
     </div>
   );
 };

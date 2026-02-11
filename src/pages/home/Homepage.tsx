@@ -183,34 +183,45 @@ const TaskItem = ({
   /** Specific layout for tasks that are currently in the Archive section */
   if (isArchived) {
     return (
-      <div className="bg-white/50 border border-gray-100 rounded-2xl p-4 flex items-center justify-between group hover:bg-white transition-all shadow-sm">
-        <div className="flex items-center gap-3 overflow-hidden">
+      <Draggable draggableId={task.id.toString()} index={index}>
+        {(provided, snapshot) => (
           <div
-            className={`w-4 h-4 rounded-sm border flex items-center justify-center ${task.completed ? "bg-blue-400 border-blue-400" : "border-gray-300"}`}
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            className={`bg-white/50 border border-gray-100 rounded-2xl p-4 flex items-center justify-between group hover:bg-white transition-all shadow-sm ${
+              snapshot.isDragging ? "shadow-2xl ring-2 ring-blue-500/20" : ""
+            }`}
           >
-            {task.completed && <CheckIcon />}
+            <div className="flex items-center gap-3 overflow-hidden">
+              <div
+                className={`w-4 h-4 rounded-sm border flex items-center justify-center ${task.completed ? "bg-blue-400 border-blue-400" : "border-gray-300"}`}
+              >
+                {task.completed && <CheckIcon />}
+              </div>
+              <span className="text-sm font-medium text-gray-500 truncate">
+                {task.text}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button
+                onClick={onUnarchive}
+                className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
+                title="Restore from archive"
+              >
+                <PlusIcon size={14} />
+              </button>
+              <button
+                onClick={onDelete}
+                className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                title="Delete permanently"
+              >
+                <TrashIcon size={14} />
+              </button>
+            </div>
           </div>
-          <span className="text-sm font-medium text-gray-500 truncate">
-            {task.text}
-          </span>
-        </div>
-        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button
-            onClick={onUnarchive}
-            className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
-            title="Restore from archive"
-          >
-            <PlusIcon size={14} />
-          </button>
-          <button
-            onClick={onDelete}
-            className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-            title="Delete permanently"
-          >
-            <TrashIcon size={14} />
-          </button>
-        </div>
-      </div>
+        )}
+      </Draggable>
     );
   }
 
@@ -349,6 +360,9 @@ const Homepage = () => {
   /** Tasks moved out of active workloads */
   const [archivedTasks, setArchivedTasks] = useState<any[]>([]);
 
+  /** Workloads moved out of active view */
+  const [archivedWorkloads, setArchivedWorkloads] = useState<any[]>([]);
+
   /** State for inline task addition */
   const [addingToWorkloadId, setAddingToWorkloadId] = useState<string | null>(
     null,
@@ -371,16 +385,112 @@ const Homepage = () => {
     )
       return; // Same spot
 
-    // Case 1: Reordering Columns
+    // Case 1: Reordering/Archiving Columns
     if (type === "COLUMN") {
-      const newWorkloads = Array.from(workloads);
-      const [removed] = newWorkloads.splice(source.index, 1);
-      newWorkloads.splice(destination.index, 0, removed);
-      setWorkloads(newWorkloads);
+      if (destination.droppableId === "archive-zone") {
+        // Archive a column
+        const newWorkloads = Array.from(workloads);
+        const [archived] = newWorkloads.splice(source.index, 1);
+        setWorkloads(newWorkloads);
+        setArchivedWorkloads([...archivedWorkloads, archived]);
+        return;
+      }
+
+      if (
+        source.droppableId === "archive-zone" &&
+        destination.droppableId === "all-columns"
+      ) {
+        // Restore a column from archive
+        const newArchived = Array.from(archivedWorkloads);
+        const [restored] = newArchived.splice(source.index, 1);
+        const newWorkloads = Array.from(workloads);
+        newWorkloads.splice(destination.index, 0, restored);
+
+        setArchivedWorkloads(newArchived);
+        setWorkloads(newWorkloads);
+        return;
+      }
+
+      if (source.droppableId === destination.droppableId) {
+        // Reorder columns in active area or archive area
+        if (source.droppableId === "all-columns") {
+          const newWorkloads = Array.from(workloads);
+          const [removed] = newWorkloads.splice(source.index, 1);
+          newWorkloads.splice(destination.index, 0, removed);
+          setWorkloads(newWorkloads);
+        } else {
+          const newArchived = Array.from(archivedWorkloads);
+          const [removed] = newArchived.splice(source.index, 1);
+          newArchived.splice(destination.index, 0, removed);
+          setArchivedWorkloads(newArchived);
+        }
+        return;
+      }
       return;
     }
 
     // Case 2: Reordering/Moving Tasks
+    if (
+      source.droppableId === "archive" ||
+      destination.droppableId === "archive"
+    ) {
+      if (source.droppableId === destination.droppableId) {
+        // Reorder within archive
+        const newArchived = Array.from(archivedTasks);
+        const [removed] = newArchived.splice(source.index, 1);
+        newArchived.splice(destination.index, 0, removed);
+        setArchivedTasks(newArchived);
+        return;
+      }
+
+      if (source.droppableId === "archive") {
+        // Drag from archive to workload
+        const newArchived = Array.from(archivedTasks);
+        const [task] = newArchived.splice(source.index, 1);
+
+        const destCol = workloads.find((w) => w.id === destination.droppableId);
+        if (!destCol) return;
+
+        const destTasks = Array.from(destCol.tasks);
+        destTasks.splice(destination.index, 0, {
+          id: task.id,
+          text: task.text,
+          completed: task.completed,
+        });
+
+        setArchivedTasks(newArchived);
+        setWorkloads(
+          workloads.map((w) =>
+            w.id === destCol.id ? { ...w, tasks: destTasks } : w,
+          ),
+        );
+        return;
+      }
+
+      if (destination.droppableId === "archive") {
+        // Drag from workload to archive
+        const sourceCol = workloads.find((w) => w.id === source.droppableId);
+        if (!sourceCol) return;
+
+        const sourceTasks = Array.from(sourceCol.tasks);
+        const [task] = sourceTasks.splice(source.index, 1);
+
+        const newArchived = Array.from(archivedTasks);
+        newArchived.splice(destination.index, 0, {
+          ...task,
+          originalWorkloadId: sourceCol.id,
+        });
+
+        setWorkloads(
+          workloads.map((w) =>
+            w.id === sourceCol.id ? { ...w, tasks: sourceTasks } : w,
+          ),
+        );
+        setArchivedTasks(newArchived);
+        return;
+      }
+    }
+
     const sourceCol = workloads.find((w) => w.id === source.droppableId);
     const destCol = workloads.find((w) => w.id === destination.droppableId);
 
@@ -726,38 +836,167 @@ const Homepage = () => {
         <div className="mt-8 flex flex-col gap-8">
           {/* Header with horizontal dividers */}
           <div className="flex items-center gap-4">
-            <div className="h-[1px] flex-1 bg-gray-200"></div>
+            <div className="h-px flex-1 bg-gray-200"></div>
             <div className="flex items-center gap-2 text-gray-400 font-bold text-xs uppercase tracking-widest px-4">
               <ArchiveIcon size={14} />
               <span>Archive ({archivedTasks.length})</span>
             </div>
-            <div className="h-[1px] flex-1 bg-gray-200"></div>
+            <div className="h-px flex-1 bg-gray-200"></div>
           </div>
 
-          {/* Archived Tasks Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-2">
-            {archivedTasks.length > 0 ? (
-              archivedTasks.map((task) => (
-                <TaskItem
-                  key={task.id}
-                  index={0}
-                  task={task}
-                  onToggle={() => {}} // Non-toggleable in archive view
-                  onDelete={() => deleteArchivedTask(task.id)}
-                  onEdit={() => {}}
-                  isArchived={true}
-                  onUnarchive={() => unarchiveTask(task.id)}
-                />
-              ))
-            ) : (
-              <div className="col-span-full py-12 flex flex-col items-center justify-center text-gray-300 gap-2">
-                <ArchiveIcon size={32} />
-                <p className="text-sm font-medium italic">
-                  Your archive is empty
-                </p>
+          {/* Archived Workloads Zone */}
+          <Droppable
+            droppableId="archive-zone"
+            direction="horizontal"
+            type="COLUMN"
+          >
+            {(provided, snapshot) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className={`min-h-[120px] rounded-[2rem] border-2 border-dashed transition-all p-4 flex flex-wrap gap-4 items-center justify-center ${
+                  snapshot.isDraggingOver
+                    ? "bg-blue-50/50 border-blue-300 shadow-inner"
+                    : "bg-transparent border-gray-200"
+                }`}
+              >
+                {archivedWorkloads.length > 0
+                  ? archivedWorkloads.map((workload, idx) => (
+                      <Draggable
+                        key={workload.id}
+                        draggableId={workload.id}
+                        index={idx}
+                      >
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className={`bg-white border border-gray-100 rounded-2xl p-4 shadow-sm flex flex-col gap-2 min-w-[200px] max-w-[240px] transition-all ${
+                              snapshot.isDragging
+                                ? "shadow-2xl ring-2 ring-blue-500/20 rotate-1"
+                                : "hover:shadow-md"
+                            }`}
+                          >
+                            <div className="flex justify-between items-center">
+                              <span className="font-bold text-gray-800 text-sm truncate">
+                                {workload.title}
+                              </span>
+                              <div className="flex gap-1">
+                                <button
+                                  onClick={() => {
+                                    const newArchived =
+                                      archivedWorkloads.filter(
+                                        (w) => w.id !== workload.id,
+                                      );
+                                    setArchivedWorkloads(newArchived);
+                                    setWorkloads([...workloads, workload]);
+                                  }}
+                                  className="p-1 hover:bg-blue-50 text-blue-500 rounded-lg transition-colors"
+                                  title="Restore"
+                                >
+                                  <PlusIcon size={12} />
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    if (
+                                      confirm(
+                                        "Delete this workload permanently?",
+                                      )
+                                    ) {
+                                      setArchivedWorkloads(
+                                        archivedWorkloads.filter(
+                                          (w) => w.id !== workload.id,
+                                        ),
+                                      );
+                                    }
+                                  }}
+                                  className="p-1 hover:bg-red-50 text-red-400 rounded-lg transition-colors"
+                                  title="Delete"
+                                >
+                                  <TrashIcon size={12} />
+                                </button>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span className="text-[10px] text-gray-400 uppercase font-black tracking-widest">
+                                {workload.tasks.length} Tasks
+                              </span>
+                              <div className="flex -space-x-1">
+                                {workload.tasks
+                                  .slice(0, 3)
+                                  .map((t: any, i: number) => (
+                                    <div
+                                      key={i}
+                                      className="w-2.5 h-2.5 rounded-full bg-blue-100 border border-white"
+                                    ></div>
+                                  ))}
+                                {workload.tasks.length > 3 && (
+                                  <span className="text-[10px] text-gray-300 ml-1">
+                                    +
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </Draggable>
+                    ))
+                  : !snapshot.isDraggingOver && (
+                      <div className="flex flex-col items-center justify-center text-gray-300 gap-1">
+                        <ArchiveIcon size={24} />
+                        <p className="text-xs font-bold uppercase tracking-tighter">
+                          Drag workload here to archive
+                        </p>
+                      </div>
+                    )}
+                {provided.placeholder}
               </div>
             )}
+          </Droppable>
+
+          {/* Archived Tasks Grid (Keeping this for individual tasks if needed) */}
+          <div className="flex items-center gap-4 mt-4">
+            <div className="h-px flex-1 bg-gray-200"></div>
+            <span className="text-[10px] text-gray-400 font-black uppercase tracking-widest">
+              Tasks ({archivedTasks.length})
+            </span>
+            <div className="h-px flex-1 bg-gray-200"></div>
           </div>
+
+          <Droppable droppableId="archive" direction="horizontal" type="TASK">
+            {(provided, snapshot) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-2 min-h-[60px] rounded-xl transition-colors ${
+                  snapshot.isDraggingOver ? "bg-blue-50/50" : ""
+                }`}
+              >
+                {archivedTasks.length > 0
+                  ? archivedTasks.map((task, idx) => (
+                      <TaskItem
+                        key={task.id}
+                        index={idx}
+                        task={task}
+                        onToggle={() => {}} // Non-toggleable in archive view
+                        onDelete={() => deleteArchivedTask(task.id)}
+                        onEdit={() => {}}
+                        isArchived={true}
+                        onUnarchive={() => unarchiveTask(task.id)}
+                      />
+                    ))
+                  : !snapshot.isDraggingOver && (
+                      <div className="col-span-full py-4 flex flex-col items-center justify-center text-gray-200">
+                        <p className="text-[10px] font-black uppercase italic">
+                          No single tasks archived
+                        </p>
+                      </div>
+                    )}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
         </div>
 
         {/* Footer Banner: Finish Account Setup */}

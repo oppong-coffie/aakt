@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 /**
  * Portfolio Main Page - Entry point for the portfolio module.
@@ -161,10 +162,12 @@ const PortfolioMain = () => {
   ];
 
   return (
-    <div className="flex h-screen flex-col bg-[#f0f0eb]">
+    <div className="flex flex-col bg-[#f0f0eb]">
       {/* Standardized Header */}
       <header className="flex justify-between items-center px-8 pt-6 mb-2">
-        <div className="font-bold text-xl">Portfolio</div>
+        <Breadcrumbs
+          items={[{ label: "Portfolio", to: "/dashboard/portfolio" }]}
+        />
         <div className="flex items-center gap-2">
           <motion.button
             whileHover={{ scale: 1.1 }}
@@ -223,7 +226,7 @@ const PortfolioMain = () => {
       </header>
 
       {/* Tabs Below Header */}
-      <div className="flex items-center gap-8 px-8 mb-8">
+      <div className="flex items-center justify-center gap-8 px-8 mb-8">
         {["Home", "Team"].map((tab) => (
           <motion.button
             key={tab}
@@ -253,15 +256,13 @@ const PortfolioMain = () => {
       />
 
       {/* Content */}
-      <div className="flex-1 flex items-center justify-center -mt-20">
+      <div className="flex-1 flex items-center justify-center">
         <div className="flex gap-8">
           {activeTab === "Home" && (
             <>
               <Link to="saas" className="contents">
                 <motion.div
                   className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all"
-                 
-                 
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
@@ -273,8 +274,6 @@ const PortfolioMain = () => {
               </Link>
               <motion.div
                 className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all"
-               
-               
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -296,4 +295,3 @@ const PortfolioMain = () => {
 };
 
 export default PortfolioMain;
-

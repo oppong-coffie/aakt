@@ -1,6 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import Breadcrumbs from "./Breadcrumbs";
+import Breadcrumbs from "../../components/Breadcrumbs";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
@@ -191,7 +191,9 @@ const Firstpage = () => {
               </div>
             </Link>
           </div>
-          <Breadcrumbs items={[{ label: "BizInfra", to: "/dashboard/bizinfra" }]} />
+          <Breadcrumbs
+            items={[{ label: "BizInfra", to: "/dashboard/bizinfra" }]}
+          />
         </div>
 
         <div className="flex items-center gap-2">

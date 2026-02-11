@@ -111,9 +111,6 @@ const Process = () => {
                 className="relative group flex items-center"
                 onMouseEnter={() => setHoveredBlock(i)}
                 onMouseLeave={() => setHoveredBlock(null)}
-               
-               
-               
               >
                 <div className="w-10 h-10 bg-gray-300 rounded-lg shrink-0 cursor-pointer hover:bg-gray-400 transition-colors"></div>
 
@@ -156,9 +153,6 @@ const Process = () => {
                 className="relative group flex items-center"
                 onMouseEnter={() => setHoveredPerson(person.name)}
                 onMouseLeave={() => setHoveredPerson(null)}
-               
-               
-               
               >
                 <img
                   src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${person.seed}`}
@@ -207,8 +201,6 @@ const Process = () => {
 
           {/* Placeholder for process content logic later */}
           <div className="flex-1"></div>
-
-       
         </div>
       </div>
     </div>
@@ -216,4 +208,3 @@ const Process = () => {
 };
 
 export default Process;
-

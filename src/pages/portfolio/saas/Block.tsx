@@ -58,41 +58,40 @@ const LeftArrowIcon = () => (
 
 const navItems = [
   {
-    id: "Skillset",
-    label: "Skillset",
+    id: "Department",
+    label: "Department",
     image: "/bizinfra/skill2.png",
-    path: "/dashboard/bizinfra/skillset",
+    path: "/dashboard/portfolio/saas/department",
   },
   {
-    id: "Network",
-    label: "Network",
-    image: "/bizinfra/network.png",
-    path: "/dashboard/bizinfra/network",
-  },
-  {
-    id: "Capital",
-    label: "Capital",
-    image: "/bizinfra/capital.png",
-    path: "/dashboard/bizinfra/capital",
-  },
-  {
-    id: "Intel",
-    label: "Intel",
+    id: "Operation",
+    label: "Operation",
     image: "/bizinfra/intel2.png",
-    path: "/dashboard/bizinfra/intel",
+    path: "/dashboard/portfolio/saas/operation",
   },
   {
-    id: "Reach",
-    label: "Reach",
+    id: "Project",
+    label: "Project",
+    image: "/bizinfra/network.png",
+    path: "/dashboard/portfolio/saas/project",
+  },
+  {
+    id: "Process",
+    label: "Process",
+    image: "/bizinfra/capital.png",
+    path: "/dashboard/portfolio/saas/process",
+  },
+  {
+    id: "Block",
+    label: "Block",
     image: "/bizinfra/reach.png",
-    path: "/dashboard/bizinfra/reach",
+    path: "/dashboard/portfolio/saas/block",
   },
 ];
 
 const Block = () => {
   const [hoveredBlock, setHoveredBlock] = useState<number | null>(null);
   const [hoveredPerson, setHoveredPerson] = useState<string | null>(null);
-
   const people = [
     { name: "Adam fatal", seed: "Adam" },
     { name: "Aneka", seed: "Aneka" },
@@ -239,7 +238,7 @@ const Block = () => {
           <div className="flex justify-center pb-10">
             <div className="flex items-center gap-3 sm:gap-6 overflow-x-auto no-scrollbar max-w-full px-4 text-center">
               {navItems.map((item) => {
-                const isSelected = item.id === "Skillset";
+                const isSelected = item.id === "Block";
                 return (
                   <Link key={item.id} to={item.path} className="contents">
                     <motion.div

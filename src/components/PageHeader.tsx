@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Breadcrumbs from "./Breadcrumbs";
 
@@ -85,7 +85,6 @@ const PageHeader: React.FC<PageHeaderProps> = ({
   onAdd,
   extraActions,
 }) => {
-  const location = useLocation();
   const computedBreadcrumbs =
     breadcrumbs && breadcrumbs.length > 0
       ? breadcrumbs

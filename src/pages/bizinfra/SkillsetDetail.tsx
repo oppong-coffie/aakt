@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import Breadcrumbs from "./Breadcrumbs";
+import Breadcrumbs from "../../components/Breadcrumbs";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -149,8 +149,6 @@ const SearchModal = ({
   );
 };
 
-
-
 const SkillsetDetail = () => {
   const { id } = useParams();
   const [isPlusOpen, setIsPlusOpen] = useState(false);
@@ -253,8 +251,6 @@ const SkillsetDetail = () => {
             >
               <motion.div
                 className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all"
-               
-               
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -262,7 +258,7 @@ const SkillsetDetail = () => {
                   {/* Icon placeholder */}
                 </div>
                 <h3 className="text-base font-bold  group-hover:text-blue-600 transition-colors">
-                  <span className="text-black">{cat.label}</span> 
+                  <span className="text-black">{cat.label}</span>
                 </h3>
               </motion.div>
             </Link>
@@ -279,4 +275,3 @@ const SkillsetDetail = () => {
 };
 
 export default SkillsetDetail;
-

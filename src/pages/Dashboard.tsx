@@ -117,16 +117,28 @@ const Dashboard = () => {
   const location = useLocation();
 
   const isSaasPath = location.pathname.startsWith("/dashboard/portfolio/saas");
-  const isSaasDepartmentPath = location.pathname.startsWith("/dashboard/portfolio/saas/department") && !location.pathname.includes("department1") && !location.pathname.includes("department2");
-  const isSaasOperationPath = location.pathname.startsWith("/dashboard/portfolio/saas/operation");
-  const isSaasProjectPath = location.pathname.startsWith("/dashboard/portfolio/saas/project");
+  const isSaasDepartmentPath =
+    location.pathname.startsWith("/dashboard/portfolio/saas/department") &&
+    !location.pathname.includes("department1") &&
+    !location.pathname.includes("department2");
+  const isSaasOperationPath = location.pathname.startsWith(
+    "/dashboard/portfolio/saas/operation",
+  );
+  const isSaasProjectPath = location.pathname.startsWith(
+    "/dashboard/portfolio/saas/project",
+  );
 
   useEffect(() => {
     if (isSaasPath) setSaasOpen(true);
     if (isSaasDepartmentPath) setSaasDepartmentOpen(true);
     if (isSaasOperationPath) setSaasOperationOpen(true);
     if (isSaasProjectPath) setSaasProjectOpen(true);
-  }, [isSaasPath, isSaasDepartmentPath, isSaasOperationPath, isSaasProjectPath]);
+  }, [
+    isSaasPath,
+    isSaasDepartmentPath,
+    isSaasOperationPath,
+    isSaasProjectPath,
+  ]);
 
   useEffect(() => {
     const initBotpress = () => {
@@ -177,7 +189,7 @@ const Dashboard = () => {
       {/* Sidebar */}
       <aside
         className={`
-        fixed inset-y-0 left-0 w-72 bg-[#f0f0eb] flex flex-col px-4 pb-8 pt-2 border-r text-black border-gray-200/50 z-70 transform transition-all duration-700 ease-in-out font-inter-local text-gray-600
+        fixed inset-y-0 left-0 w-72 bg-[#f0f0eb] flex flex-col px-4 pb-8 pt-2 border-r text-black border-gray-200/50 z-70 transform transition-all duration-700 ease-in-out font-space-grotesk text-gray-600
         lg:translate-x-0 lg:static lg:h-full lg:z-50
         ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
         ${
@@ -236,7 +248,9 @@ const Dashboard = () => {
             <div className="w-6 flex justify-center">
               <HomeIcon />
             </div>
-            <span className={`font-medium text-black text-sm ${navCollapsed ? "hidden" : ""}`}>
+            <span
+              className={`font-medium text-black text-sm ${navCollapsed ? "hidden" : ""}`}
+            >
               Home
             </span>
           </Link>
@@ -256,12 +270,18 @@ const Dashboard = () => {
                 to="/dashboard/bizinfra"
                 onClick={() => setIsSidebarOpen(false)}
                 className={`flex items-center  text-black ${
-                  navCollapsed ? "justify-center text-black" : "gap-3 text-black"
+                  navCollapsed
+                    ? "justify-center text-black"
+                    : "gap-3 text-black"
                 } text-black font-bold text-xs uppercase tracking-wider transition-colors duration-200`}
                 title={navCollapsed ? "BizInfra text-black" : undefined}
               >
                 <BizIcon />
-                <span className={navCollapsed ? "hidden text-black" : "text-black"}>BizInfra</span>
+                <span
+                  className={navCollapsed ? "hidden text-black" : "text-black"}
+                >
+                  BizInfra
+                </span>
               </Link>
               {!navCollapsed && (
                 <button
@@ -271,7 +291,11 @@ const Dashboard = () => {
                     setBizInfraOpen((o) => !o);
                   }}
                   className="p-1 rounded transition-colors duration-200 hover:bg-gray-200/80 group-hover:bg-gray-200/80"
-                  aria-label={bizInfraOpen ? "Collapse BizInfra menu" : "Expand BizInfra menu"}
+                  aria-label={
+                    bizInfraOpen
+                      ? "Collapse BizInfra menu"
+                      : "Expand BizInfra menu"
+                  }
                 >
                   <ChevronIcon open={bizInfraOpen} />
                 </button>
@@ -338,7 +362,9 @@ const Dashboard = () => {
                 title={navCollapsed ? "Portfolio" : undefined}
               >
                 <PortfolioIcon />
-                <span className={navCollapsed ? "hidden" : " text-black"}>Portfolio</span>
+                <span className={navCollapsed ? "hidden" : " text-black"}>
+                  Portfolio
+                </span>
               </Link>
               {!navCollapsed && (
                 <button
@@ -348,7 +374,11 @@ const Dashboard = () => {
                     setPortfolioOpen((o) => !o);
                   }}
                   className="p-1 rounded transition-colors duration-200 hover:bg-gray-200/80 group-hover:bg-gray-200/80"
-                  aria-label={portfolioOpen ? "Collapse Portfolio menu" : "Expand Portfolio menu"}
+                  aria-label={
+                    portfolioOpen
+                      ? "Collapse Portfolio menu"
+                      : "Expand Portfolio menu"
+                  }
                 >
                   <ChevronIcon open={portfolioOpen} />
                 </button>
@@ -376,7 +406,7 @@ const Dashboard = () => {
                           : " text-black hover:bg-gray-100 hover:text-gray-700"
                       }`}
                     >
-                      <span className="text-black">SaaS</span> 
+                      <span className="text-black">SaaS</span>
                     </Link>
                     <button
                       type="button"
@@ -385,14 +415,18 @@ const Dashboard = () => {
                         setSaasOpen((o) => !o);
                       }}
                       className="p-1 rounded hover:bg-gray-200/80 transition-colors shrink-0"
-                      aria-label={saasOpen ? "Collapse SaaS menu" : "Expand SaaS menu"}
+                      aria-label={
+                        saasOpen ? "Collapse SaaS menu" : "Expand SaaS menu"
+                      }
                     >
                       <ChevronIcon open={saasOpen} />
                     </button>
                   </div>
                   <div
                     className={`overflow-hidden transition-all duration-200 ease-out ${
-                      saasOpen ? "max-h-[540px] opacity-100" : "max-h-0 opacity-70"
+                      saasOpen
+                        ? "max-h-[540px] opacity-100"
+                        : "max-h-0 opacity-70"
                     }`}
                   >
                     <div className="pl-3 space-y-0 border-l-2 border-gray-100 ml-2">
@@ -403,7 +437,8 @@ const Dashboard = () => {
                             to="/dashboard/portfolio/saas/department"
                             onClick={() => setIsSidebarOpen(false)}
                             className={`flex-1 py-1.5 pl-2 text-sm font-medium rounded-lg transition-colors ${
-                              location.pathname === "/dashboard/portfolio/saas/department"
+                              location.pathname ===
+                              "/dashboard/portfolio/saas/department"
                                 ? "bg-blue-50 text-black"
                                 : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                             }`}
@@ -417,23 +452,44 @@ const Dashboard = () => {
                               setSaasDepartmentOpen((o) => !o);
                             }}
                             className="p-0.5 rounded hover:bg-gray-200/80 transition-colors shrink-0"
-                            aria-label={saasDepartmentOpen ? "Collapse Department" : "Expand Department"}
+                            aria-label={
+                              saasDepartmentOpen
+                                ? "Collapse Department"
+                                : "Expand Department"
+                            }
                           >
                             <ChevronIcon open={saasDepartmentOpen} />
                           </button>
                         </div>
                         <div
                           className={`overflow-hidden transition-all duration-200 ease-out ${
-                            saasDepartmentOpen ? "max-h-[220px] opacity-100" : "max-h-0 opacity-70"
+                            saasDepartmentOpen
+                              ? "max-h-[220px] opacity-100"
+                              : "max-h-0 opacity-70"
                           }`}
                         >
                           <div className="pl-3 border-l-2 border-gray-100 ml-2 space-y-0">
                             {[
-                              { name: "Department", path: "/dashboard/portfolio/saas/department" },
-                              { name: "Operation", path: "/dashboard/portfolio/saas/operation" },
-                              { name: "Project", path: "/dashboard/portfolio/saas/project" },
-                              { name: "Process", path: "/dashboard/portfolio/saas/process" },
-                              { name: "Block", path: "/dashboard/portfolio/saas/block" },
+                              {
+                                name: "Department",
+                                path: "/dashboard/portfolio/saas/department",
+                              },
+                              {
+                                name: "Operation",
+                                path: "/dashboard/portfolio/saas/operation",
+                              },
+                              {
+                                name: "Project",
+                                path: "/dashboard/portfolio/saas/project",
+                              },
+                              {
+                                name: "Process",
+                                path: "/dashboard/portfolio/saas/process",
+                              },
+                              {
+                                name: "Block",
+                                path: "/dashboard/portfolio/saas/block",
+                              },
                             ].map((item) => (
                               <Link
                                 key={item.name}
@@ -445,7 +501,7 @@ const Dashboard = () => {
                                     : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                                 }`}
                               >
-                                 <span className="text-black">{item.name}</span>
+                                <span className="text-black">{item.name}</span>
                               </Link>
                             ))}
                           </div>
@@ -458,12 +514,13 @@ const Dashboard = () => {
                             to="/dashboard/portfolio/saas/operation"
                             onClick={() => setIsSidebarOpen(false)}
                             className={`flex-1 py-1.5 pl-2 text-sm font-medium rounded-lg transition-colors ${
-                              location.pathname === "/dashboard/portfolio/saas/operation"
+                              location.pathname ===
+                              "/dashboard/portfolio/saas/operation"
                                 ? "bg-blue-50 text-blue-600"
                                 : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                             }`}
                           >
-                             <span className="text-black">Operation</span>
+                            <span className="text-black">Operation</span>
                           </Link>
                           <button
                             type="button"
@@ -472,21 +529,36 @@ const Dashboard = () => {
                               setSaasOperationOpen((o) => !o);
                             }}
                             className="p-0.5 rounded hover:bg-gray-200/80 transition-colors shrink-0"
-                            aria-label={saasOperationOpen ? "Collapse Operation" : "Expand Operation"}
+                            aria-label={
+                              saasOperationOpen
+                                ? "Collapse Operation"
+                                : "Expand Operation"
+                            }
                           >
                             <ChevronIcon open={saasOperationOpen} />
                           </button>
                         </div>
                         <div
                           className={`overflow-hidden transition-all duration-200 ease-out ${
-                            saasOperationOpen ? "max-h-[140px] opacity-100" : "max-h-0 opacity-70"
+                            saasOperationOpen
+                              ? "max-h-[140px] opacity-100"
+                              : "max-h-0 opacity-70"
                           }`}
                         >
                           <div className="pl-3 border-l-2 border-gray-100 ml-2 space-y-0">
                             {[
-                              { name: "Project", path: "/dashboard/portfolio/saas/project" },
-                              { name: "Process", path: "/dashboard/portfolio/saas/process" },
-                              { name: "Block", path: "/dashboard/portfolio/saas/block" },
+                              {
+                                name: "Project",
+                                path: "/dashboard/portfolio/saas/project",
+                              },
+                              {
+                                name: "Process",
+                                path: "/dashboard/portfolio/saas/process",
+                              },
+                              {
+                                name: "Block",
+                                path: "/dashboard/portfolio/saas/block",
+                              },
                             ].map((item) => (
                               <Link
                                 key={item.name}
@@ -498,7 +570,7 @@ const Dashboard = () => {
                                     : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                                 }`}
                               >
-                                 <span className="text-black">{item.name}</span>
+                                <span className="text-black">{item.name}</span>
                               </Link>
                             ))}
                           </div>
@@ -511,7 +583,8 @@ const Dashboard = () => {
                             to="/dashboard/portfolio/saas/project"
                             onClick={() => setIsSidebarOpen(false)}
                             className={`flex-1 py-1.5 pl-2 text-sm font-medium rounded-lg transition-colors ${
-                              location.pathname === "/dashboard/portfolio/saas/project"
+                              location.pathname ===
+                              "/dashboard/portfolio/saas/project"
                                 ? "bg-blue-50 text-blue-600"
                                 : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                             }`}
@@ -525,21 +598,36 @@ const Dashboard = () => {
                               setSaasProjectOpen((o) => !o);
                             }}
                             className="p-0.5 rounded hover:bg-gray-200/80 transition-colors shrink-0"
-                            aria-label={saasProjectOpen ? "Collapse Project" : "Expand Project"}
+                            aria-label={
+                              saasProjectOpen
+                                ? "Collapse Project"
+                                : "Expand Project"
+                            }
                           >
                             <ChevronIcon open={saasProjectOpen} />
                           </button>
                         </div>
                         <div
                           className={`overflow-hidden transition-all duration-200 ease-out ${
-                            saasProjectOpen ? "max-h-[140px] opacity-100" : "max-h-0 opacity-70"
+                            saasProjectOpen
+                              ? "max-h-[140px] opacity-100"
+                              : "max-h-0 opacity-70"
                           }`}
                         >
                           <div className="pl-3 border-l-2 border-gray-100 ml-2 space-y-0">
                             {[
-                              { name: "Phase 1", path: "/dashboard/portfolio/saas/project/phase1" },
-                              { name: "Phase 2", path: "/dashboard/portfolio/saas/project/phase2" },
-                              { name: "Phase 3", path: "/dashboard/portfolio/saas/project/phase3" },
+                              {
+                                name: "Phase 1",
+                                path: "/dashboard/portfolio/saas/project/phase1",
+                              },
+                              {
+                                name: "Phase 2",
+                                path: "/dashboard/portfolio/saas/project/phase2",
+                              },
+                              {
+                                name: "Phase 3",
+                                path: "/dashboard/portfolio/saas/project/phase3",
+                              },
                             ].map((item) => (
                               <Link
                                 key={item.name}
@@ -551,7 +639,7 @@ const Dashboard = () => {
                                     : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                                 }`}
                               >
-                                 <span className="text-black">{item.name}</span>
+                                <span className="text-black">{item.name}</span>
                               </Link>
                             ))}
                           </div>
@@ -562,7 +650,8 @@ const Dashboard = () => {
                         to="/dashboard/portfolio/saas/process"
                         onClick={() => setIsSidebarOpen(false)}
                         className={`block py-1.5 pl-2 text-sm font-medium rounded-lg transition-colors ${
-                          location.pathname === "/dashboard/portfolio/saas/process"
+                          location.pathname ===
+                          "/dashboard/portfolio/saas/process"
                             ? "bg-blue-50 text-blue-600"
                             : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                         }`}
@@ -574,7 +663,8 @@ const Dashboard = () => {
                         to="/dashboard/portfolio/saas/block"
                         onClick={() => setIsSidebarOpen(false)}
                         className={`block py-1.5 pl-2 text-sm font-medium rounded-lg transition-colors ${
-                          location.pathname === "/dashboard/portfolio/saas/block"
+                          location.pathname ===
+                          "/dashboard/portfolio/saas/block"
                             ? "bg-blue-50 text-blue-600"
                             : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                         }`}
@@ -613,7 +703,9 @@ const Dashboard = () => {
             <div className="w-6 flex justify-center">
               <SettingsIcon />
             </div>
-            <span className={`font-medium text-sm ${navCollapsed ? "hidden" : ""}`}>
+            <span
+              className={`font-medium text-sm ${navCollapsed ? "hidden" : ""}`}
+            >
               <span className="text-black">Settings</span>
             </span>
           </Link>
@@ -622,7 +714,6 @@ const Dashboard = () => {
 
       {/* Main Content Area */}
       <main className="flex-1 h-full overflow-y-auto no-scrollbar relative">
-      
         {/* Scrollable Content */}
         <div className="px-4 py-8">
           <Outlet />

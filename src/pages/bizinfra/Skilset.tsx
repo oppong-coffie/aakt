@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import Breadcrumbs from "./Breadcrumbs";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 /**
  * SearchIcon component - renders a standard search magnifying glass SVG.
@@ -22,6 +22,7 @@ const SearchIcon = () => (
     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
   </svg>
 );
+
 const LeftArrow = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -294,8 +295,6 @@ const Skilset = () => {
           >
             <motion.div
               className="flex flex-col items-center gap- w-60 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-             
-             
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -318,4 +317,3 @@ const Skilset = () => {
 };
 
 export default Skilset;
-

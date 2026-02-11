@@ -25,7 +25,10 @@ export default function Department1Page() {
         breadcrumbs={[
           { label: "Portfolio", to: "/dashboard/portfolio" },
           { label: "SaaS", to: "/dashboard/portfolio/saas" },
-          { label: "Department 1", to: "/dashboard/portfolio/saas/department1" },
+          {
+            label: "Department 1",
+            to: "/dashboard/portfolio/saas/department1",
+          },
         ]}
         onSearch={() => {}}
         onAdd={() => setIsDropdownOpen(!isDropdownOpen)}
