@@ -46,6 +46,90 @@ const PlusIcon = () => (
   </svg>
 );
 
+const CreationModeModal = ({
+  isOpen,
+  onClose,
+  onSelect,
+  categoryLabel,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onSelect: (mode: "blank" | "template") => void;
+  categoryLabel: string;
+}) => {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8"
+          >
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-2 font-['Inter']">
+                New {categoryLabel}
+              </h3>
+              <p className="text-gray-500 text-sm">
+                How would you like to start?
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                onClick={() => onSelect("blank")}
+                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-black hover:text-white transition-all group"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:bg-gray-800 transition-colors">
+                  <PlusIcon />
+                </div>
+                <span className="font-bold">Blank</span>
+              </button>
+
+              <button
+                onClick={() => onSelect("template")}
+                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-black hover:text-white transition-all group"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:bg-gray-800 transition-colors">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
+                    <path d="M8 7h6" />
+                    <path d="M8 11h8" />
+                  </svg>
+                </div>
+                <span className="font-bold">Template</span>
+              </button>
+            </div>
+
+            <button
+              onClick={onClose}
+              className="w-full mt-6 py-3 text-gray-400 font-medium hover:text-gray-600 transition-colors"
+            >
+              Cancel
+            </button>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
 const LeftArrowIcon = () => (
   <svg
     width="20"
@@ -72,6 +156,8 @@ const initialCategories = [
 const Operation = () => {
   const [activeTab, setActiveTab] = useState("Home");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
+  const [itemName, setItemName] = useState("");
   const [cards, setCards] = useState(initialCategories);
 
   const onDragEnd = (result: DropResult) => {
@@ -84,6 +170,13 @@ const Operation = () => {
     newCards.splice(result.destination.index, 0, reorderedItem);
 
     setCards(newCards);
+  };
+
+  const handleModeSelect = (mode: "blank" | "template") => {
+    console.log(`Creating new operational item ${itemName} in ${mode} mode`);
+    // Example: navigate logic here
+    setIsCreationModalOpen(false);
+    setItemName("");
   };
 
   return (
@@ -228,16 +321,32 @@ const Operation = () => {
                 <input
                   type="text"
                   placeholder="Name"
-                  className="w-full p-4 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-blue-600/20 transition-all"
+                  value={itemName}
+                  onChange={(e) => setItemName(e.target.value)}
+                  className="w-full p-4 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-blue-600/20 transition-all font-['Inter']"
                 />
-                <button className="w-full py-4 bg-blue-600 text-white rounded-2xl font-bold shadow-lg shadow-blue-600/20 hover:bg-blue-700 transition-all mt-4">
-                  Create Item
+                <button
+                  disabled={!itemName}
+                  onClick={() => {
+                    setIsCreationModalOpen(true);
+                    setIsAddModalOpen(false);
+                  }}
+                  className="w-full py-4 bg-blue-600 text-white rounded-2xl font-bold shadow-lg shadow-blue-600/20 hover:bg-black transition-all mt-4 disabled:bg-gray-300 disabled:shadow-none"
+                >
+                  Continue
                 </button>
               </div>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
+
+      <CreationModeModal
+        isOpen={isCreationModalOpen}
+        onClose={() => setIsCreationModalOpen(false)}
+        onSelect={handleModeSelect}
+        categoryLabel={itemName || "Item"}
+      />
     </div>
   );
 };
