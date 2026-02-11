@@ -11,7 +11,7 @@ import {
 
 /**
  * Operation Page (SaaS) - Displays operation-related cards like Supply Chain, Logistics, etc.
- * Features a home/team tab system and a floating plus button.
+ * Now features a header-based "Add" flow with dropdown selection.
  */
 
 const SearchIcon = () => (
@@ -130,6 +130,7 @@ const CreationModeModal = ({
     </AnimatePresence>
   );
 };
+
 const LeftArrowIcon = () => (
   <svg
     width="20"
@@ -155,10 +156,19 @@ const initialCategories = [
 
 const Operation = () => {
   const [activeTab, setActiveTab] = useState("Home");
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
-  const [itemName, setItemName] = useState("");
+  const [selectedType, setSelectedType] = useState<{
+    id: string;
+    label: string;
+  } | null>(null);
   const [cards, setCards] = useState(initialCategories);
+
+  const dropdownItems = [
+    { id: "project", label: "Project" },
+    { id: "process", label: "Process" },
+    { id: "block", label: "Block" },
+  ];
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
@@ -173,10 +183,13 @@ const Operation = () => {
   };
 
   const handleModeSelect = (mode: "blank" | "template") => {
-    console.log(`Creating new operational item ${itemName} in ${mode} mode`);
-    // Example: navigate logic here
+    if (selectedType) {
+      console.log(
+        `Creating new ${selectedType.label} in ${mode} mode for Operation`,
+      );
+    }
     setIsCreationModalOpen(false);
-    setItemName("");
+    setSelectedType(null);
   };
 
   return (
@@ -200,7 +213,7 @@ const Operation = () => {
           />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 relative">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -208,6 +221,50 @@ const Operation = () => {
           >
             <SearchIcon />
           </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors relative z-50"
+          >
+            <PlusIcon />
+          </motion.button>
+
+          <AnimatePresence>
+            {isDropdownOpen && (
+              <>
+                <div
+                  className="fixed inset-0 z-40"
+                  onClick={() => setIsDropdownOpen(false)}
+                />
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                  className="absolute right-0 top-12 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 py-3 overflow-hidden"
+                >
+                  {dropdownItems.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        setSelectedType(item);
+                        setIsCreationModalOpen(true);
+                        setIsDropdownOpen(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 transition-colors text-left group"
+                    >
+                      <span className="text-gray-400 group-hover:text-blue-600 transition-colors">
+                        <PlusIcon />
+                      </span>
+                      <span className="text-xs font-bold text-gray-700 tracking-tight uppercase">
+                        {item.label}
+                      </span>
+                    </button>
+                  ))}
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
         </div>
       </header>
 
@@ -287,65 +344,11 @@ const Operation = () => {
         )}
       </div>
 
-      {/* Floating Action Button */}
-      <motion.button
-        whileHover={{ scale: 1.1, rotate: 90 }}
-        whileTap={{ scale: 0.9 }}
-        onClick={() => setIsAddModalOpen(true)}
-        className="fixed bottom-12 right-12 w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-2xl shadow-blue-500/40 z-50"
-      >
-        <PlusIcon />
-      </motion.button>
-
-      {/* Add Modal */}
-      <AnimatePresence>
-        {isAddModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsAddModalOpen(false)}
-              className="absolute inset-0 bg-black/20 backdrop-blur-sm"
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-lg bg-white rounded-[2.5rem] p-10 shadow-2xl"
-            >
-              <h3 className="text-2xl font-black text-gray-900 mb-8 tracking-tight">
-                Add New Item
-              </h3>
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="Name"
-                  value={itemName}
-                  onChange={(e) => setItemName(e.target.value)}
-                  className="w-full p-4 rounded-2xl bg-gray-50 border-none focus:ring-2 focus:ring-blue-600/20 transition-all font-['Inter']"
-                />
-                <button
-                  disabled={!itemName}
-                  onClick={() => {
-                    setIsCreationModalOpen(true);
-                    setIsAddModalOpen(false);
-                  }}
-                  className="w-full py-4 bg-blue-600 text-white rounded-2xl font-bold shadow-lg shadow-blue-600/20 hover:bg-black transition-all mt-4 disabled:bg-gray-300 disabled:shadow-none"
-                >
-                  Continue
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
       <CreationModeModal
         isOpen={isCreationModalOpen}
         onClose={() => setIsCreationModalOpen(false)}
         onSelect={handleModeSelect}
-        categoryLabel={itemName || "Item"}
+        categoryLabel={selectedType?.label || "Item"}
       />
     </div>
   );

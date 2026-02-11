@@ -2,6 +2,12 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  type DropResult,
+} from "@hello-pangea/dnd";
 
 /**
  * Portfolio Page - Displays a category-specific view (e.g., SaaS, Ecommerce)
@@ -83,11 +89,23 @@ const PortfolioPage = () => {
     { label: "Block" },
   ];
 
-  const cards = [
-    { title: "Department 1" },
-    { title: "Department 2" },
-    { title: "Process" },
-  ];
+  const [cards, setCards] = useState([
+    { id: "dept-1", title: "Department 1" },
+    { id: "dept-2", title: "Department 2" },
+    { id: "process", title: "Process" },
+  ]);
+
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return;
+    }
+
+    const reorderedCards = Array.from(cards);
+    const [removed] = reorderedCards.splice(result.source.index, 1);
+    reorderedCards.splice(result.destination.index, 0, removed);
+
+    setCards(reorderedCards);
+  };
 
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-8">
@@ -185,20 +203,52 @@ const PortfolioPage = () => {
 
       {/* Grid Content */}
       <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full">
-        {activeTab === "Home" &&
-          cards.map((card, index) => (
-            <motion.div
-              key={index}
-              className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow"></div>
-              <span className="text-gray-800 font-medium text-sm group-hover:text-blue-600 transition-colors">
-                {card.title}
-              </span>
-            </motion.div>
-          ))}
+        {activeTab === "Home" && (
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="portfolio-cards" direction="horizontal">
+              {(provided) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="flex flex-wrap items-center justify-center gap-6 w-full"
+                >
+                  {cards.map((card, index) => (
+                    <Draggable
+                      key={card.id}
+                      draggableId={card.id}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className={`transition-all ${
+                            snapshot.isDragging ? "z-50" : ""
+                          }`}
+                        >
+                          <motion.div
+                            className={`flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold ${
+                              snapshot.isDragging ? "bg-white shadow-lg" : ""
+                            }`}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow"></div>
+                            <span className="text-gray-800 font-medium text-sm group-hover:text-blue-600 transition-colors">
+                              {card.title}
+                            </span>
+                          </motion.div>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        )}
         {activeTab === "Team" && (
           <div className="text-gray-500 text-sm">No team members found</div>
         )}
@@ -208,3 +258,4 @@ const PortfolioPage = () => {
 };
 
 export default PortfolioPage;
+bitumen;

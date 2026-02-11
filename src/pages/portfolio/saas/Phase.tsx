@@ -2,6 +2,12 @@ import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Breadcrumbs from "../../../components/Breadcrumbs";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  type DropResult,
+} from "@hello-pangea/dnd";
 
 /**
  * Phase Page (SaaS) - Phase 1, 2, or 3 under Project: shows Process, Block.
@@ -56,10 +62,6 @@ const LeftArrow = () => (
 );
 
 const base = "/dashboard/portfolio/saas";
-const categories = [
-  { id: "process", label: "Process", to: `${base}/process` },
-  { id: "block", label: "Block", to: `${base}/block` },
-];
 
 const phaseLabels: Record<string, string> = {
   phase1: "Phase 1",
@@ -70,6 +72,23 @@ const phaseLabels: Record<string, string> = {
 export default function PhasePage() {
   const { phaseId } = useParams<{ phaseId: string }>();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [cards, setCards] = useState([
+    { id: "process", label: "Process", to: `${base}/process` },
+    { id: "block", label: "Block", to: `${base}/block` },
+  ]);
+
+  const onDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return;
+    }
+
+    const reorderedCards = Array.from(cards);
+    const [removed] = reorderedCards.splice(result.source.index, 1);
+    reorderedCards.splice(result.destination.index, 0, removed);
+
+    setCards(reorderedCards);
+  };
+
   const phaseLabel = (phaseId && phaseLabels[phaseId]) || "Phase";
 
   return (
@@ -116,20 +135,48 @@ export default function PhasePage() {
       </header>
 
       <div className="flex flex-wrap items-center justify-center gap-6 max-w-7xl mx-auto w-full flex-1 overflow-y-auto no-scrollbar">
-        {categories.map((cat) => (
-          <Link key={cat.id} to={cat.to} className="contents">
-            <motion.div
-              className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center" />
-              <h3 className="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
-                {cat.label}
-              </h3>
-            </motion.div>
-          </Link>
-        ))}
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="phase-cards" direction="horizontal">
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className="flex flex-wrap items-center justify-center gap-6 w-full"
+              >
+                {cards.map((cat, index) => (
+                  <Draggable key={cat.id} draggableId={cat.id} index={index}>
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className={`transition-all ${
+                          snapshot.isDragging ? "z-50" : ""
+                        }`}
+                      >
+                        <Link to={cat.to} className="contents">
+                          <motion.div
+                            className={`flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold ${
+                              snapshot.isDragging ? "bg-white shadow-lg" : ""
+                            }`}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center" />
+                            <h3 className="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
+                              {cat.label}
+                            </h3>
+                          </motion.div>
+                        </Link>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
 
       <AnimatePresence>
