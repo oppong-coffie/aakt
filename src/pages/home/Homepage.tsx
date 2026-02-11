@@ -854,7 +854,7 @@ const Homepage = () => {
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                className={`min-h-[120px] rounded-[2rem] border-2 border-dashed transition-all p-4 flex flex-wrap gap-4 items-center justify-center ${
+                className={`min-h-[120px] border-2 border-dashed transition-all p-4 flex flex-wrap gap-4 items-center justify-center ${
                   snapshot.isDraggingOver
                     ? "bg-blue-50/50 border-blue-300 shadow-inner"
                     : "bg-transparent border-gray-200"
@@ -925,7 +925,7 @@ const Homepage = () => {
                               <div className="flex -space-x-1">
                                 {workload.tasks
                                   .slice(0, 3)
-                                  .map((t: any, i: number) => (
+                                  .map((i: number) => (
                                     <div
                                       key={i}
                                       className="w-2.5 h-2.5 rounded-full bg-blue-100 border border-white"
