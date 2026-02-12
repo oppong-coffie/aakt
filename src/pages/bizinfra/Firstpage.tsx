@@ -1,5 +1,5 @@
 import { AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -150,6 +150,7 @@ const SearchModal = ({
 };
 
 const Firstpage = () => {
+  const navigate = useNavigate();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [cards, setCards] = useState([
     {
@@ -198,11 +199,11 @@ const Firstpage = () => {
       <header className="flex items-center justify-between px-8 pl-6">
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
-            <Link to="/dashboard/bizinfra">
+            <button onClick={() => navigate(-1)}>
               <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
                 <LeftArrow />
               </div>
-            </Link>
+            </button>
           </div>
           <Breadcrumbs
             items={[{ label: "BizInfra", to: "/dashboard/bizinfra" }]}

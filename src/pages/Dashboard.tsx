@@ -116,29 +116,7 @@ const Dashboard = () => {
   const [navCollapsed, setNavCollapsed] = useState(false);
   const location = useLocation();
 
-  const isSaasPath = location.pathname.startsWith("/dashboard/portfolio/saas");
-  const isSaasDepartmentPath =
-    location.pathname.startsWith("/dashboard/portfolio/saas/department") &&
-    !location.pathname.includes("department1") &&
-    !location.pathname.includes("department2");
-  const isSaasOperationPath = location.pathname.startsWith(
-    "/dashboard/portfolio/saas/operation",
-  );
-  const isSaasProjectPath = location.pathname.startsWith(
-    "/dashboard/portfolio/saas/project",
-  );
-
-  useEffect(() => {
-    if (isSaasPath) setSaasOpen(true);
-    if (isSaasDepartmentPath) setSaasDepartmentOpen(true);
-    if (isSaasOperationPath) setSaasOperationOpen(true);
-    if (isSaasProjectPath) setSaasProjectOpen(true);
-  }, [
-    isSaasPath,
-    isSaasDepartmentPath,
-    isSaasOperationPath,
-    isSaasProjectPath,
-  ]);
+  // Auto-expansion logic removed as per user request
 
   useEffect(() => {
     const initBotpress = () => {
@@ -201,7 +179,28 @@ const Dashboard = () => {
       >
         {/* Logo & Close Button (Mobile) */}
         <div className="flex items-center justify-between gap-3 mb-8 px-3 py-3">
-          {!navCollapsed && (
+          {navCollapsed ? (
+            <div className="flex items-center justify-center w-full group relative h-10 cursor-pointer lg:block hidden">
+              {/* Collapsed State: Logo (Visible by default, hidden on hover) */}
+              <div
+                className="absolute inset-0 flex items-center justify-center transition-opacity duration-200 group-hover:opacity-0"
+                onClick={() => setNavCollapsed(false)}
+              >
+                <div className="bg-blue-600 text-white w-9 h-9 flex items-center justify-center rounded-lg text-sm font-bold shadow-md">
+                  A
+                </div>
+              </div>
+              {/* Collapsed State: Toggle Icon (Hidden by default, visible on hover) */}
+              <button
+                type="button"
+                onClick={() => setNavCollapsed((prev) => !prev)}
+                className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200"
+                aria-label="Expand sidebar"
+              >
+                <SidebarToggleIcon collapsed={true} />
+              </button>
+            </div>
+          ) : (
             <Link
               to="/dashboard/home"
               className="flex items-center gap-2 hover:opacity-85 transition-all duration-200 flex-1"
@@ -211,14 +210,17 @@ const Dashboard = () => {
               </div>
             </Link>
           )}
-          <button
-            type="button"
-            onClick={() => setNavCollapsed((prev) => !prev)}
-            className="p-2 rounded-lg transition-all duration-200 hover:bg-blue-100 lg:block hidden"
-            aria-label={navCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-          >
-            <SidebarToggleIcon collapsed={navCollapsed} />
-          </button>
+
+          {!navCollapsed && (
+            <button
+              type="button"
+              onClick={() => setNavCollapsed((prev) => !prev)}
+              className="p-2 rounded-lg transition-all duration-200 hover:bg-blue-100 lg:block hidden"
+              aria-label="Collapse sidebar"
+            >
+              <SidebarToggleIcon collapsed={false} />
+            </button>
+          )}
           <button
             onClick={() => setIsSidebarOpen(false)}
             className="lg:hidden p-2 hover:bg-blue-100 rounded-lg transition-colors"

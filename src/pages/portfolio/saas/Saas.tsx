@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageLayout from "../../../components/PageLayout";
 import PageHeader from "../../../components/PageHeader";
+import EditItemModal from "../../../components/EditItemModal";
+import SearchModal from "../../../components/SearchModal";
 import {
   DragDropContext,
   Droppable,
@@ -28,6 +30,39 @@ const PlusIcon = () => (
   >
     <line x1="12" y1="5" x2="12" y2="19"></line>
     <line x1="5" y1="12" x2="19" y2="12"></line>
+  </svg>
+);
+
+const EditIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M12 20h9" />
+    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+  </svg>
+);
+
+const TrashIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M3 6h18" />
+    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
   </svg>
 );
 
@@ -60,7 +95,7 @@ const CreationModeModal = ({
             className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8"
           >
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2 font-['Inter']">
+              <h3 className="text-2xl font-bold text-gray-900 mb-2 font-['Space_Grotesk']">
                 New {categoryLabel}
               </h3>
               <p className="text-gray-500 text-sm">
@@ -120,6 +155,7 @@ const Saas = () => {
   const [activeTab, setActiveTab] = useState("Home");
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<{
     id: string;
@@ -127,12 +163,55 @@ const Saas = () => {
   } | null>(null);
   const base = "/dashboard/portfolio/saas";
   const [cards, setCards] = useState([
-    { id: "department", label: "Department", to: `${base}/department` },
-    { id: "operation", label: "Operation", to: `${base}/operation` },
-    { id: "project", label: "Project", to: `${base}/project` },
-    { id: "process", label: "Process", to: `${base}/process` },
-    { id: "block", label: "Block", to: `${base}/block` },
+    {
+      id: "department",
+      label: "Department",
+      to: `${base}/department`,
+      image: null as string | null,
+    },
+    {
+      id: "operation",
+      label: "Operation",
+      to: `${base}/operation`,
+      image: null as string | null,
+    },
+    {
+      id: "project",
+      label: "Project",
+      to: `${base}/project`,
+      image: null as string | null,
+    },
+    {
+      id: "process",
+      label: "Process",
+      to: `${base}/process`,
+      image: null as string | null,
+    },
+    {
+      id: "block",
+      label: "Block",
+      to: `${base}/block`,
+      image: null as string | null,
+    },
   ]);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState<{
+    id: string;
+    label: string;
+    image?: string | null;
+  } | null>(null);
+
+  const handleSaveEdit = (
+    id: string,
+    newName: string,
+    newImage: string | null,
+  ) => {
+    setCards((prev) =>
+      prev.map((card) =>
+        card.id === id ? { ...card, label: newName, image: newImage } : card,
+      ),
+    );
+  };
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -171,7 +250,7 @@ const Saas = () => {
     <PageLayout>
       <PageHeader
         breadcrumbs={currentCrumbs}
-        onSearch={() => console.log("Search clicked")}
+        onSearch={() => setIsSearchOpen(true)}
         onAdd={() => setIsDropdownOpen(!isDropdownOpen)}
         extraActions={
           <AnimatePresence>
@@ -244,7 +323,7 @@ const Saas = () => {
                 <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}
-                  className="flex flex-wrap justify-center gap-6 max-w-6xl w-full"
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl w-full px-4"
                 >
                   {cards.map((card, i) => (
                     <Draggable key={card.id} draggableId={card.id} index={i}>
@@ -261,19 +340,52 @@ const Saas = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.1 }}
-                            className={`flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold ${
+                            className={`flex flex-col items-center gap-3 w-full group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold relative ${
                               snapshot.isDragging ? "bg-white shadow-lg" : ""
                             }`}
                             onClick={() => navigate(card.to)}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
-                            <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow relative overflow-hidden">
-                              <div className="absolute inset-0 bg-linear-to-br from-blue-50/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            <div className="w-full aspect-16/10 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center overflow-hidden">
+                              {card.image ? (
+                                <img
+                                  src={card.image}
+                                  alt={card.label}
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <div className="absolute inset-0 bg-linear-to-br from-blue-50/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                              )}
                             </div>
-                            <span className="text-sm font-black text-gray-900 tracking-tight uppercase group-hover:text-blue-600 transition-colors">
+                            <span className="text-sm font-black font-['Space_Grotesk'] text-gray-900 tracking-tight uppercase group-hover:text-blue-600 transition-colors">
                               {card.label}
                             </span>
+
+                            {/* Hover Actions */}
+                            <div className="absolute top-4 right-4 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  setEditingItem(card);
+                                  setIsEditModalOpen(true);
+                                }}
+                                className="p-2 rounded-xl bg-white/80 hover:bg-white text-gray-400 hover:text-blue-600 transition-all shadow-sm"
+                              >
+                                <EditIcon />
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  console.log("Delete", card.id);
+                                }}
+                                className="p-2 rounded-xl bg-white/80 hover:bg-white text-gray-400 hover:text-red-600 transition-all shadow-sm"
+                              >
+                                <TrashIcon />
+                              </button>
+                            </div>
                           </motion.div>
                         </div>
                       )}
@@ -295,6 +407,18 @@ const Saas = () => {
         onClose={() => setIsCreationModalOpen(false)}
         onSelect={handleModeSelect}
         categoryLabel={selectedCategory?.label || ""}
+      />
+
+      <EditItemModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        onSave={handleSaveEdit}
+        item={editingItem}
+      />
+
+      <SearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
       />
     </PageLayout>
   );

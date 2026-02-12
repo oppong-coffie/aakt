@@ -1,7 +1,8 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import EditItemModal from "../../components/EditItemModal";
 import {
   DragDropContext,
   Droppable,
@@ -61,6 +62,39 @@ const PlusIcon = () => (
   >
     <path d="M5 12h14" />
     <path d="M12 5v14" />
+  </svg>
+);
+
+const EditIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M12 20h9" />
+    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+  </svg>
+);
+
+const TrashIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M3 6h18" />
+    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
   </svg>
 );
 
@@ -182,6 +216,7 @@ const addOptions = [
  * Displays a grid of skills and provides search/add functionality.
  */
 const Skilset = () => {
+  const navigate = useNavigate();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isPlusOpen, setIsPlusOpen] = useState(false);
   const plusButtonRef = useRef<HTMLDivElement | null>(null);
@@ -193,26 +228,36 @@ const Skilset = () => {
       title: "Python",
       description:
         "I want to open a new Company that's sells fresh cloves to big companies all over the world, How can i start the planning?",
+      image: null as string | null,
     },
     {
       id: "business-management",
       title: "Business Management",
       description:
         "I want to open a new Company that's sells fresh cloves to big companies all over the world, How can i start the planning?",
+      image: null as string | null,
     },
     {
       id: "backend-developer",
       title: "Backend Developer",
       description:
         "I want to open a new Company that's sells fresh cloves to big companies all over the world, How can i start the planning?",
+      image: null as string | null,
     },
     {
       id: "product-designer",
       title: "Product Designer",
       description:
         "I want to open a new Company that's sells fresh cloves to big companies all over the world, How can i start the planning?",
+      image: null as string | null,
     },
   ]);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState<{
+    id: string;
+    label: string;
+    image?: string | null;
+  } | null>(null);
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -236,18 +281,31 @@ const Skilset = () => {
     };
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
   }, [isPlusOpen]);
+
+  const handleSaveEdit = (
+    id: string,
+    newName: string,
+    newImage: string | null,
+  ) => {
+    setCards((prev) =>
+      prev.map((card) =>
+        card.id === id ? { ...card, title: newName, image: newImage } : card,
+      ),
+    );
+  };
 
   return (
     <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
       <header className="flex items-center justify-between">
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
-            <Link to="/dashboard/bizinfra">
+            <button onClick={() => navigate(-1)}>
               <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
                 <LeftArrow />
               </div>
-            </Link>
+            </button>
           </div>
           <Breadcrumbs
             items={[
@@ -311,7 +369,7 @@ const Skilset = () => {
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                className="flex flex-wrap items-center justify-center w-full"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full px-4"
               >
                 {cards.map((card, index) => (
                   <Draggable key={card.id} draggableId={card.id} index={index}>
@@ -326,18 +384,56 @@ const Skilset = () => {
                       >
                         <Link
                           to={`/dashboard/bizinfra/skillset/${card.title.toLowerCase().replace(/\s+/g, "-")}`}
-                          className="block"
+                          className="block relative group"
                         >
+                          {/* Hover Actions - Positioned outside the inner box */}
+                          <div className="absolute -top-2 -right-0.5 flex opacity-0 group-hover:opacity-100 transition-opacity z-10 mt-2">
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setEditingItem({
+                                  id: card.id,
+                                  label: card.title,
+                                  image: card.image,
+                                });
+                                setIsEditModalOpen(true);
+                              }}
+                              className="p-2 rounded-xl hover:bg-white text-gray-400 hover:text-blue-600 transition-all scale-90 hover:scale-100"
+                            >
+                              <EditIcon />
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                console.log("Delete", card.id);
+                              }}
+                              className="p-2 rounded-xl hover:bg-white text-gray-400 hover:text-red-600 transition-all scale-90 hover:scale-100"
+                            >
+                              <TrashIcon />
+                            </button>
+                          </div>
                           <motion.div
-                            className={`flex flex-col items-center gap- w-60 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold ${
+                            className={`flex flex-col items-center gap- w-full cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold ${
                               snapshot.isDragging ? "bg-white shadow-lg" : ""
                             }`}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
                             {/* White Placeholder Box */}
-                            <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex flex-col items-center justify-center relative overflow-hidden">
-                              {/* Optional: Add a subtle overlay or just let the bg change handle it */}
+                            <div className="w-full aspect-16/10 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex flex-col items-center justify-center relative overflow-hidden">
+                              {card.image ? (
+                                <img
+                                  src={card.image}
+                                  alt={card.title}
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <div className="text-gray-300">
+                                  {/* Optional: Add a subtle overlay or just let the bg change handle it */}
+                                </div>
+                              )}
                             </div>
 
                             {/* Content */}
@@ -357,6 +453,13 @@ const Skilset = () => {
           </Droppable>
         </DragDropContext>
       </div>
+
+      <EditItemModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        onSave={handleSaveEdit}
+        item={editingItem}
+      />
     </div>
   );
 };

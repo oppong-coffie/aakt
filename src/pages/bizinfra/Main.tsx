@@ -46,7 +46,7 @@ const Main = () => {
         <Outlet />
       </main>
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 flex justify-center pb-6 pt-4 bg-[#f0f0eb]/90 backdrop-blur-md">
+      <div className="fixed bottom-0 left-0 right-0 flex justify-center pb-6 pt-4 bg-[#f0f0eb]/90 backdrop-blur-md z-50">
         <div className="flex items-center gap-3 sm:gap-6 no-scrollbar max-w-full px-4 text-center">
           {navItems.map((item) => {
             const isSelected = item.id === "Intel";

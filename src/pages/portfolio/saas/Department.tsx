@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Breadcrumbs from "../../../components/Breadcrumbs";
+import EditItemModal from "../../../components/EditItemModal";
 import {
   DragDropContext,
   Droppable,
@@ -46,6 +47,124 @@ const PlusIcon = () => (
   </svg>
 );
 
+const EditIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M12 20h9" />
+    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+  </svg>
+);
+
+const TrashIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M3 6h18" />
+    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+  </svg>
+);
+
+const SearchModal = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const categories = [
+    "All",
+    "People",
+    "Blocks",
+    "Processes",
+    "Projects",
+    "Operations",
+    "Departments",
+    "Business",
+  ];
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/5 backdrop-blur-[2px] z-100"
+          />
+
+          <div className="fixed inset-0 flex items-center justify-center p-4 z-100 pointer-events-none">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col pointer-events-auto"
+            >
+              <div className="p-6 border-b border-gray-100 flex items-center gap-3">
+                <SearchIcon />
+                <input
+                  type="text"
+                  autoFocus
+                  className="flex-1 bg-transparent border-none outline-none text-gray-800 placeholder-gray-400 text-lg font-['Inter']"
+                  placeholder="Search skills, projects, processes, projects, blocks, operations"
+                />
+              </div>
+
+              <div className="flex flex-1 overflow-hidden font-['Space_Grotesk']">
+                <div className="w-56 border-r border-gray-50 flex flex-col p-4 gap-1 overflow-y-auto no-scrollbar">
+                  {categories.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() => setActiveCategory(category)}
+                      className={`text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                        activeCategory === category
+                          ? "bg-blue-600/10 text-blue-600"
+                          : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                      }`}
+                    >
+                      {category}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex-1 p-6 overflow-y-auto bg-gray-50/30">
+                  <div className="grid grid-cols-3 gap-4">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
+                      <div
+                        key={i}
+                        className="bg-white border border-gray-100 rounded-2xl p-4 h-32 shadow-sm transition-all hover:shadow-md cursor-pointer"
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+};
+
 const CreationModeModal = ({
   isOpen,
   onClose,
@@ -75,10 +194,10 @@ const CreationModeModal = ({
             className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8"
           >
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2 font-['Inter']">
+              <h3 className="text-2xl font-bold text-gray-900 mb-2 font-['Space_Grotesk']">
                 New {categoryLabel}
               </h3>
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-500 text-sm font-['Inter']">
                 How would you like to start?
               </p>
             </div>
@@ -150,6 +269,7 @@ const LeftArrow = () => (
 const base = "/dashboard/portfolio/saas";
 const Department = () => {
   const [activeTab, setActiveTab] = useState("Home");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
   const [selectedType, setSelectedType] = useState<{
@@ -157,12 +277,43 @@ const Department = () => {
     label: string;
   } | null>(null);
   const [cards, setCards] = useState([
-    { id: "department", label: "Department", to: `${base}/department` },
-    { id: "operation", label: "Operation", to: `${base}/operation` },
-    { id: "project", label: "Project", to: `${base}/project` },
-    { id: "process", label: "Process", to: `${base}/process` },
-    { id: "block", label: "Block", to: `${base}/block` },
+    {
+      id: "department",
+      label: "Department",
+      to: `${base}/department`,
+      image: null as string | null,
+    },
+    {
+      id: "operation",
+      label: "Operation",
+      to: `${base}/operation`,
+      image: null as string | null,
+    },
+    {
+      id: "project",
+      label: "Project",
+      to: `${base}/project`,
+      image: null as string | null,
+    },
+    {
+      id: "process",
+      label: "Process",
+      to: `${base}/process`,
+      image: null as string | null,
+    },
+    {
+      id: "block",
+      label: "Block",
+      to: `${base}/block`,
+      image: null as string | null,
+    },
   ]);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState<{
+    id: string;
+    label: string;
+    image?: string | null;
+  } | null>(null);
 
   const dropdownItems = [
     { id: "project", label: "Project" },
@@ -192,8 +343,24 @@ const Department = () => {
     setSelectedType(null);
   };
 
+  const handleSaveEdit = (
+    id: string,
+    newName: string,
+    newImage: string | null,
+  ) => {
+    setCards((prev) =>
+      prev.map((card) =>
+        card.id === id ? { ...card, label: newName, image: newImage } : card,
+      ),
+    );
+  };
+
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden font-['Inter']">
+      <SearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+      />
       {/* Header Area */}
       <header className="flex items-center justify-between mb-6">
         <div className="flex gap-2">
@@ -220,6 +387,7 @@ const Department = () => {
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
+            onClick={() => setIsSearchOpen(true)}
             className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
           >
             <SearchIcon />
@@ -259,7 +427,7 @@ const Department = () => {
                       <span className="text-gray-400 group-hover:text-blue-600 transition-colors font-bold uppercase">
                         <PlusIcon />
                       </span>
-                      <span className="text-xs font-bold text-gray-700 tracking-tight uppercase">
+                      <span className="text-xs font-bold text-gray-700 tracking-tight uppercase font-['Space_Grotesk']">
                         {item.label}
                       </span>
                     </button>
@@ -302,7 +470,7 @@ const Department = () => {
                 <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}
-                  className="flex flex-wrap items-center justify-center gap-6 w-full"
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full"
                 >
                   {cards.map((cat, index) => (
                     <Draggable key={cat.id} draggableId={cat.id} index={index}>
@@ -315,18 +483,52 @@ const Department = () => {
                             snapshot.isDragging ? "z-50" : ""
                           }`}
                         >
-                          <Link to={cat.to} className="block">
+                          <Link to={cat.to} className="block relative group">
+                            {/* Hover Actions - Positioned outside the inner box */}
+                            <div className="absolute -top-2 -right-0.5 flex opacity-0 group-hover:opacity-100 transition-opacity z-10 mt-2">
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  setEditingItem(cat);
+                                  setIsEditModalOpen(true);
+                                }}
+                                className="p-2 rounded-xl hover:bg-white text-gray-400 hover:text-blue-600 transition-all scale-90 hover:scale-100"
+                              >
+                                <EditIcon />
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  console.log("Delete", cat.id);
+                                }}
+                                className="p-2 rounded-xl hover:bg-white text-gray-400 hover:text-red-600 transition-all scale-90 hover:scale-100"
+                              >
+                                <TrashIcon />
+                              </button>
+                            </div>
                             <motion.div
-                              className={`flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold ${
+                              className={`flex flex-col items-center gap-3 w-full cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold ${
                                 snapshot.isDragging ? "bg-white shadow-lg" : ""
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
-                              <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center">
-                                {/* Icon placeholder */}
+                              <div className="w-full aspect-16/10 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center overflow-hidden">
+                                {cat.image ? (
+                                  <img
+                                    src={cat.image}
+                                    alt={cat.label}
+                                    className="w-full h-full object-cover"
+                                  />
+                                ) : (
+                                  <div className="text-gray-300">
+                                    {/* Icon placeholder */}
+                                  </div>
+                                )}
                               </div>
-                              <h3 className="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
+                              <h3 className="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors font-['Space_Grotesk']">
                                 {cat.label}
                               </h3>
                             </motion.div>
@@ -351,6 +553,13 @@ const Department = () => {
         onClose={() => setIsCreationModalOpen(false)}
         onSelect={handleModeSelect}
         categoryLabel={selectedType?.label || "Department"}
+      />
+
+      <EditItemModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        onSave={handleSaveEdit}
+        item={editingItem}
       />
     </div>
   );

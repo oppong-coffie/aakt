@@ -40,6 +40,91 @@ const PlusIcon = () => (
   </svg>
 );
 
+const SearchModal = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const categories = [
+    "All",
+    "People",
+    "Blocks",
+    "Processes",
+    "Projects",
+    "Operations",
+    "Departments",
+    "Business",
+  ];
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/5 backdrop-blur-[2px] z-100"
+          />
+
+          <div className="fixed inset-0 flex items-center justify-center p-4 z-100 pointer-events-none">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col pointer-events-auto"
+            >
+              <div className="p-6 border-b border-gray-100 flex items-center gap-3">
+                <SearchIcon />
+                <input
+                  type="text"
+                  autoFocus
+                  className="flex-1 bg-transparent border-none outline-none text-gray-800 placeholder-gray-400 text-lg font-['Inter']"
+                  placeholder="Search skills, projects, processes, projects, blocks, operations"
+                />
+              </div>
+
+              <div className="flex flex-1 overflow-hidden font-['Space_Grotesk']">
+                <div className="w-56 border-r border-gray-50 flex flex-col p-4 gap-1 overflow-y-auto no-scrollbar">
+                  {categories.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() => setActiveCategory(category)}
+                      className={`text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                        activeCategory === category
+                          ? "bg-blue-600/10 text-blue-600"
+                          : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                      }`}
+                    >
+                      {category}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex-1 p-6 overflow-y-auto bg-gray-50/30">
+                  <div className="grid grid-cols-3 gap-4">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
+                      <div
+                        key={i}
+                        className="bg-white border border-gray-100 rounded-2xl p-4 h-32 shadow-sm transition-all hover:shadow-md cursor-pointer"
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+};
+
 const CreationModeModal = ({
   isOpen,
   onClose,
@@ -69,10 +154,10 @@ const CreationModeModal = ({
             className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8"
           >
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2 font-['Inter']">
+              <h3 className="text-2xl font-bold text-gray-900 mb-2 font-['Space_Grotesk']">
                 New {categoryLabel}
               </h3>
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-500 text-sm font-['Inter']">
                 How would you like to start?
               </p>
             </div>
@@ -141,15 +226,95 @@ const LeftArrowIcon = () => (
   </svg>
 );
 
+
+
+
+
 const Block = () => {
+  const [activeTab, setActiveTab] = useState("Home");
   const [hoveredBlock, setHoveredBlock] = useState<number | null>(null);
   const [hoveredPerson, setHoveredPerson] = useState<string | null>(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
   const [selectedType, setSelectedType] = useState<{
     id: string;
     label: string;
   } | null>(null);
+
+  // Since Block.tsx uses static lists or data for blocks/people,
+  // we might need a state to manage them if we want to edit them.
+  // For now, I'll add a state for "Blocks" as an example of editable items,
+  // or if the user wants to edit the "Blocks" sidebar items.
+  // However, the request implies editing the "Cards" usually.
+  // But Block.tsx has a sidebar of blocks and people.
+  // The user said "edit icon should be able to change the image and the name".
+  // Block.tsx currently doesn't have the main grid of cards like Operation/Department.
+  // It has a sidebar and a main content area.
+  // Wait, let's look at Block.tsx content again.
+  // It has `Blocks` sidebar and `People` sidebar.
+  // And a `Main Content Area` that says "Block" and "Team content goes here...".
+  // It DOES NOT have a grid of cards like the others.
+  // BUT the existing code I read in step 274 SHOWS:
+  // `const [activeTab, setActiveTab] = useState("Home");`
+  // And then:
+  // `{/* Left Sidebar */}`
+  // ...
+  // `{/* Main Content Area */}`
+  // It seems Block.tsx structure is different.
+  // It has "Stage 1, Stage 2..." in sidebar.
+  // And "People" in sidebar.
+  // The user request was "the edit icon should be able to change the image and the name".
+  // This likely applies to the ITEMS that have an edit icon.
+  // In `Block.tsx`, where are the edit icons?
+  // Searching `Block.tsx`...
+  // I see `EditIcon` component defined at line 43.
+  // But usages?
+  // I don't see `EditIcon` being USED in `Block.tsx` content I read in step 274.
+  // Let me double check usage.
+  // `EditIcon` definition is there.
+  // I see `TrashIcon` defined.
+  // I see `SearchIcon`, `PlusIcon`.
+  // I DO NOT SEE `EditIcon` or `TrashIcon` being used in the rendered JSX in `Block.tsx` in step 274.
+  // The Layout is: Header, Sidebar (Blocks, People), Main Content.
+  // The "Cards" grid is NOT there.
+  // So `Block.tsx` might NOT need `EditItemModal` if there are no items to edit yet?
+  // OR did I miss something?
+  // Ah, the `task.md` said: "- [ ] Add 'Home' and 'Team' tabs to `Block.tsx`".
+  // I added tabs.
+  // But did I add the cards?
+  // previous steps added tabs.
+  // But `Block.tsx` seems to be a "Detail" page for a specific Block?
+  // "Block Page (SaaS) - A detailed view for managing business blocks..."
+  // It mirrors "BizInfra Process/Block views".
+  // If there are no cards to edit, maybe I should skip `Block.tsx` for now or ask?
+  // Wait, `Operation.tsx` and `Department.tsx` have lists of things.
+  // `Block.tsx` seems to be a single block view?
+  // But `Department.tsx` has `cards` state.
+  // `Operation.tsx` has `cards` state.
+  // `Phase.tsx` (SaaS) has `cards` state.
+  // `Block.tsx` DOES NOT have `cards` state.
+  // It has static `people` list.
+  // And static `[1..7]` blocks list.
+  // So `Block.tsx` might not need this UNLESS the user wants to edit the "People" or "Stages"?
+  // But there are no Edit icons on them currently.
+  // The lint error said: "'EditIcon' is declared but its value is never read., in ... Block.tsx".
+  // So `EditIcon` is there but unused.
+  // So I can't "connect" it if it's not used.
+  // I will skip adding `EditItemModal` to `Block.tsx` distinctively or I should add it if I plan to add cards?
+  // The prompt said "Refining SaaS UI".
+  // And "Add 'Home' and 'Team' tabs to `Block.tsx`".
+  // I added them.
+  // If `Block.tsx` is meant to display cards under "Home" tab, then I should have added cards.
+  // But `Block.tsx` currently shows:
+  // `        {/* Main Content Area */}`
+  // `        <div className="flex-1 bg-white rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden flex flex-col">`
+  // `          <div className="p-8">`
+  // `            <h1 ...>Block</h1>`
+  // It doesn't show a grid of cards.
+  // So I will NOT add `EditItemModal` handling to `Block.tsx` right now, as there's nothing to edit.
+  // I will just remove the unused icons to fix lints if I want, or leave them.
+  // I'll focus on `Phase.tsx` (SaaS) which DOES have cards.
 
   const people = [
     { name: "Adam fatal", seed: "Adam" },
@@ -173,6 +338,10 @@ const Block = () => {
 
   return (
     <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden font-['Inter']">
+      <SearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+      />
       {/* Header Area */}
       <header className="flex items-center justify-between mb-6 relative z-10">
         <div className="flex gap-2">
@@ -195,6 +364,7 @@ const Block = () => {
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
+            onClick={() => setIsSearchOpen(true)}
             className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
           >
             <SearchIcon />
@@ -234,7 +404,7 @@ const Block = () => {
                       <span className="text-gray-400 group-hover:text-blue-600 transition-colors font-bold uppercase">
                         <PlusIcon />
                       </span>
-                      <span className="text-xs font-bold text-gray-700 tracking-tight uppercase">
+                      <span className="text-xs font-bold text-gray-700 tracking-tight uppercase font-['Space_Grotesk']">
                         {item.label}
                       </span>
                     </button>
@@ -245,6 +415,29 @@ const Block = () => {
           </AnimatePresence>
         </div>
       </header>
+
+      {/* Tabs */}
+      <div className="flex items-center justify-center gap-8 mb-8">
+        {["Home", "Team"].map((tab) => (
+          <motion.button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={`relative px-2 py-1 text-sm font-medium transition-colors ${
+              activeTab === tab ? "text-gray-900" : "text-gray-500"
+            }`}
+          >
+            {tab}
+            {activeTab === tab && (
+              <motion.div
+                layoutId="activeTabBlock"
+                className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-full"
+              />
+            )}
+          </motion.button>
+        ))}
+      </div>
 
       <div className="flex flex-1 gap-6">
         {/* Left Sidebar */}
@@ -351,9 +544,14 @@ const Block = () => {
         {/* Main Content Area */}
         <div className="flex-1 bg-white rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden flex flex-col">
           <div className="p-8">
-            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
+            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight font-['Space_Grotesk']">
               Block
             </h1>
+            {activeTab === "Team" && (
+              <div className="flex items-center justify-center h-full text-gray-500 text-sm">
+                Team content goes here...
+              </div>
+            )}
           </div>
         </div>
       </div>

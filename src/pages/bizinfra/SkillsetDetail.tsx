@@ -1,5 +1,6 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import EditItemModal from "../../components/EditItemModal";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -45,6 +46,39 @@ const PlusIcon = () => (
   >
     <line x1="12" y1="5" x2="12" y2="19"></line>
     <line x1="5" y1="12" x2="19" y2="12"></line>
+  </svg>
+);
+
+const EditIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M12 20h9" />
+    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+  </svg>
+);
+
+const TrashIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M3 6h18" />
+    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
   </svg>
 );
 
@@ -235,6 +269,7 @@ const CreationModeModal = ({
 };
 
 const SkillsetDetail = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [isPlusOpen, setIsPlusOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -247,10 +282,16 @@ const SkillsetDetail = () => {
   const plusMenuRef = useRef<HTMLDivElement | null>(null);
 
   const [categories, setCategories] = useState([
-    { id: "project", label: "Project" },
-    { id: "process", label: "Process" },
-    { id: "block", label: "Block" },
+    { id: "project", label: "Project", image: null as string | null },
+    { id: "process", label: "Process", image: null as string | null },
+    { id: "block", label: "Block", image: null as string | null },
   ]);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState<{
+    id: string;
+    label: string;
+    image?: string | null;
+  } | null>(null);
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -281,7 +322,20 @@ const SkillsetDetail = () => {
     };
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
   }, [isPlusOpen]);
+
+  const handleSaveEdit = (
+    id: string,
+    newName: string,
+    newImage: string | null,
+  ) => {
+    setCategories((prev) =>
+      prev.map((cat) =>
+        cat.id === id ? { ...cat, label: newName, image: newImage } : cat,
+      ),
+    );
+  };
 
   const handleModeSelect = (mode: "blank" | "template") => {
     if (selectedCategory) {
@@ -302,11 +356,11 @@ const SkillsetDetail = () => {
       <header className="flex items-center justify-between">
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
-            <Link to="/dashboard/bizinfra">
+            <button onClick={() => navigate(-1)}>
               <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
                 <LeftArrow />
               </div>
-            </Link>
+            </button>
           </div>
           <Breadcrumbs
             items={[
@@ -368,7 +422,7 @@ const SkillsetDetail = () => {
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                className="flex flex-wrap items-center justify-center gap-6 w-full"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full"
               >
                 {categories.map((cat, index) => (
                   <Draggable key={cat.id} draggableId={cat.id} index={index}>
@@ -383,17 +437,51 @@ const SkillsetDetail = () => {
                       >
                         <Link
                           to={`/dashboard/bizinfra/skillset/${id}/${cat.id}`}
-                          className="block"
+                          className="block relative group"
                         >
+                          {/* Hover Actions - Positioned outside the inner box */}
+                          <div className="absolute -top-2 -right-0.5 flex opacity-0 group-hover:opacity-100 transition-opacity z-10 mt-2">
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setEditingItem(cat);
+                                setIsEditModalOpen(true);
+                              }}
+                              className="p-2 rounded-xl hover:bg-white text-gray-400 hover:text-blue-600 transition-all scale-90 hover:scale-100"
+                            >
+                              <EditIcon />
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                console.log("Delete", cat.id);
+                              }}
+                              className="p-2 rounded-xl hover:bg-white text-gray-400 hover:text-red-600 transition-all scale-90 hover:scale-100"
+                            >
+                              <TrashIcon />
+                            </button>
+                          </div>
                           <motion.div
-                            className={`flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all ${
+                            className={`flex flex-col items-center gap-3 w-full cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all ${
                               snapshot.isDragging ? "bg-white shadow-lg" : ""
                             }`}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
-                            <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center">
-                              {/* Icon placeholder */}
+                            <div className="w-full aspect-16/10 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center overflow-hidden">
+                              {cat.image ? (
+                                <img
+                                  src={cat.image}
+                                  alt={cat.label}
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <div className="text-gray-300">
+                                  {/* Icon placeholder */}
+                                </div>
+                              )}
                             </div>
                             <h3 className="text-base font-bold  group-hover:text-blue-600 transition-colors">
                               <span className="text-black">{cat.label}</span>
@@ -421,6 +509,13 @@ const SkillsetDetail = () => {
         onClose={() => setIsCreationModalOpen(false)}
         onSelect={handleModeSelect}
         categoryLabel={selectedCategory?.label || ""}
+      />
+
+      <EditItemModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        onSave={handleSaveEdit}
+        item={editingItem}
       />
     </div>
   );

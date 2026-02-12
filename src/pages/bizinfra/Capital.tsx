@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 
 /**
@@ -197,6 +197,7 @@ const fundraisingCampaigns = [
 ];
 
 const Capital = () => {
+  const navigate = useNavigate();
   const [viewMode, setViewMode] = useState<"list" | "card">("list");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isCreateCampaignModalOpen, setIsCreateCampaignModalOpen] =
@@ -551,11 +552,11 @@ const Capital = () => {
       <header className="flex items-center justify-between mb-6">
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
-            <Link to="/dashboard/bizinfra">
+            <button onClick={() => navigate(-1)}>
               <div className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors">
                 <LeftArrowIcon />
               </div>
-            </Link>
+            </button>
           </div>
           <Breadcrumbs
             items={[

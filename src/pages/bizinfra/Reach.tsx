@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 
 /**
@@ -24,17 +24,18 @@ const LeftArrowIcon = () => (
 );
 
 const Reach = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
       {/* Header Area */}
       <header className="flex items-center justify-between mb-6">
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
-            <Link to="/dashboard/bizinfra">
+            <button onClick={() => navigate(-1)}>
               <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
                 <LeftArrowIcon />
               </div>
-            </Link>
+            </button>
           </div>
           <Breadcrumbs
             items={[

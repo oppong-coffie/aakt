@@ -3,10 +3,45 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Breadcrumbs from "../../components/Breadcrumbs";
 
+import EditItemModal from "../../components/EditItemModal";
+
 /**
  * Project Page (BizInfra) - Displays the phases of a selected project.
  * Allows users to navigate into specific phases.
  */
+
+const EditIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M12 20h9" />
+    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+  </svg>
+);
+
+const TrashIcon = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M3 6h18" />
+    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+  </svg>
+);
 
 const SearchIcon = () => (
   <svg
@@ -109,31 +144,26 @@ function PhaseItem({
           {card.label}
         </button>
 
-        {/* Dropdown (shows on hover) */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 hidden group-hover:block z-50">
-          <div className="w-32 rounded-md border border-gray-200 bg-white shadow-lg overflow-hidden">
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onRename(card);
-              }}
-              className="w-full px-3 py-2 text-left text-xs font-semibold text-gray-700 hover:bg-gray-50"
-            >
-              Rename
-            </button>
-
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete(card);
-              }}
-              className="w-full px-3 py-2 text-left text-xs font-semibold text-red-600 hover:bg-red-50"
-            >
-              Delete
-            </button>
-          </div>
+        {/* Hover Actions (Edit/Delete) - Positioned above */}
+        <div className="absolute -top-8 left-1/2 -translate-x-1/2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10 bg-white/90 rounded-lg p-1 shadow-sm">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onRename(card);
+            }}
+            className="p-1.5 rounded-md hover:bg-blue-50 text-gray-400 hover:text-blue-600 transition-all"
+          >
+            <EditIcon />
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(card);
+            }}
+            className="p-1.5 rounded-md hover:bg-red-50 text-gray-400 hover:text-red-600 transition-all"
+          >
+            <TrashIcon />
+          </button>
         </div>
       </div>
 
@@ -147,7 +177,7 @@ const Project = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const cards = [
+  const [cards, setCards] = useState([
     {
       id: "phase1",
       label: "Phase 1",
@@ -163,7 +193,31 @@ const Project = () => {
       label: "Phase 3",
       to: `/dashboard/bizinfra/skillset/${id}/project/phase3`,
     },
-  ];
+  ]);
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState<{
+    id: string;
+    label: string;
+    image?: string | null;
+  } | null>(null);
+
+  const handleSaveEdit = (
+    id: string,
+    newName: string,
+    newImage: string | null,
+  ) => {
+    setCards((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, label: newName } : c)),
+    );
+  };
+
+  const handleDelete = (id: string) => {
+    if (window.confirm("Are you sure you want to delete this phase?")) {
+      const newCards = cards.filter((c) => c.id !== id);
+      setCards(newCards);
+    }
+  };
 
   const [isPlusOpen, setIsPlusOpen] = useState(false);
   const plusButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -195,16 +249,16 @@ const Project = () => {
   }, [isPlusOpen]);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
+    <div className="flex flex-col min-h-[calc(100vh-100px)] bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
       {/* Header Area */}
       <header className="flex items-center justify-between mb-6">
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
-            <Link to="/dashboard/bizinfra">
+            <button onClick={() => navigate(-1)}>
               <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
                 <LeftArrow />
               </div>
-            </Link>
+            </button>
           </div>
           <Breadcrumbs
             items={[
@@ -265,18 +319,11 @@ const Project = () => {
               isLast={i === cards.length - 1}
               onGo={(to) => navigate(to)}
               onRename={(c) => {
-                // ✅ Example rename: open your modal or prompt
-                const newName = window.prompt("Rename phase:", c.label);
-                if (!newName) return;
-
-                // update your state / backend here
-                console.log("Rename", c.id, "=>", newName);
+                setEditingItem(c);
+                setIsEditModalOpen(true);
               }}
               onDelete={(c) => {
-                if (!window.confirm(`Delete ${c.label}?`)) return;
-
-                // update your state / backend here
-                console.log("Delete", c.id);
+                handleDelete(c.id);
               }}
             />
           ))}
@@ -292,6 +339,13 @@ const Project = () => {
           </button>
         </div>
       </div>
+      <EditItemModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        onSave={handleSaveEdit}
+        item={editingItem}
+        hideImage={true}
+      />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
 
 /**
@@ -56,6 +56,7 @@ const LeftArrowIcon = () => (
   </svg>
 );
 const Process = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [hoveredBlock, setHoveredBlock] = useState<number | null>(null);
   const [hoveredPerson, setHoveredPerson] = useState<string | null>(null);
@@ -82,11 +83,11 @@ const Process = () => {
       <header className="flex items-center justify-between mb-6">
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
-            <Link to="/dashboard/bizinfra">
+            <button onClick={() => navigate(-1)}>
               <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
                 <LeftArrowIcon />
               </div>
-            </Link>
+            </button>
           </div>
           <Breadcrumbs
             items={[
