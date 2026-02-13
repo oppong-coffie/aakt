@@ -205,7 +205,6 @@ const Project = () => {
   const handleSaveEdit = (
     id: string,
     newName: string,
-    newImage: string | null,
   ) => {
     setCards((prev) =>
       prev.map((c) => (c.id === id ? { ...c, label: newName } : c)),
