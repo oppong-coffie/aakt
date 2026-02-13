@@ -117,28 +117,28 @@ const SearchModal = ({
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col pointer-events-auto"
+              className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col pointer-events-auto border border-gray-100 dark:border-slate-800"
             >
-              <div className="p-6 border-b border-gray-100 flex items-center gap-3">
+              <div className="p-6 border-b border-gray-100 dark:border-slate-800 flex items-center gap-3">
                 <SearchIcon />
                 <input
                   type="text"
                   autoFocus
-                  className="flex-1 bg-transparent border-none outline-none text-gray-800 placeholder-gray-400 text-lg font-['Inter']"
+                  className="flex-1 bg-transparent border-none outline-none text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 text-lg font-['Inter']"
                   placeholder="Search skills, projects, processes, projects, blocks, operations"
                 />
               </div>
 
               <div className="flex flex-1 overflow-hidden font-['Space_Grotesk']">
-                <div className="w-56 border-r border-gray-50 flex flex-col p-4 gap-1 overflow-y-auto no-scrollbar">
+                <div className="w-56 border-r border-gray-50 dark:border-slate-800 flex flex-col p-4 gap-1 overflow-y-auto no-scrollbar">
                   {categories.map((category) => (
                     <button
                       key={category}
                       onClick={() => setActiveCategory(category)}
                       className={`text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                         activeCategory === category
-                          ? "bg-blue-600/10 text-blue-600"
-                          : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                          ? "bg-blue-600/10 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
+                          : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-700 dark:hover:text-gray-200"
                       }`}
                     >
                       {category}
@@ -191,13 +191,13 @@ const CreationModeModal = ({
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8 font-['Space_Grotesk']"
+            className="bg-white dark:bg-slate-900 w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8 font-['Space_Grotesk'] border border-gray-100 dark:border-slate-800"
           >
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
                 New {categoryLabel}
               </h3>
-              <p className="text-gray-500 text-sm font-['Inter']">
+              <p className="text-gray-500 dark:text-gray-400 text-sm font-['Inter']">
                 How would you like to start?
               </p>
             </div>
@@ -205,9 +205,9 @@ const CreationModeModal = ({
             <div className="grid grid-cols-2 gap-4">
               <button
                 onClick={() => onSelect("blank")}
-                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-black hover:text-white transition-all group"
+                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-800 hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all group"
               >
-                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:bg-gray-800 transition-colors text-black">
+                <div className="w-12 h-12 rounded-2xl bg-white dark:bg-slate-700 flex items-center justify-center shadow-sm group-hover:bg-gray-800 dark:group-hover:bg-gray-200 transition-colors text-black dark:group-hover:text-black">
                   <PlusIcon />
                 </div>
                 <span className="font-bold">Blank</span>
@@ -215,9 +215,9 @@ const CreationModeModal = ({
 
               <button
                 onClick={() => onSelect("template")}
-                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-black hover:text-white transition-all group"
+                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-800 hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all group"
               >
-                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:bg-gray-800 transition-colors text-black">
+                <div className="w-12 h-12 rounded-2xl bg-white dark:bg-slate-700 flex items-center justify-center shadow-sm group-hover:bg-gray-800 dark:group-hover:bg-gray-200 transition-colors text-black dark:group-hover:text-black">
                   <svg
                     width="20"
                     height="20"
@@ -239,7 +239,7 @@ const CreationModeModal = ({
 
             <button
               onClick={onClose}
-              className="w-full mt-6 py-3 text-gray-400 font-medium hover:text-gray-600 transition-colors"
+              className="w-full mt-6 py-3 text-gray-400 dark:text-gray-500 font-medium hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
             >
               Cancel
             </button>
@@ -346,7 +346,7 @@ const Operation = () => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden font-['Inter']">
+    <div className="flex flex-col h-full bg-[#f0f0eb] dark:bg-slate-950 p-4 sm:p-8 relative overflow-hidden font-['Inter'] transition-colors duration-300">
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
@@ -356,7 +356,7 @@ const Operation = () => {
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
             <Link to="/dashboard/portfolio/saas">
-              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 rounded-xl transition-colors">
+              <div className="w-10 h-10 flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-slate-100 hover:bg-blue-600 dark:hover:bg-blue-500 rounded-xl transition-colors">
                 <LeftArrowIcon />
               </div>
             </Link>
@@ -375,7 +375,7 @@ const Operation = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsSearchOpen(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-slate-100 hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors"
           >
             <SearchIcon />
           </motion.button>
@@ -383,7 +383,7 @@ const Operation = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors relative z-50"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-slate-100 hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors relative z-50"
           >
             <PlusIcon />
           </motion.button>
@@ -399,7 +399,7 @@ const Operation = () => {
                   initial={{ opacity: 0, scale: 0.95, y: 10 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                  className="absolute right-0 top-12 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 py-3 overflow-hidden"
+                  className="absolute right-0 top-12 w-64 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-slate-800 z-50 py-3 overflow-hidden"
                 >
                   {dropdownItems.map((item) => (
                     <button
@@ -409,12 +409,12 @@ const Operation = () => {
                         setIsCreationModalOpen(true);
                         setIsDropdownOpen(false);
                       }}
-                      className="w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 transition-colors text-left group"
+                      className="w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors text-left group"
                     >
-                      <span className="text-gray-400 group-hover:text-blue-600 transition-colors">
+                      <span className="text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-bold uppercase">
                         <PlusIcon />
                       </span>
-                      <span className="text-xs font-bold text-gray-700 tracking-tight uppercase">
+                      <span className="text-xs font-bold text-gray-700 dark:text-gray-300 tracking-tight uppercase">
                         {item.label}
                       </span>
                     </button>
@@ -435,7 +435,9 @@ const Operation = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className={`relative px-2 py-1 text-sm font-medium transition-colors ${
-              activeTab === tab ? "text-gray-900" : "text-gray-500"
+              activeTab === tab
+                ? "text-gray-900 dark:text-gray-100"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
             }`}
           >
             {tab}
@@ -481,7 +483,7 @@ const Operation = () => {
                                   setEditingItem(cat);
                                   setIsEditModalOpen(true);
                                 }}
-                                className="p-2 rounded-xl hover:bg-white text-gray-400 hover:text-blue-600 transition-all scale-90 hover:scale-100"
+                                className="p-2 rounded-xl bg-white/80 dark:bg-slate-800/80 hover:bg-white dark:hover:bg-slate-700 text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all scale-90 hover:scale-100 shadow-sm"
                               >
                                 <EditIcon />
                               </button>
@@ -491,19 +493,21 @@ const Operation = () => {
                                   e.stopPropagation();
                                   console.log("Delete", cat.id);
                                 }}
-                                className="p-2 rounded-xl hover:bg-white text-gray-400 hover:text-red-600 transition-all scale-90 hover:scale-100"
+                                className="p-2 rounded-xl bg-white/80 dark:bg-slate-800/80 hover:bg-white dark:hover:bg-slate-700 text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 transition-all scale-90 hover:scale-100 shadow-sm"
                               >
                                 <TrashIcon />
                               </button>
                             </div>
                             <motion.div
-                              className={`flex flex-col items-center gap-3 w-full cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold ${
-                                snapshot.isDragging ? "bg-white shadow-lg" : ""
+                              className={`flex flex-col items-center gap-3 w-full cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 dark:hover:bg-slate-900 transition-all font-bold ${
+                                snapshot.isDragging
+                                  ? "bg-white dark:bg-slate-800 shadow-lg"
+                                  : ""
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
-                              <div className="w-full aspect-16/10 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center overflow-hidden">
+                              <div className="w-full aspect-16/10 bg-white dark:bg-slate-800 rounded-4xl shadow-sm border border-gray-100 dark:border-slate-700 group-hover:shadow-md transition-shadow flex items-center justify-center overflow-hidden">
                                 {cat.image ? (
                                   <img
                                     src={cat.image}
@@ -511,12 +515,12 @@ const Operation = () => {
                                     className="w-full h-full object-cover"
                                   />
                                 ) : (
-                                  <div className="text-gray-300">
+                                  <div className="text-gray-300 dark:text-gray-600">
                                     {/* Icon placeholder */}
                                   </div>
                                 )}
                               </div>
-                              <h3 className="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors font-['Space_Grotesk']">
+                              <h3 className="text-base font-bold text-gray-800 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-['Space_Grotesk']">
                                 {cat.label}
                               </h3>
                             </motion.div>
@@ -532,7 +536,9 @@ const Operation = () => {
           </DragDropContext>
         )}
         {activeTab === "Team" && (
-          <div className="text-gray-500 text-sm">No team members found</div>
+          <div className="text-gray-500 dark:text-gray-400 text-sm">
+            No team members found
+          </div>
         )}
       </div>
 

@@ -225,10 +225,7 @@ const Project = () => {
     image?: string | null;
   } | null>(null);
 
-  const handleSaveEdit = (
-    id: string,
-    newName: string,
-  ) => {
+  const handleSaveEdit = (id: string, newName: string) => {
     setCards((prev) =>
       prev.map((c) => (c.id === id ? { ...c, label: newName } : c)),
     );
@@ -266,13 +263,13 @@ const Project = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-100px)] bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden font-['Inter']">
+    <div className="flex flex-col min-h-[calc(100vh-100px)] bg-[#f0f0eb] dark:bg-slate-950 p-4 sm:p-8 relative overflow-hidden font-['Inter'] transition-colors duration-300">
       {/* Header Area */}
       <header className="flex items-center justify-between mb-6">
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
             <Link to="/dashboard/portfolio/saas">
-              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 rounded-xl transition-colors">
+              <div className="w-10 h-10 flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-slate-100 hover:bg-blue-600 dark:hover:bg-blue-500 rounded-xl transition-colors">
                 <LeftArrow />
               </div>
             </Link>
@@ -290,7 +287,7 @@ const Project = () => {
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-slate-100 hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors"
           >
             <SearchIcon />
           </motion.button>
@@ -298,7 +295,7 @@ const Project = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors relative z-50"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-slate-100 hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors relative z-50"
           >
             <PlusIcon />
           </motion.button>
@@ -314,7 +311,7 @@ const Project = () => {
                   initial={{ opacity: 0, scale: 0.95, y: 10 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                  className="absolute right-0 top-12 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 py-3 overflow-hidden"
+                  className="absolute right-0 top-12 w-64 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-slate-800 z-50 py-3 overflow-hidden"
                 >
                   {dropdownItems.map((item) => (
                     <button
@@ -324,12 +321,12 @@ const Project = () => {
                         setIsCreationModalOpen(true);
                         setIsDropdownOpen(false);
                       }}
-                      className="w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 transition-colors text-left group"
+                      className="w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors text-left group"
                     >
-                      <span className="text-gray-400 group-hover:text-blue-600 transition-colors font-bold uppercase">
+                      <span className="text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-bold uppercase">
                         <PlusIcon />
                       </span>
-                      <span className="text-xs font-bold text-gray-700 tracking-tight uppercase">
+                      <span className="text-xs font-bold text-gray-700 dark:text-gray-300 tracking-tight uppercase">
                         {item.label}
                       </span>
                     </button>
@@ -341,7 +338,6 @@ const Project = () => {
         </div>
       </header>
 
-      {/* Tabs */}
       <div className="flex items-center justify-center gap-8 mb-8">
         {["Home", "Team"].map((tab) => (
           <motion.button
@@ -350,7 +346,9 @@ const Project = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className={`relative px-2 py-1 text-sm font-medium transition-colors ${
-              activeTab === tab ? "text-gray-900" : "text-gray-500"
+              activeTab === tab
+                ? "text-gray-900 dark:text-gray-100"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
             }`}
           >
             {tab}
@@ -387,7 +385,7 @@ const Project = () => {
                             }`}
                           >
                             {/* Hover Actions (Edit/Delete) - Positioned above */}
-                            <div className="absolute -top-8 left-1/2 -translate-x-1/2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10 bg-white/90 rounded-lg p-1 shadow-sm">
+                            <div className="absolute -top-8 left-1/2 -translate-x-1/2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10 bg-white/90 dark:bg-slate-800/90 rounded-lg p-1 shadow-sm border border-gray-100 dark:border-slate-700">
                               <button
                                 onClick={(e) => {
                                   e.preventDefault();
@@ -395,7 +393,7 @@ const Project = () => {
                                   setEditingItem(card);
                                   setIsEditModalOpen(true);
                                 }}
-                                className="p-1.5 rounded-md hover:bg-blue-50 text-gray-400 hover:text-blue-600 transition-all"
+                                className="p-1.5 rounded-md hover:bg-blue-50 dark:hover:bg-slate-700 text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all"
                               >
                                 <EditIcon />
                               </button>
@@ -405,7 +403,7 @@ const Project = () => {
                                   e.stopPropagation();
                                   handleDelete(card.id);
                                 }}
-                                className="p-1.5 rounded-md hover:bg-red-50 text-gray-400 hover:text-red-600 transition-all"
+                                className="p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-slate-700 text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 transition-all"
                               >
                                 <TrashIcon />
                               </button>
@@ -416,7 +414,7 @@ const Project = () => {
                               onClick={() => navigate(card.to)}
                               whileHover={{ scale: 1.03 }}
                               whileTap={{ scale: 0.97 }}
-                              className="text-3xl sm:text-4xl font-semibold text-gray-900 hover:text-black transition-colors"
+                              className="text-3xl sm:text-4xl font-semibold text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                             >
                               {card.label}
                             </motion.button>
@@ -437,7 +435,7 @@ const Project = () => {
                       }}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
-                      className="ml-10 w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-black hover:shadow-md transition"
+                      className="ml-10 w-10 h-10 rounded-lg bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 shadow-sm flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-md transition"
                       aria-label="Add Phase"
                     >
                       <PlusIcon />
@@ -449,7 +447,9 @@ const Project = () => {
           </div>
         )}
         {activeTab === "Team" && (
-          <div className="text-gray-500 text-sm">No team members found</div>
+          <div className="text-gray-500 dark:text-gray-400 text-sm">
+            No team members found
+          </div>
         )}
       </div>
 

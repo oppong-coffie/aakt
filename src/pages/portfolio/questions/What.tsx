@@ -24,17 +24,17 @@ const What = () => {
   const [value, setValue] = useState("");
 
   return (
-    <div className="flex flex-col h-full bg-[#f0f0eb] p-6 sm:p-12 font-sans text-gray-900 justify-center items-center relative min-h-screen">
+    <div className="flex flex-col h-full bg-[#f0f0eb] dark:bg-slate-950 p-6 sm:p-12 font-sans text-gray-900 dark:text-gray-100 justify-center items-center relative min-h-screen transition-colors duration-300">
       <button
         onClick={() => navigate(-1)}
-        className="absolute top-6 left-6 w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+        className="absolute top-6 left-6 w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-800 transition-colors"
       >
         <LeftArrowIcon />
       </button>
 
       <Link
         to="/dashboard/portfolio/questions/who"
-        className="absolute top-6 right-6 px-4 py-2 text-gray-400 font-bold hover:text-blue-600 hover:bg-white rounded-xl transition-colors z-10"
+        className="absolute top-6 right-6 px-4 py-2 text-gray-400 dark:text-gray-500 font-bold hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-800 rounded-xl transition-colors z-10"
       >
         Skip
       </Link>
@@ -42,10 +42,10 @@ const What = () => {
       <div className="max-w-3xl w-full flex flex-col gap-8">
         {/* Header */}
         <div className="flex flex-col gap-4">
-          <h1 className="text-3xl sm:text-4xl font-bold leading-tight font-['Space_Grotesk']">
+          <h1 className="text-3xl sm:text-4xl font-bold leading-tight font-['Space_Grotesk'] text-gray-900 dark:text-gray-100">
             What are you selling?
           </h1>
-          <p className="text-gray-500 text-lg leading-relaxed font-['Inter']">
+          <p className="text-gray-500 dark:text-gray-400 text-lg leading-relaxed font-['Inter']">
             Describe the product or service you are offering.
           </p>
         </div>
@@ -56,7 +56,7 @@ const What = () => {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             placeholder="e.g. A SaaS platform for project management..."
-            className="w-full p-6 rounded-3xl border border-gray-200 bg-white shadow-sm outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all text-lg min-h-[200px] resize-none font-['Inter']"
+            className="w-full p-6 rounded-3xl border border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm outline-none focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 dark:focus:border-blue-500 transition-all text-lg min-h-[200px] resize-none font-['Inter'] text-gray-900 dark:text-gray-200"
           />
         </div>
       </div>
@@ -65,7 +65,7 @@ const What = () => {
       <div className="fixed bottom-0 left-0 right-0 p-6 sm:p-12 flex justify-end gap-4 max-w-7xl mx-auto w-full pointer-events-none">
         <div className="pointer-events-auto flex gap-4">
           <Link to="/dashboard/portfolio/questions/who">
-            <button className="px-8 py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20">
+            <button className="px-8 py-3 rounded-xl bg-blue-600 dark:bg-blue-500 text-white font-bold hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors shadow-lg shadow-blue-600/20 dark:shadow-blue-500/10">
               Continue
             </button>
           </Link>

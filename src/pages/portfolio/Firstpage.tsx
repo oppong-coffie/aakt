@@ -67,7 +67,7 @@ const PortfolioMain = () => {
   ];
 
   return (
-    <div className="flex flex-col bg-[#f0f0eb]">
+    <div className="flex flex-col bg-[#f0f0eb] dark:bg-slate-950 min-h-screen transition-colors duration-300">
       {/* Standardized Header */}
       <header className="flex justify-between items-center px-8 pt-6 mb-2">
         <Breadcrumbs
@@ -78,7 +78,7 @@ const PortfolioMain = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsSearchOpen(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-800 transition-colors"
           >
             <SearchIcon />
           </motion.button>
@@ -87,7 +87,7 @@ const PortfolioMain = () => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors relative z-50"
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-slate-100 hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors relative z-50"
             >
               <PlusIcon />
             </motion.button>
@@ -103,7 +103,7 @@ const PortfolioMain = () => {
                     initial={{ opacity: 0, scale: 0.95, y: 10 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                    className="absolute right-0 top-12 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 py-3 overflow-hidden"
+                    className="absolute right-0 top-12 w-64 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-slate-800 z-50 py-3 overflow-hidden"
                   >
                     {dropdownItems.map((item, i) => (
                       <button
@@ -112,12 +112,12 @@ const PortfolioMain = () => {
                           item.action();
                           setIsDropdownOpen(false);
                         }}
-                        className="w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 transition-colors text-left group"
+                        className="w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors text-left group"
                       >
-                        <span className="text-gray-400 group-hover:text-blue-600">
+                        <span className="text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400">
                           <PlusIcon />
                         </span>
-                        <span className="text-xs font-bold text-gray-700 tracking-tight">
+                        <span className="text-xs font-bold text-gray-700 dark:text-gray-300 tracking-tight">
                           {item.label}
                         </span>
                       </button>
@@ -167,23 +167,23 @@ const PortfolioMain = () => {
             <>
               <Link to="saas" className="contents">
                 <motion.div
-                  className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all"
+                  className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 dark:hover:bg-slate-800 transition-all"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow"></div>
-                  <span className="text-gray-800 font-medium text-sm group-hover:text-blue-600 transition-colors">
+                  <div className="w-56 h-36 bg-white dark:bg-slate-900 rounded-4xl shadow-sm border border-gray-100 dark:border-slate-800 group-hover:shadow-md transition-shadow"></div>
+                  <span className="text-gray-800 dark:text-gray-200 font-medium text-sm group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     SaaS
                   </span>
                 </motion.div>
               </Link>
               <motion.div
-                className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all"
+                className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 dark:hover:bg-slate-800 transition-all"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow"></div>
-                <span className="text-gray-800 font-medium text-sm group-hover:text-blue-600 transition-colors">
+                <div className="w-56 h-36 bg-white dark:bg-slate-900 rounded-4xl shadow-sm border border-gray-100 dark:border-slate-800 group-hover:shadow-md transition-shadow"></div>
+                <span className="text-gray-800 dark:text-gray-200 font-medium text-sm group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                   Ecommerce
                 </span>
               </motion.div>

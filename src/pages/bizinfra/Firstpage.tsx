@@ -94,30 +94,30 @@ const SearchModal = ({
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col pointer-events-auto"
+              className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col pointer-events-auto border border-gray-100 dark:border-slate-800"
             >
               {/* Search Header */}
-              <div className="p-6 border-b border-gray-100 flex items-center gap-3">
+              <div className="p-6 border-b border-gray-100 dark:border-slate-800 flex items-center gap-3">
                 <SearchIcon />
                 <input
                   type="text"
                   autoFocus
-                  className="flex-1 bg-transparent border-none outline-none text-gray-800 placeholder-gray-400 text-lg"
+                  className="flex-1 bg-transparent border-none outline-none text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 text-lg"
                   placeholder="Search skills, projects, processess, projects, blocks, operations"
                 />
               </div>
 
               <div className="flex flex-1 overflow-hidden">
                 {/* Sidebar */}
-                <div className="w-56 border-r border-gray-50 flex flex-col p-4 gap-1 overflow-y-auto no-scrollbar">
+                <div className="w-56 border-r border-gray-50 dark:border-slate-800 flex flex-col p-4 gap-1 overflow-y-auto no-scrollbar">
                   {categories.map((category) => (
                     <button
                       key={category}
                       onClick={() => setActiveCategory(category)}
                       className={`text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                         activeCategory === category
-                          ? "bg-blue-600/10 text-blue-600"
-                          : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                          ? "bg-blue-600/10 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400"
+                          : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-700 dark:hover:text-gray-200"
                       }`}
                     >
                       {category}
@@ -200,7 +200,7 @@ const Firstpage = () => {
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
             <button onClick={() => navigate(-1)}>
-              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
+              <div className="w-10 h-10 flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-800 rounded-xl transition-colors">
                 <LeftArrow />
               </div>
             </button>
@@ -215,7 +215,7 @@ const Firstpage = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsSearchOpen(true)}
-            className="w-10 h-10 rounded-xl cursor-pointer text-gray-400 hover:text-blue-600 hover:bg-white transition-colors flex items-center justify-center"
+            className="w-10 h-10 rounded-xl cursor-pointer text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-800 transition-colors flex items-center justify-center"
           >
             <SearchIcon />
           </motion.div>
@@ -251,8 +251,10 @@ const Firstpage = () => {
                           >
                             {/* Card Container */}
                             <div
-                              className={`w-full aspect-square bg-gray-100/50 rounded-xl shadow-sm border border-gray-200/50 flex items-center justify-center relative overflow-hidden transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md ${
-                                snapshot.isDragging ? "bg-white shadow-xl" : ""
+                              className={`w-full aspect-square bg-gray-100/50 dark:bg-slate-800/50 rounded-xl shadow-sm border border-gray-200/50 dark:border-slate-700/50 flex items-center justify-center relative overflow-hidden transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-md ${
+                                snapshot.isDragging
+                                  ? "bg-white dark:bg-slate-700 shadow-xl"
+                                  : ""
                               }`}
                             >
                               {/* Image Shape */}
@@ -275,8 +277,8 @@ const Firstpage = () => {
                             <span
                               className={`mt-4 text-sm font-semibold transition-colors ${
                                 snapshot.isDragging
-                                  ? "text-blue-600"
-                                  : "text-gray-800"
+                                  ? "text-blue-600 dark:text-blue-400"
+                                  : "text-gray-800 dark:text-gray-200"
                               }`}
                             >
                               {card.label}

@@ -84,30 +84,30 @@ const SearchModal = ({
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] sm:max-h-[85vh] overflow-hidden flex flex-col pointer-events-auto"
+              className="bg-white dark:bg-slate-900 rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] sm:max-h-[85vh] overflow-hidden flex flex-col pointer-events-auto border border-gray-100 dark:border-slate-800"
             >
               {/* Search Header */}
-              <div className="p-4 sm:p-6 border-b border-gray-100 flex items-center gap-3 text-gray-400">
+              <div className="p-4 sm:p-6 border-b border-gray-100 dark:border-slate-800 flex items-center gap-3 text-gray-400 dark:text-gray-500">
                 <SearchIcon />
                 <input
                   type="text"
                   autoFocus
-                  className="flex-1 bg-transparent border-none outline-none text-gray-800 placeholder-gray-400 text-base sm:text-lg"
+                  className="flex-1 bg-transparent border-none outline-none text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600 text-base sm:text-lg"
                   placeholder="Search skills, projects..."
                 />
               </div>
 
               <div className="flex flex-col sm:flex-row flex-1 overflow-hidden">
                 {/* Sidebar (Horizontal on mobile) */}
-                <div className="w-full sm:w-56 border-b sm:border-b-0 sm:border-r border-gray-50 flex sm:flex-col p-2 sm:p-4 gap-1 overflow-x-auto sm:overflow-y-auto no-scrollbar">
+                <div className="w-full sm:w-56 border-b sm:border-b-0 sm:border-r border-gray-50 dark:border-slate-800 flex sm:flex-col p-2 sm:p-4 gap-1 overflow-x-auto sm:overflow-y-auto no-scrollbar">
                   {categories.map((category) => (
                     <button
                       key={category}
                       onClick={() => setActiveCategory(category)}
                       className={`whitespace-nowrap sm:whitespace-normal text-left px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
                         activeCategory === category
-                          ? "bg-blue-600/10 text-blue-600"
-                          : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                          ? "bg-blue-600/10 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
+                          : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-700 dark:hover:text-gray-200"
                       }`}
                     >
                       {category}
@@ -116,12 +116,12 @@ const SearchModal = ({
                 </div>
 
                 {/* Main Content Grid */}
-                <div className="flex-1 p-4 sm:p-6 overflow-y-auto bg-gray-50/30">
+                <div className="flex-1 p-4 sm:p-6 overflow-y-auto bg-gray-50/30 dark:bg-slate-950/30">
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     {dummyTasks.map((_, i) => (
                       <div
                         key={i}
-                        className="bg-white border border-gray-100 rounded-2xl p-4 h-32 shadow-sm transition-all hover:shadow-md cursor-pointer"
+                        className="bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl p-4 h-32 shadow-sm transition-all hover:shadow-md cursor-pointer"
                       />
                     ))}
                   </div>

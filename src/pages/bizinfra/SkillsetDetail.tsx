@@ -127,7 +127,7 @@ const SearchModal = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/5 backdrop-blur-[2px] z-100"
+            className="fixed inset-0 bg-black/20 dark:bg-black/40 backdrop-blur-[2px] z-100"
           />
 
           <div className="fixed inset-0 flex items-center justify-center p-4 z-100 pointer-events-none">
@@ -135,28 +135,28 @@ const SearchModal = ({
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col pointer-events-auto"
+              className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col pointer-events-auto border border-gray-100 dark:border-slate-800"
             >
-              <div className="p-6 border-b border-gray-100 flex items-center gap-3">
+              <div className="p-6 border-b border-gray-100 dark:border-slate-800 flex items-center gap-3">
                 <SearchIcon />
                 <input
                   type="text"
                   autoFocus
-                  className="flex-1 bg-transparent border-none outline-none text-gray-800 placeholder-gray-400 text-lg"
+                  className="flex-1 bg-transparent border-none outline-none text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 text-lg"
                   placeholder="Search skills, projects, processess, projects, blocks, operations"
                 />
               </div>
 
               <div className="flex flex-1 overflow-hidden">
-                <div className="w-56 border-r border-gray-50 flex flex-col p-4 gap-1 overflow-y-auto no-scrollbar">
+                <div className="w-56 border-r border-gray-50 dark:border-slate-800 flex flex-col p-4 gap-1 overflow-y-auto no-scrollbar">
                   {categories.map((category) => (
                     <button
                       key={category}
                       onClick={() => setActiveCategory(category)}
                       className={`text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                         activeCategory === category
-                          ? "bg-blue-600/10 text-blue-600"
-                          : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                          ? "bg-blue-600/10 dark:bg-blue-600/20 text-blue-600 dark:text-blue-400"
+                          : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-700 dark:hover:text-gray-200"
                       }`}
                     >
                       {category}
@@ -164,12 +164,12 @@ const SearchModal = ({
                   ))}
                 </div>
 
-                <div className="flex-1 p-6 overflow-y-auto bg-gray-50/30">
+                <div className="flex-1 p-6 overflow-y-auto bg-gray-50/30 dark:bg-slate-950/30">
                   <div className="grid grid-cols-3 gap-4">
                     {[1, 2, 3, 4, 5, 6].map((i) => (
                       <div
                         key={i}
-                        className="bg-white border border-gray-100 rounded-2xl p-4 h-32 shadow-sm transition-all hover:shadow-md cursor-pointer"
+                        className="bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl p-4 h-32 shadow-sm transition-all hover:shadow-md cursor-pointer"
                       ></div>
                     ))}
                   </div>
@@ -203,19 +203,19 @@ const CreationModeModal = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/20 dark:bg-black/40 backdrop-blur-sm"
           />
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8"
+            className="bg-white dark:bg-slate-900 w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8 border border-gray-100 dark:border-slate-800"
           >
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
                 New {categoryLabel}
               </h3>
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-500 dark:text-gray-400 text-sm">
                 How would you like to start?
               </p>
             </div>
@@ -223,19 +223,21 @@ const CreationModeModal = ({
             <div className="grid grid-cols-2 gap-4">
               <button
                 onClick={() => onSelect("blank")}
-                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-blue-600 hover:text-white transition-all group"
+                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-800/50 hover:bg-blue-600 dark:hover:bg-blue-600 hover:text-white transition-all group"
               >
-                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:bg-blue-500 transition-colors">
+                <div className="w-12 h-12 rounded-2xl bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm group-hover:bg-blue-500 transition-colors">
                   <PlusIcon />
                 </div>
-                <span className="font-bold">Blank</span>
+                <span className="font-bold text-gray-900 dark:text-gray-100 group-hover:text-white">
+                  Blank
+                </span>
               </button>
 
               <button
                 onClick={() => onSelect("template")}
-                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-blue-600 hover:text-white transition-all group"
+                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-800/50 hover:bg-blue-600 dark:hover:bg-blue-600 hover:text-white transition-all group"
               >
-                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:bg-blue-500 transition-colors">
+                <div className="w-12 h-12 rounded-2xl bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm group-hover:bg-blue-500 transition-colors">
                   <svg
                     width="20"
                     height="20"
@@ -251,7 +253,9 @@ const CreationModeModal = ({
                     <path d="M8 11h8" />
                   </svg>
                 </div>
-                <span className="font-bold">Template</span>
+                <span className="font-bold text-gray-900 dark:text-gray-100 group-hover:text-white">
+                  Template
+                </span>
               </button>
             </div>
 
@@ -351,13 +355,13 @@ const SkillsetDetail = () => {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] dark:bg-slate-950 px-4 sm:px-8 relative overflow-hidden transition-colors duration-300">
       {/* Header Area */}
       <header className="flex items-center justify-between">
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
             <button onClick={() => navigate(-1)}>
-              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
+              <div className="w-10 h-10 flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-900 rounded-xl transition-colors">
                 <LeftArrow />
               </div>
             </button>
@@ -376,7 +380,7 @@ const SkillsetDetail = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsSearchOpen(true)}
-            className="w-10 h-10 rounded-xl cursor-pointer hover:text-blue-600 hover:bg-white transition-colors flex items-center justify-center text-gray-400"
+            className="w-10 h-10 rounded-xl cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-900 transition-colors flex items-center justify-center text-gray-400 dark:text-gray-500"
           >
             <SearchIcon />
           </motion.div>
@@ -385,7 +389,7 @@ const SkillsetDetail = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsPlusOpen((open) => !open)}
-            className="w-10 h-10 rounded-xl cursor-pointer hover:text-blue-600 hover:bg-white transition-colors flex items-center justify-center text-gray-400"
+            className="w-10 h-10 rounded-xl cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-900 transition-colors flex items-center justify-center text-gray-400 dark:text-gray-500"
           >
             <PlusIcon />
           </motion.div>
@@ -393,7 +397,7 @@ const SkillsetDetail = () => {
           {isPlusOpen && (
             <div
               ref={plusMenuRef}
-              className="absolute right-0 top-12 w-44 rounded-xl border border-gray-100 bg-white shadow-lg overflow-hidden z-50"
+              className="absolute right-0 top-12 w-44 rounded-xl border border-gray-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-lg overflow-hidden z-50"
             >
               {categories.map((cat) => (
                 <button
@@ -403,7 +407,7 @@ const SkillsetDetail = () => {
                     setIsCreationModalOpen(true);
                     setIsPlusOpen(false);
                   }}
-                  className="w-full flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-black hover:bg-gray-50 transition-colors"
+                  className="w-full flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-black dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
                 >
                   <PlusIcon />
                   {cat.label}
@@ -448,7 +452,7 @@ const SkillsetDetail = () => {
                                 setEditingItem(cat);
                                 setIsEditModalOpen(true);
                               }}
-                              className="p-2 rounded-xl hover:bg-white text-gray-400 hover:text-blue-600 transition-all scale-90 hover:scale-100"
+                              className="p-2 rounded-xl hover:bg-white dark:hover:bg-slate-800 text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all scale-90 hover:scale-100"
                             >
                               <EditIcon />
                             </button>
@@ -458,19 +462,21 @@ const SkillsetDetail = () => {
                                 e.stopPropagation();
                                 console.log("Delete", cat.id);
                               }}
-                              className="p-2 rounded-xl hover:bg-white text-gray-400 hover:text-red-600 transition-all scale-90 hover:scale-100"
+                              className="p-2 rounded-xl hover:bg-white dark:hover:bg-slate-800 text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 transition-all scale-90 hover:scale-100"
                             >
                               <TrashIcon />
                             </button>
                           </div>
                           <motion.div
-                            className={`flex flex-col items-center gap-3 w-full cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all ${
-                              snapshot.isDragging ? "bg-white shadow-lg" : ""
+                            className={`flex flex-col items-center gap-3 w-full cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 dark:hover:bg-slate-900/50 transition-all ${
+                              snapshot.isDragging
+                                ? "bg-white dark:bg-slate-800 shadow-lg"
+                                : ""
                             }`}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
-                            <div className="w-full aspect-16/10 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex items-center justify-center overflow-hidden">
+                            <div className="w-full aspect-16/10 bg-white dark:bg-slate-900 rounded-4xl shadow-sm border border-gray-100 dark:border-slate-800 group-hover:shadow-md transition-shadow flex items-center justify-center overflow-hidden">
                               {cat.image ? (
                                 <img
                                   src={cat.image}
@@ -483,8 +489,10 @@ const SkillsetDetail = () => {
                                 </div>
                               )}
                             </div>
-                            <h3 className="text-base font-bold  group-hover:text-blue-600 transition-colors">
-                              <span className="text-black">{cat.label}</span>
+                            <h3 className="text-base font-bold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                              <span className="text-black dark:text-gray-100">
+                                {cat.label}
+                              </span>
                             </h3>
                           </motion.div>
                         </Link>

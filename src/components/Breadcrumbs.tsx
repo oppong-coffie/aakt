@@ -21,12 +21,16 @@ const Breadcrumbs = ({
     >
       {items.map((item, index) => (
         <div key={`${item.to}-${index}`} className="flex items-center gap-2">
-          {index > 0 && <span className="text-gray-400">→</span>}
+          {index > 0 && (
+            <span className="text-gray-400 dark:text-gray-600">→</span>
+          )}
           <Link
             to={item.to}
-            className="text-gray-600 hover:text-blue-600 transition-colors"
+            className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
           >
-            <span className="text-gray-400 hover:text-blue-600">{item.label}</span>
+            <span className="text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400">
+              {item.label}
+            </span>
           </Link>
         </div>
       ))}

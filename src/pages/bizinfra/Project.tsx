@@ -102,13 +102,15 @@ const LongArrow = () => (
     <svg width="70" height="18" viewBox="0 0 80 18" fill="none">
       <path
         d="M0 9H72"
-        stroke="#9CA3AF"
+        stroke="currentColor"
+        className="text-gray-400 dark:text-gray-600"
         strokeWidth="2"
         strokeLinecap="round"
       />
       <path
         d="M72 3L80 9L72 15"
-        stroke="#9CA3AF"
+        stroke="currentColor"
+        className="text-gray-400 dark:text-gray-600"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -139,19 +141,19 @@ function PhaseItem({
         <button
           type="button"
           onClick={() => onGo(card.to)}
-          className="text-3xl sm:text-4xl font-semibold text-gray-900 hover:text-gray-700 transition-colors"
+          className="text-3xl sm:text-4xl font-semibold text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
         >
           {card.label}
         </button>
 
         {/* Hover Actions (Edit/Delete) - Positioned above */}
-        <div className="absolute -top-8 left-1/2 -translate-x-1/2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10 bg-white/90 rounded-lg p-1 shadow-sm">
+        <div className="absolute -top-8 left-1/2 -translate-x-1/2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10 bg-white/90 dark:bg-slate-800/90 rounded-lg p-1 shadow-sm border border-gray-100 dark:border-slate-700">
           <button
             onClick={(e) => {
               e.stopPropagation();
               onRename(card);
             }}
-            className="p-1.5 rounded-md hover:bg-blue-50 text-gray-400 hover:text-blue-600 transition-all"
+            className="p-1.5 rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-all"
           >
             <EditIcon />
           </button>
@@ -160,7 +162,7 @@ function PhaseItem({
               e.stopPropagation();
               onDelete(card);
             }}
-            className="p-1.5 rounded-md hover:bg-red-50 text-gray-400 hover:text-red-600 transition-all"
+            className="p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 transition-all"
           >
             <TrashIcon />
           </button>
@@ -202,10 +204,7 @@ const Project = () => {
     image?: string | null;
   } | null>(null);
 
-  const handleSaveEdit = (
-    id: string,
-    newName: string,
-  ) => {
+  const handleSaveEdit = (id: string, newName: string) => {
     setCards((prev) =>
       prev.map((c) => (c.id === id ? { ...c, label: newName } : c)),
     );
@@ -248,13 +247,13 @@ const Project = () => {
   }, [isPlusOpen]);
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-100px)] bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
+    <div className="flex flex-col min-h-[calc(100vh-100px)] bg-[#f0f0eb] dark:bg-slate-950 px-4 sm:px-8 relative overflow-hidden transition-colors duration-300">
       {/* Header Area */}
       <header className="flex items-center justify-between mb-6">
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
             <button onClick={() => navigate(-1)}>
-              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
+              <div className="w-10 h-10 flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-900 rounded-xl transition-colors">
                 <LeftArrow />
               </div>
             </button>
@@ -273,7 +272,7 @@ const Project = () => {
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-900 transition-colors"
           >
             <SearchIcon />
           </motion.button>
@@ -282,7 +281,7 @@ const Project = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsPlusOpen((open) => !open)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-900 transition-colors"
           >
             <PlusIcon />
           </motion.button>
@@ -290,14 +289,14 @@ const Project = () => {
           {isPlusOpen && (
             <div
               ref={plusMenuRef}
-              className="absolute right-0 top-12 w-44 rounded-xl border border-gray-100 bg-white shadow-lg overflow-hidden z-50"
+              className="absolute right-0 top-12 w-44 rounded-xl border border-gray-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-lg overflow-hidden z-50"
             >
               {addOptions.map((option) => (
                 <Link
                   key={option.id}
                   to={`/dashboard/bizinfra/skillset/${id}/${option.id}`}
                   onClick={() => setIsPlusOpen(false)}
-                  className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-black hover:bg-gray-50 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-black dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
                 >
                   <PlusIcon />
                   {option.label}
@@ -331,7 +330,7 @@ const Project = () => {
           <button
             type="button"
             onClick={() => setIsPlusOpen(true)}
-            className="ml-12 w-10 h-10 rounded-lg bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-600 hover:text-blue-600 hover:shadow-md transition"
+            className="ml-12 w-10 h-10 rounded-lg bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 shadow-sm flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-md transition"
             aria-label="Add Phase"
           >
             <PlusIcon />

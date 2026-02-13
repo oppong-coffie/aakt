@@ -108,7 +108,7 @@ const PortfolioPage = () => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#f0f0eb] p-8">
+    <div className="flex flex-col h-full bg-[#f0f0eb] dark:bg-slate-950 p-8 transition-colors duration-300">
       {/* Header */}
       <header className="flex items-center justify-between mb-16">
         <div className="flex items-center gap-4">
@@ -116,7 +116,7 @@ const PortfolioPage = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => navigate(-1)}
-            className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
+            className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-slate-100 hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors"
           >
             <BackIcon />
           </motion.button>
@@ -132,7 +132,7 @@ const PortfolioPage = () => {
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-slate-100 hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors"
           >
             <SearchIcon />
           </motion.button>
@@ -140,7 +140,7 @@ const PortfolioPage = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors relative z-50"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-slate-100 hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors relative z-50"
           >
             <PlusIcon />
           </motion.button>
@@ -156,17 +156,17 @@ const PortfolioPage = () => {
                   initial={{ opacity: 0, scale: 0.95, y: 10 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                  className="absolute right-0 top-12 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 py-3 overflow-hidden"
+                  className="absolute right-0 top-12 w-64 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-slate-800 z-50 py-3 overflow-hidden"
                 >
                   {dropdownItems.map((item, i) => (
                     <button
                       key={i}
-                      className="w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 transition-colors text-left group"
+                      className="w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors text-left group"
                     >
-                      <span className="text-gray-400 group-hover:text-blue-600">
+                      <span className="text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400">
                         <PlusIcon />
                       </span>
-                      <span className="text-xs font-bold text-gray-700 tracking-tight">
+                      <span className="text-xs font-bold text-gray-700 dark:text-gray-300 tracking-tight">
                         {item.label}
                       </span>
                     </button>
@@ -187,7 +187,9 @@ const PortfolioPage = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className={`relative px-2 py-1 text-sm font-medium transition-colors ${
-              activeTab === tab ? "text-gray-900" : "text-gray-500"
+              activeTab === tab
+                ? "text-gray-900 dark:text-gray-100"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
             }`}
           >
             {tab}
@@ -228,14 +230,16 @@ const PortfolioPage = () => {
                           }`}
                         >
                           <motion.div
-                            className={`flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold ${
-                              snapshot.isDragging ? "bg-white shadow-lg" : ""
+                            className={`flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 dark:hover:bg-slate-800 transition-all font-bold ${
+                              snapshot.isDragging
+                                ? "bg-white dark:bg-slate-900 shadow-lg"
+                                : ""
                             }`}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                           >
-                            <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow"></div>
-                            <span className="text-gray-800 font-medium text-sm group-hover:text-blue-600 transition-colors">
+                            <div className="w-56 h-36 bg-white dark:bg-slate-900 rounded-4xl shadow-sm border border-gray-100 dark:border-slate-800 group-hover:shadow-md transition-shadow"></div>
+                            <span className="text-gray-800 dark:text-gray-200 font-medium text-sm group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                               {card.title}
                             </span>
                           </motion.div>

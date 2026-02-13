@@ -189,7 +189,7 @@ const TaskItem = ({
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            className={`bg-white/50 border border-gray-100 rounded-2xl p-4 flex items-center justify-between group hover:bg-white transition-all shadow-sm ${
+            className={`bg-white dark:bg-slate-900/50 border border-gray-100 dark:border-slate-800 rounded-2xl p-4 flex items-center justify-between group hover:bg-white dark:hover:bg-slate-900 transition-all shadow-sm ${
               snapshot.isDragging ? "shadow-2xl ring-2 ring-blue-500/20" : ""
             }`}
           >
@@ -199,21 +199,21 @@ const TaskItem = ({
               >
                 {task.completed && <CheckIcon />}
               </div>
-              <span className="text-sm font-medium text-gray-500 truncate">
+              <span className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
                 {task.text}
               </span>
             </div>
             <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
               <button
                 onClick={onUnarchive}
-                className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
+                className="p-1.5 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/40 rounded-lg transition-colors"
                 title="Restore from archive"
               >
                 <PlusIcon size={14} />
               </button>
               <button
                 onClick={onDelete}
-                className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                className="p-1.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/40 rounded-lg transition-colors"
                 title="Delete permanently"
               >
                 <TrashIcon size={14} />
@@ -235,8 +235,8 @@ const TaskItem = ({
           {...provided.dragHandleProps}
           className={`relative group flex items-center justify-between gap-3 p-1 rounded-lg transition-colors ${
             snapshot.isDragging
-              ? "bg-blue-50 shadow-md ring-1 ring-blue-100"
-              : "hover:bg-gray-50"
+              ? "bg-blue-50 dark:bg-blue-900/30 shadow-md ring-1 ring-blue-100 dark:ring-blue-900"
+              : "hover:bg-gray-50 dark:hover:bg-slate-800"
           }`}
         >
           {/* Left: Task Content (Checkbox + Label/Input) */}
@@ -250,7 +250,7 @@ const TaskItem = ({
               className={`shrink-0 w-5 h-5 rounded-md border-2 transition-all flex items-center justify-center cursor-pointer ${
                 task.completed
                   ? "bg-blue-600 border-blue-600"
-                  : "border-gray-200 hover:border-blue-400"
+                  : "border-gray-200 dark:border-slate-700 hover:border-blue-400"
               }`}
             >
               {task.completed && <CheckIcon />}
@@ -259,7 +259,7 @@ const TaskItem = ({
             {isEditing ? (
               <input
                 autoFocus
-                className="flex-1 bg-white border border-blue-300 rounded px-1 py-0.5 text-sm font-medium outline-none"
+                className="flex-1 bg-white dark:bg-slate-800 border border-blue-300 dark:border-blue-900 rounded px-1 py-0.5 text-sm font-medium text-gray-900 dark:text-gray-100 outline-none"
                 value={editText}
                 onChange={(e) => setEditText(e.target.value)}
                 onBlur={handleEditSubmit}
@@ -267,7 +267,7 @@ const TaskItem = ({
               />
             ) : (
               <span
-                className={`text-sm font-medium truncate ${task.completed ? "text-gray-400 line-through font-normal" : "text-gray-700"}`}
+                className={`text-sm font-medium truncate ${task.completed ? "text-gray-400 dark:text-gray-500 line-through font-normal" : "text-gray-700 dark:text-gray-200"}`}
               >
                 {task.text}
               </span>
@@ -278,7 +278,7 @@ const TaskItem = ({
           <div className="relative" ref={menuRef}>
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-1 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white rounded-md border border-transparent hover:border-gray-100"
+              className="p-1 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white dark:hover:bg-slate-700 rounded-md border border-transparent hover:border-gray-100 dark:hover:border-slate-600"
             >
               <MoreIcon />
             </button>
@@ -289,14 +289,14 @@ const TaskItem = ({
                   initial={{ opacity: 0, scale: 0.95, y: -5 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: -5 }}
-                  className="absolute right-0 top-full mt-1 w-32 bg-white rounded-xl shadow-xl border border-gray-100 py-1 z-20"
+                  className="absolute right-0 top-full mt-1 w-32 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-gray-100 dark:border-slate-700 py-1 z-20"
                 >
                   <button
                     onClick={() => {
                       setIsEditing(true);
                       setIsMenuOpen(false);
                     }}
-                    className="w-full text-left px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+                    className="w-full text-left px-3 py-1.5 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
                   >
                     Edit
                   </button>
@@ -305,7 +305,7 @@ const TaskItem = ({
                       onToggle();
                       setIsMenuOpen(false);
                     }}
-                    className="w-full text-left px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+                    className="w-full text-left px-3 py-1.5 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
                   >
                     {task.completed ? "Undo Task" : "Complete"}
                   </button>
@@ -314,7 +314,7 @@ const TaskItem = ({
                       onArchive?.();
                       setIsMenuOpen(false);
                     }}
-                    className="w-full text-left px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+                    className="w-full text-left px-3 py-1.5 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
                   >
                     Archive
                   </button>
@@ -323,7 +323,7 @@ const TaskItem = ({
                       onDelete();
                       setIsMenuOpen(false);
                     }}
-                    className="w-full text-left px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50 transition-colors"
+                    className="w-full text-left px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/40 transition-colors"
                   >
                     Delete
                   </button>
@@ -694,7 +694,7 @@ const Homepage = () => {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      className={`bg-white rounded-xl p-2 shadow-sm border border-gray-100 flex flex-col gap-4 min-h-[220px] w-full max-w-[280px] transition-shadow ${
+                      className={`bg-white dark:bg-slate-900 rounded-xl p-2 shadow-sm border border-gray-100 dark:border-slate-800 flex flex-col gap-4 min-h-[220px] w-full max-w-[280px] transition-shadow ${
                         snapshot.isDragging
                           ? "shadow-2xl ring-2 ring-blue-500/20 rotate-1"
                           : ""
@@ -703,7 +703,7 @@ const Homepage = () => {
                       {/* Column Header */}
                       <div className="flex justify-between items-center px-1">
                         <input
-                          className="font-bold text-gray-800 text-lg bg-transparent border-none outline-none w-32 focus:bg-gray-50 rounded px-1 transition-colors cursor-text"
+                          className="font-bold text-gray-800 dark:text-gray-100 text-lg bg-transparent border-none outline-none w-32 focus:bg-gray-50 dark:focus:bg-slate-800 rounded px-1 transition-colors cursor-text"
                           value={workload.title}
                           onClick={(e) => e.stopPropagation()}
                           onChange={(e) => {
@@ -732,7 +732,9 @@ const Homepage = () => {
                             {...provided.droppableProps}
                             ref={provided.innerRef}
                             className={`flex-1 flex flex-col gap-1 rounded-xl transition-colors ${
-                              snapshot.isDraggingOver ? "bg-blue-50/50" : ""
+                              snapshot.isDraggingOver
+                                ? "bg-blue-50/50 dark:bg-blue-900/10"
+                                : ""
                             }`}
                           >
                             {workload.tasks.length > 0
@@ -767,7 +769,7 @@ const Homepage = () => {
                               <div className="px-1 py-1">
                                 <input
                                   autoFocus
-                                  className="w-full bg-white border border-blue-300 rounded px-2 py-1.5 text-sm font-medium outline-none shadow-sm"
+                                  className="w-full bg-white dark:bg-slate-800 border border-blue-300 dark:border-blue-900 rounded px-2 py-1.5 text-sm font-medium text-gray-900 dark:text-gray-100 outline-none shadow-sm"
                                   placeholder="Type task name..."
                                   value={newTaskText}
                                   onChange={(e) =>
@@ -923,14 +925,12 @@ const Homepage = () => {
                                 {workload.tasks.length} Tasks
                               </span>
                               <div className="flex -space-x-1">
-                                {workload.tasks
-                                  .slice(0, 3)
-                                  .map((i: number) => (
-                                    <div
-                                      key={i}
-                                      className="w-2.5 h-2.5 rounded-full bg-blue-100 border border-white"
-                                    ></div>
-                                  ))}
+                                {workload.tasks.slice(0, 3).map((i: number) => (
+                                  <div
+                                    key={i}
+                                    className="w-2.5 h-2.5 rounded-full bg-blue-100 border border-white"
+                                  ></div>
+                                ))}
                                 {workload.tasks.length > 3 && (
                                   <span className="text-[10px] text-gray-300 ml-1">
                                     +

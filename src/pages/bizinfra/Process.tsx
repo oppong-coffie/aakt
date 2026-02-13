@@ -78,13 +78,13 @@ const Process = () => {
   ];
 
   return (
-    <div className="flex flex-col h-full bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
+    <div className="flex flex-col h-full bg-[#f0f0eb] dark:bg-slate-950 px-4 sm:px-8 relative overflow-hidden transition-colors duration-300">
       {/* Header Area */}
       <header className="flex items-center justify-between mb-6">
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
             <button onClick={() => navigate(-1)}>
-              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
+              <div className="w-10 h-10 flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-slate-100 hover:bg-blue-600 dark:hover:bg-blue-500 rounded-xl transition-colors">
                 <LeftArrowIcon />
               </div>
             </button>
@@ -103,7 +103,7 @@ const Process = () => {
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-slate-100 hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors"
           >
             <SearchIcon />
           </motion.button>
@@ -124,7 +124,7 @@ const Process = () => {
                 onMouseEnter={() => setHoveredBlock(i)}
                 onMouseLeave={() => setHoveredBlock(null)}
               >
-                <div className="w-10 h-10 bg-gray-300 rounded-lg shrink-0 cursor-pointer hover:bg-gray-400 transition-colors"></div>
+                <div className="w-10 h-10 bg-gray-300 dark:bg-slate-700 rounded-lg shrink-0 cursor-pointer hover:bg-gray-400 dark:hover:bg-slate-600 transition-colors"></div>
 
                 {/* Tooltip */}
                 <AnimatePresence>
@@ -135,12 +135,12 @@ const Process = () => {
                       exit={{ opacity: 0, x: -5 }}
                       className="absolute left-14 flex items-center gap-0 z-100 pointer-events-none"
                     >
-                      <div className="w-10 h-10 bg-white rounded-xl shadow-lg border border-gray-100 flex items-center justify-center relative translate-x-1">
-                        <div className="w-4 h-4 bg-white rotate-45 absolute -left-1.5 border-l border-b border-gray-100"></div>
-                        <div className="w-6 h-6 bg-gray-300 rounded-md"></div>
+                      <div className="w-10 h-10 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-100 dark:border-slate-700 flex items-center justify-center relative translate-x-1">
+                        <div className="w-4 h-4 bg-white dark:bg-slate-800 rotate-45 absolute -left-1.5 border-l border-b border-gray-100 dark:border-slate-700"></div>
+                        <div className="w-6 h-6 bg-gray-300 dark:bg-slate-600 rounded-md"></div>
                       </div>
-                      <div className="bg-white px-3 py-2.5 rounded-xl shadow-lg border border-gray-100 ml-1.5 whitespace-nowrap">
-                        <span className="text-xs font-bold text-gray-700">
+                      <div className="bg-white dark:bg-slate-800 px-3 py-2.5 rounded-xl shadow-lg border border-gray-100 dark:border-slate-700 ml-1.5 whitespace-nowrap">
+                        <span className="text-xs font-bold text-gray-700 dark:text-gray-200">
                           Stage {i}
                         </span>
                       </div>
@@ -149,7 +149,7 @@ const Process = () => {
                 </AnimatePresence>
               </div>
             ))}
-            <button className="w-10 h-10 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors shrink-0">
+            <button className="w-10 h-10 border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-full flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-slate-100 hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors shrink-0">
               <PlusIcon />
             </button>
           </div>
@@ -180,15 +180,15 @@ const Process = () => {
                       exit={{ opacity: 0, x: -5 }}
                       className="absolute left-12 flex items-center gap-0 z-50 pointer-events-none"
                     >
-                      <div className="w-9 h-9 bg-white rounded-full shadow-lg border border-gray-100 flex items-center justify-center relative translate-x-1">
-                        <div className="w-3 h-3 bg-white rotate-45 absolute -left-1 border-l border-b border-gray-100"></div>
+                      <div className="w-9 h-9 bg-white dark:bg-slate-800 rounded-full shadow-lg border border-gray-100 dark:border-slate-700 flex items-center justify-center relative translate-x-1">
+                        <div className="w-3 h-3 bg-white dark:bg-slate-800 rotate-45 absolute -left-1 border-l border-b border-gray-100 dark:border-slate-700"></div>
                         <img
                           src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${person.seed}`}
                           className="w-6 h-6 rounded-full"
                         />
                       </div>
-                      <div className="bg-white px-3 py-2 rounded-xl shadow-lg border border-gray-100 ml-1.5 whitespace-nowrap">
-                        <span className="text-xs font-bold text-gray-700">
+                      <div className="bg-white dark:bg-slate-800 px-3 py-2 rounded-xl shadow-lg border border-gray-100 dark:border-slate-700 ml-1.5 whitespace-nowrap">
+                        <span className="text-xs font-bold text-gray-700 dark:text-gray-200">
                           {person.name}
                         </span>
                       </div>
@@ -204,9 +204,9 @@ const Process = () => {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 bg-white rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden flex flex-col">
+        <div className="flex-1 bg-white dark:bg-slate-900 rounded-3xl border border-gray-100 dark:border-slate-800 shadow-sm relative overflow-hidden flex flex-col transition-colors">
           <div className="p-8">
-            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
+            <h1 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight font-['Space_Grotesk']">
               Process
             </h1>
           </div>

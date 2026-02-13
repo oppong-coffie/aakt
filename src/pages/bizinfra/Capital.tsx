@@ -200,8 +200,8 @@ const Capital = () => {
   const navigate = useNavigate();
   const [viewMode, setViewMode] = useState<"list" | "card">("list");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isCreateCampaignModalOpen, setIsCreateCampaignModalOpen] =
-    useState(false);
+  const [isCampaignModalOpen, setIsCampaignModalOpen] = useState(false);
+  const [isPlusDropdownOpen, setIsPlusDropdownOpen] = useState(false);
   const [selectedSource, setSelectedSource] = useState<any | null>(null);
 
   /**
@@ -219,18 +219,20 @@ const Capital = () => {
             onClick={() => setIsAddModalOpen(false)}
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 30 }}
-            className="bg-white w-full max-w-xl rounded-4xl shadow-2xl relative z-index-100 p-8 max-h-[90vh] overflow-y-auto no-scrollbar"
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="bg-white dark:bg-slate-900 w-full max-w-sm rounded-4xl shadow-2xl relative z-100 p-10 overflow-hidden border border-gray-100 dark:border-slate-800"
           >
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-gray-900">
-                Add New Capital Source
+            {/* Header */}
+            <div className="flex justify-between items-center mb-10">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                Add Capital Source
               </h2>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="w-10 h-10 flex items-center justify-center bg-gray-100/80 rounded-full text-gray-500 hover:bg-gray-200 transition-colors"
+                className="w-10 h-10 flex items-center justify-center bg-gray-100/80 dark:bg-slate-800 rounded-full text-gray-500 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
+                title="Close"
               >
                 <svg
                   width="20"
@@ -314,7 +316,7 @@ const Capital = () => {
                 </button>
               </div>
 
-              <button className="w-full py-4 bg-blue-600/30 text-blue-700 font-bold rounded-2xl hover:bg-blue-600 hover:text-white transition-all mt-4 shadow-sm">
+              <button className="w-full py-4 bg-blue-600 dark:bg-blue-500 text-white font-bold rounded-2xl hover:bg-blue-700 dark:hover:bg-blue-600 transition-all mt-4 shadow-sm">
                 Add Capital Source
               </button>
             </div>
@@ -329,28 +331,30 @@ const Capital = () => {
    */
   const CreateCampaignModal = () => (
     <AnimatePresence>
-      {isCreateCampaignModalOpen && (
+      {isCampaignModalOpen && (
         <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="absolute inset-0 bg-black/20 backdrop-blur-sm"
-            onClick={() => setIsCreateCampaignModalOpen(false)}
+            onClick={() => setIsCampaignModalOpen(false)}
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 30 }}
-            className="bg-white w-full max-w-lg rounded-4xl shadow-2xl relative z-index-100 p-8 max-h-[90vh] overflow-y-auto no-scrollbar"
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="bg-white dark:bg-slate-900 w-full max-w-sm rounded-4xl shadow-2xl relative z-100 p-10 overflow-hidden border border-gray-100 dark:border-slate-800"
           >
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-gray-900">
+            {/* Header */}
+            <div className="flex justify-between items-center mb-10">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
                 Create Campaign
               </h2>
               <button
-                onClick={() => setIsCreateCampaignModalOpen(false)}
-                className="w-10 h-10 flex items-center justify-center bg-gray-100/80 rounded-full text-gray-500 hover:bg-gray-200 transition-colors"
+                onClick={() => setIsCampaignModalOpen(false)}
+                className="w-10 h-10 flex items-center justify-center bg-gray-100/80 dark:bg-slate-800 rounded-full text-gray-500 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
+                title="Close"
               >
                 <svg
                   width="20"
@@ -421,7 +425,7 @@ const Capital = () => {
                 </span>
               </div>
 
-              <button className="w-full py-4 bg-blue-600/30 text-blue-700 font-bold rounded-2xl hover:bg-blue-600 hover:text-white transition-all mt-4 shadow-sm">
+              <button className="w-full py-4 bg-blue-600 dark:bg-blue-500 text-white font-bold rounded-2xl hover:bg-blue-700 dark:hover:bg-blue-600 transition-all mt-4 shadow-sm">
                 Add Campaign
               </button>
             </div>
@@ -449,7 +453,7 @@ const Capital = () => {
             initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 30 }}
-            className="bg-white w-full max-w-md rounded-5xl shadow-2xl relative z-100 overflow-hidden"
+            className="bg-white dark:bg-slate-900 w-full max-w-md rounded-5xl shadow-2xl relative z-100 overflow-hidden"
           >
             {/* Modal Header/Art */}
             <div className="h-32 bg-linear-to-br from-yellow-500 to-yellow-300 relative">
@@ -473,19 +477,19 @@ const Capital = () => {
             </div>
 
             <div className="px-10 pb-10 -mt-10">
-              <div className="bg-white rounded-4xl p-8 shadow-sm border border-gray-100 mb-8 flex flex-col items-center">
-                <div className="w-24 h-24 bg-gray-100 rounded-2xl flex items-center justify-center mb-4">
+              <div className="bg-white dark:bg-slate-900 rounded-4xl p-8 shadow-sm border border-gray-100 dark:border-slate-800 mb-8 flex flex-col items-center">
+                <div className="w-24 h-24 bg-gray-100 dark:bg-slate-800 rounded-2xl flex items-center justify-center mb-4">
                   <span className="text-3xl font-black text-yellow-600">
                     {selectedSource.source[0]}
                   </span>
                 </div>
-                <h3 className="text-2xl font-black text-gray-900 text-center">
+                <h3 className="text-2xl font-black text-gray-900 dark:text-gray-100 text-center">
                   {selectedSource.source}
                 </h3>
-                <p className="text-xs font-bold text-gray-400 mt-1 uppercase tracking-widest">
+                <p className="text-xs font-bold text-gray-400 dark:text-gray-500 mt-1 uppercase tracking-widest">
                   {selectedSource.type}
                 </p>
-                <div className="mt-4 px-4 py-1.5 bg-gray-50 rounded-full">
+                <div className="mt-4 px-4 py-1.5 bg-gray-50 dark:bg-slate-800 rounded-full">
                   <span
                     className={`text-[10px] font-black uppercase tracking-widest ${selectedSource.statusColor}`}
                   >
@@ -496,38 +500,38 @@ const Capital = () => {
 
               <div className="space-y-8 mb-10">
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gray-50/50 p-4 rounded-2xl">
-                    <span className="text-[10px] font-bold text-gray-400 uppercase block mb-1">
+                  <div className="bg-gray-50/50 dark:bg-slate-800/50 p-4 rounded-2xl">
+                    <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase block mb-1">
                       Check Size
                     </span>
-                    <span className="text-lg font-black text-blue-600">
+                    <span className="text-lg font-black text-blue-600 dark:text-blue-400">
                       {selectedSource.amount}
                     </span>
                   </div>
-                  <div className="bg-gray-50/50 p-4 rounded-2xl">
-                    <span className="text-[10px] font-bold text-gray-400 uppercase block mb-1">
+                  <div className="bg-gray-50/50 dark:bg-slate-800/50 p-4 rounded-2xl">
+                    <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase block mb-1">
                       Geography
                     </span>
-                    <span className="text-xs font-bold text-gray-900">
+                    <span className="text-xs font-bold text-gray-900 dark:text-gray-100">
                       {selectedSource.location}
                     </span>
                   </div>
                 </div>
 
                 <div>
-                  <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">
+                  <h4 className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
                     Investment Thesis
                   </h4>
-                  <p className="text-xs text-gray-600 leading-relaxed font-medium">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
                     {selectedSource.thesis}
                   </p>
                 </div>
 
                 <div>
-                  <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">
+                  <h4 className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
                     Notes
                   </h4>
-                  <p className="text-xs text-gray-600 leading-relaxed font-medium">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
                     {selectedSource.notes}
                   </p>
                 </div>
@@ -535,7 +539,7 @@ const Capital = () => {
 
               <button
                 onClick={() => setSelectedSource(null)}
-                className="w-full py-5 bg-gray-900 text-white rounded-4xl font-bold hover:bg-gray-800 transition-colors mb-4"
+                className="w-full py-5 bg-gray-900 dark:bg-blue-600 text-white rounded-4xl font-bold hover:bg-gray-800 dark:hover:bg-blue-700 transition-colors mb-4"
               >
                 Close Details
               </button>
@@ -547,13 +551,13 @@ const Capital = () => {
   );
 
   return (
-    <div className="flex flex-col h-full bg-[#f0f0eb] p-x4 sm:px-8 relative overflow-hidden">
+    <div className="flex flex-col h-full bg-[#f0f0eb] dark:bg-slate-950 px-4 sm:px-8 relative overflow-hidden transition-colors duration-300">
       {/* Header Area */}
       <header className="flex items-center justify-between mb-6">
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
             <button onClick={() => navigate(-1)}>
-              <div className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-blue-600 hover:bg-white transition-colors">
+              <div className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-800 transition-colors">
                 <LeftArrowIcon />
               </div>
             </button>
@@ -566,22 +570,53 @@ const Capital = () => {
           />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 relative">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-800 transition-colors"
           >
             <SearchIcon />
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => setIsAddModalOpen(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white transition-colors"
+            onClick={() => setIsPlusDropdownOpen(!isPlusDropdownOpen)}
+            className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${isPlusDropdownOpen ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30" : "text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-800"}`}
           >
             <PlusIcon />
           </motion.button>
+
+          <AnimatePresence>
+            {isPlusDropdownOpen && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                className="absolute right-0 top-12 w-64 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-800 z-50 overflow-hidden py-2"
+              >
+                <button
+                  onClick={() => {
+                    setIsAddModalOpen(true);
+                    setIsPlusDropdownOpen(false);
+                  }}
+                  className="w-full text-left px-5 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-3"
+                >
+                  New Source
+                </button>
+                <div className="h-px bg-gray-50 dark:bg-slate-800 mx-4 my-1"></div>
+                <button
+                  onClick={() => {
+                    setIsCampaignModalOpen(true);
+                    setIsPlusDropdownOpen(false);
+                  }}
+                  className="w-full text-left px-5 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-3"
+                >
+                  Fundraising Campaign
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </header>
 
@@ -589,7 +624,7 @@ const Capital = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setViewMode(viewMode === "list" ? "card" : "list")}
-            className="px-4 py-2 bg-white rounded-xl flex items-center gap-2 shadow-sm border border-gray-100 text-xs font-bold text-gray-700 transition-colors hover:bg-gray-50"
+            className="px-4 py-2 bg-white dark:bg-slate-900 rounded-xl flex items-center gap-2 shadow-sm border border-gray-100 dark:border-slate-800 text-xs font-bold text-gray-700 dark:text-gray-300 transition-colors hover:bg-gray-50 dark:hover:bg-slate-800"
           >
             {viewMode === "list" ? (
               <>
@@ -605,8 +640,8 @@ const Capital = () => {
       </div>
 
       <div className="flex-1 space-y-12 overflow-y-auto no-scrollbar pb-20">
-        <section>
-          <h3 className="text-xl font-bold text-gray-900 mb-6">
+        <div className="mb-10">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-6 font-['Space_Grotesk']">
             Capital Sources
           </h3>
           <AnimatePresence mode="wait">
@@ -616,9 +651,9 @@ const Capital = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="bg-white/50 rounded-4xl p-4 border border-gray-200/50"
+                className="bg-white/50 dark:bg-slate-900/50 rounded-4xl p-4 border border-gray-200/50 dark:border-slate-800/50"
               >
-                <div className="grid grid-cols-3 px-8 py-4 text-[10px] font-extrabold text-gray-400 uppercase tracking-widest border-b border-gray-100/50">
+                <div className="grid grid-cols-3 px-8 py-4 text-[10px] font-extrabold text-gray-400 dark:text-gray-500 uppercase tracking-widest border-b border-gray-100/50 dark:border-slate-800/50">
                   <span>Source</span>
                   <span>Amount</span>
                   <span>Status</span>
@@ -628,17 +663,17 @@ const Capital = () => {
                     <motion.div
                       key={i}
                       onClick={() => setSelectedSource(item)}
-                      className="grid grid-cols-3 px-8 py-4 hover:bg-white rounded-2xl transition-colors cursor-pointer group"
+                      className="grid grid-cols-3 px-8 py-4 hover:bg-white dark:hover:bg-slate-800 rounded-2xl transition-colors cursor-pointer group"
                       whileHover={{
                         scale: 1.01,
                         backgroundColor: "rgba(255, 255, 255, 1)",
                       }}
                       whileTap={{ scale: 0.99 }}
                     >
-                      <span className="text-sm font-bold text-gray-600 group-hover:text-gray-900">
+                      <span className="text-sm font-bold text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-100">
                         {item.source}
                       </span>
-                      <span className="text-sm font-bold text-gray-600">
+                      <span className="text-sm font-bold text-gray-600 dark:text-gray-400">
                         {item.amount}
                       </span>
                       <span className={`text-sm font-bold ${item.statusColor}`}>
@@ -660,7 +695,7 @@ const Capital = () => {
                   <motion.div
                     key={i}
                     onClick={() => setSelectedSource(item)}
-                    className="bg-white p-6 rounded-4xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow group cursor-pointer relative overflow-hidden"
+                    className="bg-white dark:bg-slate-900 p-8 rounded-4xl shadow-sm border border-gray-100 dark:border-slate-800 hover:shadow-md transition-shadow group cursor-pointer relative overflow-hidden"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -671,22 +706,22 @@ const Capital = () => {
                     </div>
                     <div className="space-y-4">
                       <div className="flex flex-col">
-                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
+                        <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">
                           Source
                         </span>
-                        <h4 className="text-lg font-bold text-gray-900 leading-tight">
+                        <h4 className="text-lg font-bold text-gray-900 dark:text-gray-100 leading-tight font-['Space_Grotesk']">
                           {item.source}
                         </h4>
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
+                        <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">
                           Amount
                         </span>
-                        <span className="text-2xl font-black text-blue-600 tracking-tight">
+                        <span className="text-2xl font-black text-blue-600 dark:text-blue-400 tracking-tight">
                           {item.amount}
                         </span>
                       </div>
-                      <div className="pt-2 border-t border-gray-50 flex items-center justify-between">
+                      <div className="pt-2 border-t border-gray-50 dark:border-slate-800 flex items-center justify-between">
                         <span
                           className={`text-[10px] font-black uppercase tracking-widest ${item.statusColor}`}
                         >
@@ -701,7 +736,7 @@ const Capital = () => {
                           strokeWidth="2.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          className="text-gray-300 group-hover:text-blue-600 transition-colors"
+                          className="text-gray-300 dark:text-gray-600 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
                         >
                           <path d="M5 12h14M12 5l7 7-7 7" />
                         </svg>
@@ -712,16 +747,16 @@ const Capital = () => {
               </motion.div>
             )}
           </AnimatePresence>
-        </section>
+        </div>
 
-        <section>
+        <div className="mb-10">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-xl font-bold text-gray-900">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 font-['Space_Grotesk']">
               Fundraising Campaigns
             </h3>
             <button
-              onClick={() => setIsCreateCampaignModalOpen(true)}
-              className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
+              onClick={() => setIsCampaignModalOpen(true)}
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-white hover:bg-blue-600 dark:hover:bg-blue-600 transition-colors"
             >
               <PlusIcon />
             </button>
@@ -734,39 +769,49 @@ const Capital = () => {
                 className="contents"
               >
                 <motion.div
-                  className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 transition-all font-bold"
+                  className="flex flex-col items-center gap-3 w-64 group cursor-pointer p-6 rounded-[2.5rem] hover:bg-gray-100 dark:hover:bg-slate-800 transition-all font-bold"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <div className="w-56 h-36 bg-white rounded-4xl shadow-sm border border-gray-100 group-hover:shadow-md transition-shadow flex flex-col gap-4 relative overflow-hidden p-6">
-                    <div className="w-full aspect-square bg-gray-100 rounded-2xl mb-2 relative overflow-hidden hidden">
+                  <div className="w-56 h-36 bg-white dark:bg-slate-900 rounded-4xl shadow-sm border border-gray-100 dark:border-slate-800 group-hover:shadow-md transition-shadow flex flex-col gap-4 relative overflow-hidden p-6">
+                    <div className="w-full aspect-square bg-gray-100 dark:bg-slate-800 rounded-2xl mb-2 relative overflow-hidden hidden">
                       {/* Placeholder or image hidden in standard view if it clashes with info */}
                     </div>
                     <div className="space-y-2">
                       <div className="flex justify-between text-[10px] font-bold">
-                        <span className="text-gray-400 uppercase">Type:</span>
-                        <span className="text-gray-900">{campaign.type}</span>
+                        <span className="text-gray-400 dark:text-gray-500 uppercase">
+                          Type:
+                        </span>
+                        <span className="text-gray-900 dark:text-gray-100">
+                          {campaign.type}
+                        </span>
                       </div>
                       <div className="flex justify-between text-[10px] font-bold">
-                        <span className="text-gray-400 uppercase">Amount:</span>
-                        <span className="text-gray-900">{campaign.amount}</span>
+                        <span className="text-gray-400 dark:text-gray-500 uppercase">
+                          Amount:
+                        </span>
+                        <span className="text-gray-900 dark:text-gray-100">
+                          {campaign.amount}
+                        </span>
                       </div>
                       <div className="flex justify-between text-[10px] font-bold">
-                        <span className="text-gray-400 uppercase">Status:</span>
-                        <span className="text-green-600">
+                        <span className="text-gray-400 dark:text-gray-500 uppercase">
+                          Status:
+                        </span>
+                        <span className="text-green-600 dark:text-green-400">
                           {campaign.status}
                         </span>
                       </div>
                     </div>
                   </div>
-                  <h4 className="text-base font-bold text-gray-900 truncate group-hover:text-blue-600 transition-colors">
+                  <h4 className="text-base font-bold text-gray-900 dark:text-gray-100 truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-['Space_Grotesk']">
                     {campaign.name}
                   </h4>
                 </motion.div>
               </Link>
             ))}
           </div>
-        </section>
+        </div>
       </div>
 
       <AddCapitalModal />

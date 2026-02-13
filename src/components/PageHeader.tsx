@@ -114,7 +114,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
         <div className="flex items-center gap-2">
           {backTo && (
             <Link to={backTo}>
-              <div className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-white hover:bg-blue-600 transition-colors">
+              <div className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-white hover:bg-blue-600 dark:hover:bg-blue-600 transition-colors">
                 <LeftArrowIcon />
               </div>
             </Link>
@@ -129,7 +129,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={onSearch}
-            className="w-10 h-10 rounded-xl cursor-pointer hover:text-white hover:bg-blue-600 transition-colors flex items-center justify-center text-gray-400"
+            className="w-10 h-10 rounded-xl cursor-pointer hover:text-white dark:hover:text-white hover:bg-blue-600 dark:hover:bg-blue-600 transition-colors flex items-center justify-center text-gray-400 dark:text-gray-500"
           >
             <SearchIcon />
           </motion.div>
@@ -142,7 +142,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={onAdd}
-            className="w-10 h-10 rounded-xl cursor-pointer hover:text-white hover:bg-blue-600 transition-colors flex items-center justify-center text-gray-400"
+            className="w-10 h-10 rounded-xl cursor-pointer hover:text-white dark:hover:text-white hover:bg-blue-600 dark:hover:bg-blue-600 transition-colors flex items-center justify-center text-gray-400 dark:text-gray-500"
           >
             <PlusIcon />
           </motion.div>

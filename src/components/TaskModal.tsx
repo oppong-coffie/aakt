@@ -57,16 +57,16 @@ const TaskModal = ({ isOpen, onClose, task }: TaskModalProps) => {
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl relative z-10 overflow-hidden flex flex-col max-h-[90vh]"
+          className="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-3xl shadow-2xl relative z-10 overflow-hidden flex flex-col max-h-[90vh] border border-gray-100 dark:border-slate-800"
         >
           {/* Header */}
-          <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
-            <h2 className="text-xl font-bold text-gray-900 font-['Space_Grotesk']">
+          <div className="p-6 border-b border-gray-100 dark:border-slate-800 flex items-center justify-between bg-gray-50/50 dark:bg-slate-800/50">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 font-['Space_Grotesk']">
               {task?.title || "Task Details"}
             </h2>
             <button
               onClick={onClose}
-              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
+              className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-full transition-colors"
             >
               <CloseIcon />
             </button>
@@ -75,29 +75,29 @@ const TaskModal = ({ isOpen, onClose, task }: TaskModalProps) => {
           {/* Body */}
           <div className="p-6 overflow-y-auto font-['Inter']">
             <div className="flex gap-4 mb-6">
-              <div className="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-sm font-medium">
+              <div className="px-3 py-1 bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-lg text-sm font-medium">
                 {task?.status || "In Progress"}
               </div>
-              <div className="px-3 py-1 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium">
+              <div className="px-3 py-1 bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-400 rounded-lg text-sm font-medium">
                 {task?.assignee || "Unassigned"}
               </div>
             </div>
 
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
               {task?.description ||
                 "This is a placeholder description for the task. It would contain details about what needs to be done, success criteria, and any other relevant information."}
             </p>
 
             {/* Checklist Placeholder */}
             <div className="mt-8">
-              <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">
+              <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-4">
                 Subtasks
               </h3>
               <div className="space-y-3">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="flex items-center gap-3">
-                    <div className="w-5 h-5 rounded border border-gray-300 flex items-center justify-center cursor-pointer hover:border-blue-500"></div>
-                    <span className="text-gray-700 text-sm">
+                    <div className="w-5 h-5 rounded border border-gray-300 dark:border-slate-700 flex items-center justify-center cursor-pointer hover:border-blue-500 transition-colors"></div>
+                    <span className="text-gray-700 dark:text-gray-300 text-sm">
                       Subtask item {i}
                     </span>
                   </div>
@@ -107,10 +107,10 @@ const TaskModal = ({ isOpen, onClose, task }: TaskModalProps) => {
           </div>
 
           {/* Footer */}
-          <div className="p-6 border-t border-gray-100 bg-gray-50/50 flex justify-end gap-3">
+          <div className="p-6 border-t border-gray-100 dark:border-slate-800 bg-gray-50/50 dark:bg-slate-800/50 flex justify-end gap-3">
             <button
               onClick={onClose}
-              className="px-6 py-2.5 text-gray-600 font-medium hover:bg-gray-100 rounded-xl transition-colors"
+              className="px-6 py-2.5 text-gray-600 dark:text-gray-400 font-medium hover:bg-gray-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
             >
               Close
             </button>

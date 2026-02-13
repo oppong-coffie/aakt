@@ -46,7 +46,7 @@ const Main = () => {
         <Outlet />
       </main>
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 flex justify-center pb-6 pt-4 bg-[#f0f0eb]/90 backdrop-blur-md z-50">
+      <div className="fixed bottom-0 left-0 right-0 flex justify-center pb-6 pt-4 bg-[#f0f0eb]/90 dark:bg-slate-900/90 backdrop-blur-md z-50 transition-colors duration-300">
         <div className="flex items-center gap-3 sm:gap-6 no-scrollbar max-w-full px-4 text-center">
           {navItems.map((item) => {
             const isSelected = item.id === "Intel";
@@ -59,7 +59,7 @@ const Main = () => {
                 >
                   <div
                     className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center relative transition-all duration-300
-                        ${isSelected ? "bg-yellow-600/10 border-2 border-yellow-600 ring-4 ring-yellow-600/5 shadow-md" : "bg-white border border-gray-100 hover:shadow-sm"}
+                        ${isSelected ? "bg-yellow-600/10 dark:bg-yellow-500/10 border-2 border-yellow-600 ring-4 ring-yellow-600/5 shadow-md" : "bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 hover:shadow-sm"}
                       `}
                   >
                     <img
@@ -69,7 +69,7 @@ const Main = () => {
                     />
                   </div>
                   <span
-                    className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900" : "text-gray-400 group-hover:text-gray-600"}`}
+                    className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900 dark:text-gray-100" : "text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300"}`}
                   >
                     {item.label}
                   </span>

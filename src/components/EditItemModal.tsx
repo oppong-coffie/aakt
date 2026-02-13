@@ -59,9 +59,9 @@ const EditItemModal = ({
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="bg-white w-full max-w-md rounded-3xl shadow-2xl relative z-100 p-8 font-['Inter']"
+            className="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl shadow-2xl relative z-100 p-8 font-['Inter'] border border-gray-100 dark:border-slate-800"
           >
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 font-['Space_Grotesk']">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6 font-['Space_Grotesk']">
               Edit Item
             </h3>
 
@@ -69,7 +69,7 @@ const EditItemModal = ({
               {/* Image Upload - Conditionally Rendered */}
               {!hideImage && (
                 <div className="flex flex-col items-center gap-4">
-                  <div className="relative w-24 h-24 rounded-2xl bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden group hover:border-blue-500 transition-colors cursor-pointer">
+                  <div className="relative w-24 h-24 rounded-2xl bg-gray-100 dark:bg-slate-800 border-2 border-dashed border-gray-300 dark:border-slate-700 flex items-center justify-center overflow-hidden group hover:border-blue-500 transition-colors cursor-pointer">
                     {image ? (
                       <img
                         src={image}
@@ -77,7 +77,7 @@ const EditItemModal = ({
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="text-gray-400 group-hover:text-blue-500">
+                      <div className="text-gray-400 dark:text-gray-500 group-hover:text-blue-500">
                         <svg
                           width="24"
                           height="24"
@@ -116,14 +116,14 @@ const EditItemModal = ({
 
               {/* Name Input */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   Name
                 </label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
+                  className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-900 dark:text-gray-100 focus:border-blue-500 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:focus:ring-blue-900/20 outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500"
                   placeholder="Item name"
                 />
               </div>
@@ -132,13 +132,13 @@ const EditItemModal = ({
               <div className="flex gap-3 pt-2">
                 <button
                   onClick={onClose}
-                  className="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 text-gray-600 dark:text-gray-400 font-medium hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSave}
-                  className="flex-1 px-4 py-3 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors"
+                  className="flex-1 px-4 py-3 rounded-xl bg-blue-600 dark:bg-blue-500 text-white font-medium hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors shadow-lg shadow-blue-600/10 dark:shadow-blue-500/10"
                 >
                   Save Changes
                 </button>

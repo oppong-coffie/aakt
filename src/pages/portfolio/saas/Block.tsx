@@ -77,28 +77,28 @@ const SearchModal = ({
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col pointer-events-auto"
+              className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col pointer-events-auto border border-gray-100 dark:border-slate-800"
             >
-              <div className="p-6 border-b border-gray-100 flex items-center gap-3">
+              <div className="p-6 border-b border-gray-100 dark:border-slate-800 flex items-center gap-3">
                 <SearchIcon />
                 <input
                   type="text"
                   autoFocus
-                  className="flex-1 bg-transparent border-none outline-none text-gray-800 placeholder-gray-400 text-lg font-['Inter']"
+                  className="flex-1 bg-transparent border-none outline-none text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 text-lg font-['Inter']"
                   placeholder="Search skills, projects, processes, projects, blocks, operations"
                 />
               </div>
 
               <div className="flex flex-1 overflow-hidden font-['Space_Grotesk']">
-                <div className="w-56 border-r border-gray-50 flex flex-col p-4 gap-1 overflow-y-auto no-scrollbar">
+                <div className="w-56 border-r border-gray-50 dark:border-slate-800 flex flex-col p-4 gap-1 overflow-y-auto no-scrollbar">
                   {categories.map((category) => (
                     <button
                       key={category}
                       onClick={() => setActiveCategory(category)}
                       className={`text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                         activeCategory === category
-                          ? "bg-blue-600/10 text-blue-600"
-                          : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                          ? "bg-blue-600/10 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
+                          : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-700 dark:hover:text-gray-200"
                       }`}
                     >
                       {category}
@@ -106,12 +106,12 @@ const SearchModal = ({
                   ))}
                 </div>
 
-                <div className="flex-1 p-6 overflow-y-auto bg-gray-50/30">
+                <div className="flex-1 p-6 overflow-y-auto bg-gray-50/30 dark:bg-slate-950/30">
                   <div className="grid grid-cols-3 gap-4">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
                       <div
                         key={i}
-                        className="bg-white border border-gray-100 rounded-2xl p-4 h-32 shadow-sm transition-all hover:shadow-md cursor-pointer"
+                        className="bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl p-4 h-32 shadow-sm transition-all hover:shadow-md cursor-pointer"
                       />
                     ))}
                   </div>
@@ -151,13 +151,13 @@ const CreationModeModal = ({
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="bg-white w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8"
+            className="bg-white dark:bg-slate-900 w-full max-w-md rounded-4xl shadow-2xl relative z-100 p-8 border border-gray-100 dark:border-slate-800 font-['Space_Grotesk']"
           >
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2 font-['Space_Grotesk']">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
                 New {categoryLabel}
               </h3>
-              <p className="text-gray-500 text-sm font-['Inter']">
+              <p className="text-gray-500 dark:text-gray-400 text-sm font-['Inter']">
                 How would you like to start?
               </p>
             </div>
@@ -165,9 +165,9 @@ const CreationModeModal = ({
             <div className="grid grid-cols-2 gap-4">
               <button
                 onClick={() => onSelect("blank")}
-                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-black hover:text-white transition-all group"
+                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-800 hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all group"
               >
-                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:bg-gray-800 transition-colors">
+                <div className="w-12 h-12 rounded-2xl bg-white dark:bg-slate-700 flex items-center justify-center shadow-sm group-hover:bg-gray-800 dark:group-hover:bg-gray-200 transition-colors">
                   <PlusIcon />
                 </div>
                 <span className="font-bold">Blank</span>
@@ -175,9 +175,9 @@ const CreationModeModal = ({
 
               <button
                 onClick={() => onSelect("template")}
-                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 bg-gray-50 hover:bg-black hover:text-white transition-all group"
+                className="flex flex-col items-center gap-4 p-6 rounded-3xl border border-gray-100 dark:border-slate-800 bg-gray-50 dark:bg-slate-800 hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all group"
               >
-                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm group-hover:bg-gray-800 transition-colors">
+                <div className="w-12 h-12 rounded-2xl bg-white dark:bg-slate-700 flex items-center justify-center shadow-sm group-hover:bg-gray-800 dark:group-hover:bg-gray-200 transition-colors">
                   <svg
                     width="20"
                     height="20"
@@ -199,7 +199,7 @@ const CreationModeModal = ({
 
             <button
               onClick={onClose}
-              className="w-full mt-6 py-3 text-gray-400 font-medium hover:text-gray-600 transition-colors"
+              className="w-full mt-6 py-3 text-gray-400 dark:text-gray-500 font-medium hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
             >
               Cancel
             </button>
@@ -225,10 +225,6 @@ const LeftArrowIcon = () => (
     <path d="M19 12H5" />
   </svg>
 );
-
-
-
-
 
 const Block = () => {
   const [activeTab, setActiveTab] = useState("Home");
@@ -337,7 +333,7 @@ const Block = () => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 relative overflow-hidden font-['Inter']">
+    <div className="flex flex-col h-full bg-[#f0f0eb] dark:bg-slate-950 p-4 sm:p-8 relative overflow-hidden font-['Inter'] transition-colors duration-300">
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
@@ -347,7 +343,7 @@ const Block = () => {
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
             <Link to="/dashboard/portfolio/saas">
-              <div className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 hover:text-white hover:bg-blue-600 transition-colors">
+              <div className="w-10 h-10 flex items-center justify-center rounded-xl text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-slate-100 hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors">
                 <LeftArrowIcon />
               </div>
             </Link>
@@ -365,7 +361,7 @@ const Block = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsSearchOpen(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-slate-100 hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors"
           >
             <SearchIcon />
           </motion.button>
@@ -373,7 +369,7 @@ const Block = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-colors relative z-50"
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-slate-100 hover:bg-blue-600 dark:hover:bg-blue-500 transition-colors relative z-50"
           >
             <PlusIcon />
           </motion.button>
@@ -389,7 +385,7 @@ const Block = () => {
                   initial={{ opacity: 0, scale: 0.95, y: 10 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                  className="absolute right-0 top-12 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 py-3 overflow-hidden"
+                  className="absolute right-0 top-12 w-64 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-slate-800 z-50 py-3 overflow-hidden"
                 >
                   {dropdownItems.map((item) => (
                     <button
@@ -399,12 +395,12 @@ const Block = () => {
                         setIsCreationModalOpen(true);
                         setIsDropdownOpen(false);
                       }}
-                      className="w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 transition-colors text-left group"
+                      className="w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors text-left group"
                     >
-                      <span className="text-gray-400 group-hover:text-blue-600 transition-colors font-bold uppercase">
+                      <span className="text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors font-bold uppercase">
                         <PlusIcon />
                       </span>
-                      <span className="text-xs font-bold text-gray-700 tracking-tight uppercase font-['Space_Grotesk']">
+                      <span className="text-xs font-bold text-gray-700 dark:text-gray-300 tracking-tight uppercase font-['Space_Grotesk']">
                         {item.label}
                       </span>
                     </button>
@@ -425,7 +421,9 @@ const Block = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className={`relative px-2 py-1 text-sm font-medium transition-colors ${
-              activeTab === tab ? "text-gray-900" : "text-gray-500"
+              activeTab === tab
+                ? "text-gray-900 dark:text-gray-100"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
             }`}
           >
             {tab}
@@ -443,7 +441,7 @@ const Block = () => {
         {/* Left Sidebar */}
         <div className="w-16 flex flex-col gap-8 py-4 z-50 overflow-visible">
           <div className="flex flex-col items-center gap-3">
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
+            <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-tighter">
               Blocks
             </span>
             {[1, 2, 3, 4, 5, 6, 7].map((i) => (
@@ -455,7 +453,7 @@ const Block = () => {
                 whileHover={{ scale: 1.1, x: 5 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <div className="w-10 h-10 bg-gray-300 rounded-lg shrink-0 cursor-pointer hover:bg-gray-400 transition-colors"></div>
+                <div className="w-10 h-10 bg-gray-300 dark:bg-slate-800 rounded-lg shrink-0 cursor-pointer hover:bg-gray-400 dark:hover:bg-slate-700 transition-colors"></div>
                 <AnimatePresence>
                   {hoveredBlock === i && (
                     <motion.div
@@ -464,12 +462,12 @@ const Block = () => {
                       exit={{ opacity: 0, x: -5 }}
                       className="absolute left-14 flex items-center gap-0 z-100 pointer-events-none"
                     >
-                      <div className="w-10 h-10 bg-white rounded-xl shadow-lg border border-gray-100 flex items-center justify-center relative translate-x-1">
-                        <div className="w-4 h-4 bg-white rotate-45 absolute -left-1.5 border-l border-b border-gray-100"></div>
-                        <div className="w-6 h-6 bg-gray-300 rounded-md"></div>
+                      <div className="w-10 h-10 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-100 dark:border-slate-700 flex items-center justify-center relative translate-x-1">
+                        <div className="w-4 h-4 bg-white dark:bg-slate-800 rotate-45 absolute -left-1.5 border-l border-b border-gray-100 dark:border-slate-700"></div>
+                        <div className="w-6 h-6 bg-gray-300 dark:bg-slate-700 rounded-md"></div>
                       </div>
-                      <div className="bg-white px-3 py-2.5 rounded-xl shadow-lg border border-gray-100 ml-1.5 whitespace-nowrap">
-                        <span className="text-xs font-bold text-gray-700">
+                      <div className="bg-white dark:bg-slate-800 px-3 py-2.5 rounded-xl shadow-lg border border-gray-100 dark:border-slate-700 ml-1.5 whitespace-nowrap">
+                        <span className="text-xs font-bold text-gray-700 dark:text-gray-200">
                           Stage {i}
                         </span>
                       </div>
@@ -485,7 +483,7 @@ const Block = () => {
                 setSelectedType({ id: "block", label: "Block" });
                 setIsCreationModalOpen(true);
               }}
-              className="w-10 h-10 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center text-blue-600 hover:bg-white transition-colors shrink-0"
+              className="w-10 h-10 border-2 border-dashed border-gray-300 dark:border-slate-700 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400 hover:bg-white dark:hover:bg-slate-800 transition-colors shrink-0"
             >
               <PlusIcon />
             </motion.button>
@@ -493,7 +491,7 @@ const Block = () => {
 
           {/* People Section - Displays team members associated with this block. */}
           <div className="flex flex-col items-center gap-3 mt-auto">
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
+            <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-tighter">
               People
             </span>
             {people.map((person) => (
@@ -503,7 +501,7 @@ const Block = () => {
               >
                 <motion.img
                   src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${person.seed}`}
-                  className="w-9 h-9 rounded-full border-2 border-white shadow-sm object-cover cursor-pointer hover:scale-105 transition-transform shrink-0"
+                  className="w-9 h-9 rounded-full border-2 border-white dark:border-slate-800 shadow-sm object-cover cursor-pointer hover:scale-105 transition-transform shrink-0"
                   onMouseEnter={() => setHoveredPerson(person.name)}
                   onMouseLeave={() => setHoveredPerson(null)}
                   whileHover={{ scale: 1.1 }}
@@ -517,16 +515,16 @@ const Block = () => {
                       exit={{ opacity: 0, x: -5 }}
                       className="absolute left-12 flex items-center gap-0 z-100 pointer-events-none"
                     >
-                      <div className="w-9 h-9 bg-white rounded-full shadow-lg border border-gray-100 flex items-center justify-center relative translate-x-1">
-                        <div className="w-3 h-3 bg-white rotate-45 absolute -left-1 border-l border-b border-gray-100"></div>
+                      <div className="w-9 h-9 bg-white dark:bg-slate-800 rounded-full shadow-lg border border-gray-100 dark:border-slate-700 flex items-center justify-center relative translate-x-1">
+                        <div className="w-3 h-3 bg-white dark:bg-slate-800 rotate-45 absolute -left-1 border-l border-b border-gray-100 dark:border-slate-700"></div>
                         <img
                           src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${person.seed}`}
                           className="w-6 h-6 rounded-full"
                           alt={person.name}
                         />
                       </div>
-                      <div className="bg-white px-3 py-2 rounded-xl shadow-lg border border-gray-100 ml-1.5 whitespace-nowrap">
-                        <span className="text-xs font-bold text-gray-700">
+                      <div className="bg-white dark:bg-slate-800 px-3 py-2 rounded-xl shadow-lg border border-gray-100 dark:border-slate-700 ml-1.5 whitespace-nowrap">
+                        <span className="text-xs font-bold text-gray-700 dark:text-gray-200">
                           {person.name}
                         </span>
                       </div>
@@ -542,13 +540,13 @@ const Block = () => {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 bg-white rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden flex flex-col">
+        <div className="flex-1 bg-white dark:bg-slate-900 rounded-3xl border border-gray-100 dark:border-slate-800 shadow-sm relative overflow-hidden flex flex-col">
           <div className="p-8">
-            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight font-['Space_Grotesk']">
+            <h1 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight font-['Space_Grotesk']">
               Block
             </h1>
             {activeTab === "Team" && (
-              <div className="flex items-center justify-center h-full text-gray-500 text-sm">
+              <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400 text-sm">
                 Team content goes here...
               </div>
             )}

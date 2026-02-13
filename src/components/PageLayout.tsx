@@ -26,7 +26,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({
     // - h-full ensuring full height for flex containers
     // - overflow-hidden to prevent body scroll, assuming inner content scrolls
     <div
-      className={`flex flex-col h-full bg-[#f0f0eb] p-4 sm:p-8 overflow-hidden ${className}`}
+      className={`flex flex-col h-full bg-[#f0f0eb] dark:bg-slate-950 p-4 sm:p-8 overflow-hidden transition-colors duration-300 ${className}`}
     >
       {children}
     </div>
