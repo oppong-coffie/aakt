@@ -183,7 +183,7 @@ const SearchModal = ({
 
                 {/* Main Content Grid */}
                 <div className="flex-1 p-6 overflow-y-auto bg-gray-50/30 dark:bg-slate-950/30">
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-3 gap-4 font-['Space_Grotesk']">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
                       <div
                         key={i}

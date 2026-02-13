@@ -69,7 +69,7 @@ const Main = () => {
                     />
                   </div>
                   <span
-                    className={`text-[9px] sm:text-[10px] font-bold ${isSelected ? "text-gray-900 dark:text-gray-100" : "text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300"}`}
+                    className={`text-[9px] sm:text-[10px] font-bold font-['Inter'] ${isSelected ? "text-gray-900 dark:text-gray-100" : "text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300"}`}
                   >
                     {item.label}
                   </span>

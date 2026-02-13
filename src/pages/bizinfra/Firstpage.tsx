@@ -102,7 +102,7 @@ const SearchModal = ({
                 <input
                   type="text"
                   autoFocus
-                  className="flex-1 bg-transparent border-none outline-none text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 text-lg"
+                  className="flex-1 bg-transparent border-none outline-none text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 text-lg font-['Inter']"
                   placeholder="Search skills, projects, processess, projects, blocks, operations"
                 />
               </div>
@@ -114,7 +114,7 @@ const SearchModal = ({
                     <button
                       key={category}
                       onClick={() => setActiveCategory(category)}
-                      className={`text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                      className={`text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-all font-['Inter'] ${
                         activeCategory === category
                           ? "bg-blue-600/10 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400"
                           : "text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-700 dark:hover:text-gray-200"
@@ -126,12 +126,12 @@ const SearchModal = ({
                 </div>
 
                 {/* Main Content Grid */}
-                <div className="flex-1 p-6 overflow-y-auto bg-gray-50/30">
-                  <div className="grid grid-cols-3 gap-4">
+                <div className="flex-1 p-6 overflow-y-auto bg-gray-50/30 dark:bg-slate-950/30">
+                  <div className="grid grid-cols-3 gap-4 font-['Space_Grotesk']">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
                       <div
                         key={i}
-                        className={`bg-white border border-gray-100 rounded-2xl p-4 h-32 shadow-sm transition-all hover:shadow-md cursor-pointer ${
+                        className={`bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-800 rounded-2xl p-4 h-32 shadow-sm transition-all hover:shadow-md cursor-pointer ${
                           i === 3 ? "col-span-1" : ""
                         }`}
                       >
@@ -194,7 +194,7 @@ const Firstpage = () => {
   };
 
   return (
-    <div className="">
+    <div className="min-h-[calc(100vh-100px)] bg-[#f0f0eb] dark:bg-slate-950 transition-colors duration-300">
       {/* Header */}
       <header className="flex items-center justify-between px-8 pl-6">
         <div className="flex gap-2">
@@ -275,7 +275,7 @@ const Firstpage = () => {
 
                             {/* Label */}
                             <span
-                              className={`mt-4 text-sm font-semibold transition-colors ${
+                              className={`mt-4 text-sm font-semibold transition-colors font-['Space_Grotesk'] ${
                                 snapshot.isDragging
                                   ? "text-blue-600 dark:text-blue-400"
                                   : "text-gray-800 dark:text-gray-200"

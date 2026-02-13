@@ -141,7 +141,7 @@ function PhaseItem({
         <button
           type="button"
           onClick={() => onGo(card.to)}
-          className="text-3xl sm:text-4xl font-semibold text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+          className="text-3xl sm:text-4xl font-semibold text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 transition-colors font-['Space_Grotesk']"
         >
           {card.label}
         </button>

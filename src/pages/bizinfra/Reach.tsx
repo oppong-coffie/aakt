@@ -26,13 +26,13 @@ const LeftArrowIcon = () => (
 const Reach = () => {
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] px-4 sm:px-8 relative overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-200px)] bg-[#f0f0eb] dark:bg-slate-950 px-4 sm:px-8 relative overflow-hidden transition-colors duration-300">
       {/* Header Area */}
       <header className="flex items-center justify-between mb-6">
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
             <button onClick={() => navigate(-1)}>
-              <div className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-white rounded-xl transition-colors">
+              <div className="w-10 h-10 flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-slate-900 rounded-xl transition-colors">
                 <LeftArrowIcon />
               </div>
             </button>
@@ -69,10 +69,10 @@ const Reach = () => {
             </svg>
           </div>
           <div className="text-center space-y-2">
-            <h1 className="text-4xl font-black text-gray-900 tracking-tight">
+            <h1 className="text-4xl font-black text-gray-900 dark:text-gray-100 tracking-tight font-['Space_Grotesk']">
               Coming Soon
             </h1>
-            <p className="text-gray-400 font-bold text-sm uppercase tracking-widest">
+            <p className="text-gray-400 font-bold text-sm uppercase tracking-widest font-['Inter']">
               We are working on something amazing!
             </p>
           </div>

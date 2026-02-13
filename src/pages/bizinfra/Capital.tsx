@@ -226,7 +226,7 @@ const Capital = () => {
           >
             {/* Header */}
             <div className="flex justify-between items-center mb-10">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 font-['Space_Grotesk']">
                 Add Capital Source
               </h2>
               <button
@@ -253,31 +253,31 @@ const Capital = () => {
               <input
                 type="text"
                 placeholder="Name"
-                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 dark:border-slate-800 bg-gray-50/30 dark:bg-slate-800/30 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm font-['Inter'] dark:text-gray-100"
               />
 
               <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-tighter">
+                <label className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-tighter font-['Inter']">
                   Geography
                 </label>
                 <div className="grid grid-cols-3 gap-3">
-                  <select className="px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm text-gray-500 appearance-none">
+                  <select className="px-4 py-3 rounded-xl border border-gray-100 dark:border-slate-800 bg-gray-50/30 dark:bg-slate-800/30 text-sm text-gray-500 dark:text-gray-400 appearance-none font-['Inter']">
                     <option>Continent</option>
                   </select>
-                  <select className="px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm text-gray-500 appearance-none">
+                  <select className="px-4 py-3 rounded-xl border border-gray-100 dark:border-slate-800 bg-gray-50/30 dark:bg-slate-800/30 text-sm text-gray-500 dark:text-gray-400 appearance-none font-['Inter']">
                     <option>Country</option>
                   </select>
-                  <select className="px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm text-gray-500 appearance-none">
+                  <select className="px-4 py-3 rounded-xl border border-gray-100 dark:border-slate-800 bg-gray-50/30 dark:bg-slate-800/30 text-sm text-gray-500 dark:text-gray-400 appearance-none font-['Inter']">
                     <option>City</option>
                   </select>
                 </div>
               </div>
 
-              <div className="w-full aspect-video border-2 border-dashed border-gray-200 rounded-3xl flex flex-col items-center justify-center gap-3 bg-gray-50/30 group hover:border-blue-300 transition-colors cursor-pointer">
-                <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+              <div className="w-full aspect-video border-2 border-dashed border-gray-200 dark:border-slate-800 rounded-3xl flex flex-col items-center justify-center gap-3 bg-gray-50/30 dark:bg-slate-800/30 group hover:border-blue-300 dark:hover:border-blue-600 transition-colors cursor-pointer">
+                <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-slate-700 flex items-center justify-center group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-colors">
                   <PlusIcon />
                 </div>
-                <span className="text-xs font-bold text-gray-400 group-hover:text-blue-600">
+                <span className="text-xs font-bold text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 font-['Inter']">
                   Campaign Image
                 </span>
               </div>
@@ -285,38 +285,38 @@ const Capital = () => {
               <input
                 type="text"
                 placeholder="Type of capital source"
-                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 dark:border-slate-800 bg-gray-50/30 dark:bg-slate-800/30 text-sm font-['Inter'] dark:text-gray-100"
               />
               <input
                 type="text"
                 placeholder="Check size"
-                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 dark:border-slate-800 bg-gray-50/30 dark:bg-slate-800/30 text-sm font-['Inter'] dark:text-gray-100"
               />
               <input
                 type="text"
                 placeholder="Instrument type"
-                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 dark:border-slate-800 bg-gray-50/30 dark:bg-slate-800/30 text-sm font-['Inter'] dark:text-gray-100"
               />
 
               <textarea
                 placeholder="Thesis & Goals"
-                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm h-24 resize-none focus:outline-none"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 dark:border-slate-800 bg-gray-50/30 dark:bg-slate-800/30 text-sm h-24 resize-none focus:outline-none font-['Inter'] dark:text-gray-100"
               ></textarea>
               <textarea
                 placeholder="Notes"
-                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm h-24 resize-none focus:outline-none"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 dark:border-slate-800 bg-gray-50/30 dark:bg-slate-800/30 text-sm h-24 resize-none focus:outline-none font-['Inter'] dark:text-gray-100"
               ></textarea>
 
               <div className="space-y-4">
                 <span className="text-xs font-bold text-gray-400 uppercase tracking-tighter">
                   Reminder
                 </span>
-                <button className="flex items-center gap-2 text-blue-600 font-bold text-sm hover:underline">
+                <button className="flex items-center gap-2 text-blue-600 font-bold text-sm hover:underline font-['Inter']">
                   <PlusIcon /> Add Reminder
                 </button>
               </div>
 
-              <button className="w-full py-4 bg-blue-600 dark:bg-blue-500 text-white font-bold rounded-2xl hover:bg-blue-700 dark:hover:bg-blue-600 transition-all mt-4 shadow-sm">
+              <button className="w-full py-4 bg-blue-600 dark:bg-blue-500 text-white font-bold rounded-2xl hover:bg-blue-700 dark:hover:bg-blue-600 transition-all mt-4 shadow-sm font-['Space_Grotesk']">
                 Add Capital Source
               </button>
             </div>
@@ -348,7 +348,7 @@ const Capital = () => {
           >
             {/* Header */}
             <div className="flex justify-between items-center mb-10">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 font-['Space_Grotesk']">
                 Create Campaign
               </h2>
               <button
@@ -375,20 +375,20 @@ const Capital = () => {
               <input
                 type="text"
                 placeholder="Campaign Name"
-                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm font-['Inter']"
               />
               <textarea
                 placeholder="Description"
-                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm h-32 resize-none focus:outline-none"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm h-32 resize-none focus:outline-none font-['Inter']"
               ></textarea>
               <input
                 type="text"
                 placeholder="Campaign Type"
-                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm focus:outline-none"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm focus:outline-none font-['Inter']"
               />
 
               <div className="relative group">
-                <select className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm text-gray-500 appearance-none outline-hidden cursor-pointer">
+                <select className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm text-gray-500 appearance-none outline-hidden cursor-pointer font-['Inter']">
                   <option>Select Audience</option>
                   <option>Investors</option>
                   <option>Partners</option>
@@ -413,19 +413,19 @@ const Capital = () => {
               <input
                 type="text"
                 placeholder="Content"
-                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm focus:outline-none"
+                className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50/30 text-sm focus:outline-none font-['Inter']"
               />
 
               <div className="w-full aspect-video border-2 border-dashed border-gray-200 rounded-3xl flex flex-col items-center justify-center gap-3 bg-gray-50/30 group hover:border-blue-300 transition-colors cursor-pointer">
                 <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
                   <PlusIcon />
                 </div>
-                <span className="text-xs font-bold text-gray-400 group-hover:text-blue-600">
+                <span className="text-xs font-bold text-gray-400 group-hover:text-blue-600 font-['Inter']">
                   Campaign Image
                 </span>
               </div>
 
-              <button className="w-full py-4 bg-blue-600 dark:bg-blue-500 text-white font-bold rounded-2xl hover:bg-blue-700 dark:hover:bg-blue-600 transition-all mt-4 shadow-sm">
+              <button className="w-full py-4 bg-blue-600 dark:bg-blue-500 text-white font-bold rounded-2xl hover:bg-blue-700 dark:hover:bg-blue-600 transition-all mt-4 shadow-sm font-['Space_Grotesk']">
                 Add Campaign
               </button>
             </div>
@@ -483,10 +483,10 @@ const Capital = () => {
                     {selectedSource.source[0]}
                   </span>
                 </div>
-                <h3 className="text-2xl font-black text-gray-900 dark:text-gray-100 text-center">
+                <h3 className="text-2xl font-black text-gray-900 dark:text-gray-100 text-center font-['Space_Grotesk']">
                   {selectedSource.source}
                 </h3>
-                <p className="text-xs font-bold text-gray-400 dark:text-gray-500 mt-1 uppercase tracking-widest">
+                <p className="text-xs font-bold text-gray-400 dark:text-gray-500 mt-1 uppercase tracking-widest font-['Inter']">
                   {selectedSource.type}
                 </p>
                 <div className="mt-4 px-4 py-1.5 bg-gray-50 dark:bg-slate-800 rounded-full">
@@ -501,37 +501,37 @@ const Capital = () => {
               <div className="space-y-8 mb-10">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-gray-50/50 dark:bg-slate-800/50 p-4 rounded-2xl">
-                    <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase block mb-1">
+                    <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase block mb-1 font-['Inter']">
                       Check Size
                     </span>
-                    <span className="text-lg font-black text-blue-600 dark:text-blue-400">
+                    <span className="text-lg font-black text-blue-600 dark:text-blue-400 font-['Space_Grotesk']">
                       {selectedSource.amount}
                     </span>
                   </div>
                   <div className="bg-gray-50/50 dark:bg-slate-800/50 p-4 rounded-2xl">
-                    <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase block mb-1">
+                    <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase block mb-1 font-['Inter']">
                       Geography
                     </span>
-                    <span className="text-xs font-bold text-gray-900 dark:text-gray-100">
+                    <span className="text-xs font-bold text-gray-900 dark:text-gray-100 font-['Inter']">
                       {selectedSource.location}
                     </span>
                   </div>
                 </div>
 
                 <div>
-                  <h4 className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
+                  <h4 className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3 font-['Inter']">
                     Investment Thesis
                   </h4>
-                  <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed font-medium font-['Inter']">
                     {selectedSource.thesis}
                   </p>
                 </div>
 
                 <div>
-                  <h4 className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
+                  <h4 className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3 font-['Inter']">
                     Notes
                   </h4>
-                  <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed font-medium font-['Inter']">
                     {selectedSource.notes}
                   </p>
                 </div>
@@ -539,7 +539,7 @@ const Capital = () => {
 
               <button
                 onClick={() => setSelectedSource(null)}
-                className="w-full py-5 bg-gray-900 dark:bg-blue-600 text-white rounded-4xl font-bold hover:bg-gray-800 dark:hover:bg-blue-700 transition-colors mb-4"
+                className="w-full py-5 bg-gray-900 dark:bg-blue-600 text-white rounded-4xl font-bold hover:bg-gray-800 dark:hover:bg-blue-700 transition-colors mb-4 font-['Space_Grotesk']"
               >
                 Close Details
               </button>
@@ -600,7 +600,7 @@ const Capital = () => {
                     setIsAddModalOpen(true);
                     setIsPlusDropdownOpen(false);
                   }}
-                  className="w-full text-left px-5 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-3"
+                  className="w-full text-left px-5 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-3 font-['Inter']"
                 >
                   New Source
                 </button>
@@ -610,7 +610,7 @@ const Capital = () => {
                     setIsCampaignModalOpen(true);
                     setIsPlusDropdownOpen(false);
                   }}
-                  className="w-full text-left px-5 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-3"
+                  className="w-full text-left px-5 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-3 font-['Inter']"
                 >
                   Fundraising Campaign
                 </button>
@@ -624,7 +624,7 @@ const Capital = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setViewMode(viewMode === "list" ? "card" : "list")}
-            className="px-4 py-2 bg-white dark:bg-slate-900 rounded-xl flex items-center gap-2 shadow-sm border border-gray-100 dark:border-slate-800 text-xs font-bold text-gray-700 dark:text-gray-300 transition-colors hover:bg-gray-50 dark:hover:bg-slate-800"
+            className="px-4 py-2 bg-white dark:bg-slate-900 rounded-xl flex items-center gap-2 shadow-sm border border-gray-100 dark:border-slate-800 text-xs font-bold text-gray-700 dark:text-gray-300 transition-colors hover:bg-gray-50 dark:hover:bg-slate-800 font-['Inter']"
           >
             {viewMode === "list" ? (
               <>
@@ -663,7 +663,7 @@ const Capital = () => {
                     <motion.div
                       key={i}
                       onClick={() => setSelectedSource(item)}
-                      className="grid grid-cols-3 px-8 py-4 hover:bg-white dark:hover:bg-slate-800 rounded-2xl transition-colors cursor-pointer group"
+                      className="grid grid-cols-3 px-8 py-4 hover:bg-white dark:hover:bg-slate-800 rounded-2xl transition-colors cursor-pointer group font-['Inter']"
                       whileHover={{
                         scale: 1.01,
                         backgroundColor: "rgba(255, 255, 255, 1)",
@@ -673,7 +673,7 @@ const Capital = () => {
                       <span className="text-sm font-bold text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-100">
                         {item.source}
                       </span>
-                      <span className="text-sm font-bold text-gray-600 dark:text-gray-400">
+                      <span className="text-sm font-bold text-gray-600 dark:text-gray-400 font-['Space_Grotesk']">
                         {item.amount}
                       </span>
                       <span className={`text-sm font-bold ${item.statusColor}`}>
