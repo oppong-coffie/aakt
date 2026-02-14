@@ -201,6 +201,296 @@ const CreationModeModal = ({
   );
 };
 
+const CreateRealityModal = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-110 flex items-center justify-center p-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 30 }}
+            className="relative z-111 w-full max-w-lg rounded-3xl bg-white dark:bg-slate-900 shadow-2xl border border-gray-100 dark:border-slate-800 overflow-hidden flex flex-col pt-6"
+          >
+            <div className="px-8 pb-4 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                Create Reality
+              </h2>
+              <button
+                onClick={onClose}
+                className="w-8 h-8 rounded-full bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700 transition flex items-center justify-center"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="px-8 py-4 space-y-5 overflow-y-auto max-h-[70vh]">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  Role
+                </label>
+                <input
+                  type="text"
+                  placeholder="Manger/employer"
+                  className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-slate-800/50 border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+                />
+                <button className="flex items-center gap-2 text-sm text-blue-600 font-medium hover:text-blue-700 transition-colors pt-1">
+                  <PlusIcon /> Add Person
+                </button>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  Budget
+                </label>
+                <input
+                  type="text"
+                  placeholder="Budget"
+                  className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-slate-800/50 border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  Timeline
+                </label>
+                <div className="grid grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="Start"
+                    className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-slate-800/50 border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Finish"
+                    className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-slate-800/50 border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  Flexibility
+                </label>
+                <input
+                  type="text"
+                  placeholder="Low"
+                  className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-slate-800/50 border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+                />
+              </div>
+
+              <div className="space-y-2 pb-4">
+                <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  Constraints
+                </label>
+                <button className="flex items-center gap-2 text-sm text-blue-600 font-medium hover:text-blue-700 transition-colors pt-1">
+                  <PlusIcon /> Add Constraints
+                </button>
+              </div>
+            </div>
+
+            <div className="px-8 py-6 bg-gray-50 dark:bg-slate-800/30">
+              <button className="w-full py-4 bg-blue-600/30 dark:bg-blue-600/20 text-blue-800 dark:text-blue-300 font-bold rounded-2xl transition-all active:scale-[0.98]">
+                Add New Connection
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+const CreateGoalModal = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-110 flex items-center justify-center p-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 30 }}
+            className="relative z-111 w-full max-w-lg rounded-3xl bg-white dark:bg-slate-900 shadow-2xl border border-gray-100 dark:border-slate-800 overflow-hidden flex flex-col pt-6"
+          >
+            <div className="px-8 pb-4 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                Create Goal
+              </h2>
+              <button
+                onClick={onClose}
+                className="w-8 h-8 rounded-full bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700 transition flex items-center justify-center"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="px-8 py-4 space-y-6 overflow-y-auto max-h-[70vh]">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  What is the objective?
+                </label>
+                <textarea
+                  placeholder="Answer"
+                  className="w-full h-24 px-4 py-3 rounded-xl bg-gray-50 dark:bg-slate-800/50 border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all resize-none"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  Deliverables
+                </label>
+                <button className="flex items-center gap-2 text-sm text-blue-600 font-medium hover:text-blue-700 transition-colors pt-1">
+                  <PlusIcon /> Add Deliverables
+                </button>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  Success metrics
+                </label>
+                <button className="flex items-center gap-2 text-sm text-blue-600 font-medium hover:text-blue-700 transition-colors pt-1">
+                  <PlusIcon /> Add Metrics
+                </button>
+              </div>
+
+              <div className="space-y-2 pb-6">
+                <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  Scope
+                </label>
+                <input
+                  type="text"
+                  placeholder="Low"
+                  className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-slate-800/50 border border-gray-100 dark:border-slate-700 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+                />
+              </div>
+            </div>
+
+            <div className="px-8 py-6 bg-gray-50 dark:bg-slate-800/30">
+              <button className="w-full py-4 bg-blue-600/30 dark:bg-blue-600/20 text-blue-800 dark:text-blue-300 font-bold rounded-2xl transition-all active:scale-[0.98]">
+                Add New Connection
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+const RealityGoalModal = ({
+  isOpen,
+  onClose,
+  onRealityClick,
+  onGoalClick,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onRealityClick: () => void;
+  onGoalClick: () => void;
+}) => {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-6">
+          {/* Overlay */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+          />
+
+          {/* Modal */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 30 }}
+            transition={{ duration: 0.25 }}
+            className="relative z-10 w-full max-w-4xl rounded-3xl bg-white dark:bg-slate-900 shadow-2xl border border-gray-100 dark:border-slate-800 overflow-hidden"
+          >
+            {/* Close Button */}
+            <button
+              onClick={onClose}
+              className="absolute top-5 right-5 w-9 h-9 rounded-full bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700 transition flex items-center justify-center"
+            >
+              ✕
+            </button>
+
+            {/* Content */}
+            <div className="px-12 py-20 flex items-center justify-center">
+              <div className="flex items-center gap-16 sm:gap-20">
+                <h2
+                  onClick={onRealityClick}
+                  className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white tracking-tight cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  Reality
+                </h2>
+
+                {/* Arrow */}
+                <svg
+                  width="120"
+                  height="24"
+                  viewBox="0 0 120 24"
+                  fill="none"
+                  className="opacity-60"
+                >
+                  <path
+                    d="M0 12H110"
+                    stroke="#9CA3AF"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M106 4L118 12L106 20"
+                    stroke="#9CA3AF"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+
+                <h2
+                  onClick={onGoalClick}
+                  className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white tracking-tight cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  Goal
+                </h2>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+
 const base = "/dashboard/portfolio/saas/project";
 
 const Project = () => {
@@ -208,6 +498,10 @@ const Project = () => {
   const [activeTab, setActiveTab] = useState("Home");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
+  const [isRealityGoalModalOpen, setIsRealityGoalModalOpen] = useState(false);
+  const [isCreateRealityModalOpen, setIsCreateRealityModalOpen] =
+    useState(false);
+  const [isCreateGoalModalOpen, setIsCreateGoalModalOpen] = useState(false);
   const [selectedType, setSelectedType] = useState<{
     id: string;
     label: string;
@@ -253,9 +547,11 @@ const Project = () => {
   };
 
   const handleModeSelect = (mode: "blank" | "template") => {
-    if (selectedType) {
+    if (selectedType && selectedType.id === "project" && mode === "blank") {
+      setIsRealityGoalModalOpen(true);
+    } else {
       console.log(
-        `Creating new ${selectedType.label} in ${mode} mode for Project`,
+        `Creating new ${selectedType?.label} in ${mode} mode for Project`,
       );
     }
     setIsCreationModalOpen(false);
@@ -264,7 +560,32 @@ const Project = () => {
 
   return (
     <div className="flex flex-col min-h-[calc(100vh-100px)] bg-[#f0f0eb] dark:bg-slate-950 p-4 sm:p-8 relative overflow-hidden font-['Inter'] transition-colors duration-300">
-      {/* Header Area */}
+      {/* Reality Goal Modal */}
+      <RealityGoalModal
+        isOpen={isRealityGoalModalOpen}
+        onClose={() => setIsRealityGoalModalOpen(false)}
+        onRealityClick={() => {
+          setIsRealityGoalModalOpen(false);
+          setIsCreateRealityModalOpen(true);
+        }}
+        onGoalClick={() => {
+          setIsRealityGoalModalOpen(false);
+          setIsCreateGoalModalOpen(true);
+        }}
+      />
+
+      {/* Create Reality Modal */}
+      <CreateRealityModal
+        isOpen={isCreateRealityModalOpen}
+        onClose={() => setIsCreateRealityModalOpen(false)}
+      />
+
+      {/* Create Goal Modal */}
+      <CreateGoalModal
+        isOpen={isCreateGoalModalOpen}
+        onClose={() => setIsCreateGoalModalOpen(false)}
+      />
+
       <header className="flex items-center justify-between mb-6">
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
